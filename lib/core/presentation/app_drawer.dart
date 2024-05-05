@@ -5,6 +5,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/linecons_icons.dart';
 import 'package:fluttericon/octicons_icons.dart';
 import 'package:trading/core/const-strings/app_images.dart';
+import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/pick_language_selector.dart';
 import 'package:trading/core/presentation/pick_theme_selector.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
@@ -25,66 +26,76 @@ class AppDrawer extends StatelessWidget {
             color: controller.isLightTheme() ? Clr.eLight : Clr.eDark,
             child: ListView(
               children: [
-                Center(
-                  child: Image.asset(
-                    AppImages.moneymakerLogo,
-                    height: 100.h,
-                    fit: BoxFit.fill,
-                  ),
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    // if you change the height of the container remeber to change i below in the
+                    // sizedbox widget
+                    Container(height: 110.h),
+                    ...drawerNavigationButtons(
+                      iconData: Octicons.person,
+                      title: "USER_PROFILE".tr(context),
+                      onTap: () {
+                        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.userProfile, (route) => false);
+                      },
+                    ),
+                    SizedBox(
+                      height: 110.h,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          AppImages.moneymakerLogo,
+                          height: 70.h,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+
                 ...drawerNavigationButtons(
                   iconData: Octicons.diff_added,
-                  title: 'Add To Balance',
+                  title: "ADD_TO_BALANCE".tr(context),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.addBalance, (route) => false);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: Octicons.diff_removed,
-                  title: 'Withdrawal from main balance',
+                  title: "WITHDRAW_FROM_MAIN_BALANCE".tr(context),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.withdrawMainBalance, (route) => false);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.calendar,
-                  title: 'Withdrawal from weekly balance',
+                  title: "WITHDRAW_FROM_WEEKLY_BALANCE".tr(context),
                   onTap: () {
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil(AppRoutesNames.withdrawWeeklyBalance, (route) => false);
                   },
                 ),
                 ...drawerNavigationButtons(
-                  iconData: Octicons.person,
-                  title: 'User Profile',
+                  iconData: FontAwesome.money,
+                  title: "REFERRALS".tr(context),
                   onTap: () {},
                 ),
+
                 ...drawerNavigationButtons(
                   iconData: Linecons.money,
-                  title: 'Transactions',
+                  title: "TRNASACTIONS".tr(context),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.transactions, (route) => false);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.newspaper,
-                  title: 'Notifications and news',
+                  title: "NOTIFICATIONS_NEWS".tr(context),
                   onTap: () {},
                 ),
                 ...drawerNavigationButtons(
-                  iconData: FontAwesome.help,
-                  title: 'Support',
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppRoutesNames.bottomNavigationScreen,
-                      (route) => false,
-                      arguments: {'index': 0},
-                    );
-                  },
-                ),
-                ...drawerNavigationButtons(
                   iconData: FontAwesome.chat,
-                  title: 'Chat',
+                  title: "CHAT".tr(context),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRoutesNames.bottomNavigationScreen,
@@ -93,6 +104,18 @@ class AppDrawer extends StatelessWidget {
                     );
                   },
                 ),
+                ...drawerNavigationButtons(
+                  iconData: FontAwesome.help,
+                  title: "SUPPORT".tr(context),
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutesNames.bottomNavigationScreen,
+                      (route) => false,
+                      arguments: {'index': 0},
+                    );
+                  },
+                ),
+
                 SizedBox(height: 10.h),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

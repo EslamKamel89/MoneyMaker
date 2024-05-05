@@ -21,6 +21,7 @@ class _PickThemeSelectorState extends State<PickThemeSelector> {
   @override
   Widget build(BuildContext context) {
     PickLanguageAndThemeCubit controller = context.watch<PickLanguageAndThemeCubit>();
+    // controller.isLightTheme().toString().prm('Pick Theme Selector');
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Row(

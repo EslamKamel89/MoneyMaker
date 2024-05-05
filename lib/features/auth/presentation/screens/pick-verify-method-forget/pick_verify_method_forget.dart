@@ -6,7 +6,6 @@ import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/scaffold_gradient_color.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
-import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/auth/presentation/blocs/singin-cubit/singin_cubit.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_appbar.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_button.dart';
@@ -94,8 +93,6 @@ class _PickVerifyMetodFrogetState extends State<PickVerifyMetodFroget> {
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       Navigator.of(context).pushNamed(AppRoutesNames.otpForget);
-                      customSnackBar(
-                          context: context, title: "OTP_SENDED_SUCCESSFULY".tr(context), backgroundColor: Colors.green);
                     }
                   },
                 ),

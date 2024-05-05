@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
-import 'package:trading/features/auth/presentation/screens/signup/singnup_screen.dart';
+import 'package:trading/features/auth/presentation/blocs/signup-cubit/signup_cubit.dart';
+import 'package:trading/features/auth/presentation/screens/signup/signup_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class GenderSelection extends StatefulWidget {
@@ -22,7 +23,8 @@ class GenderSelection extends StatefulWidget {
 class _GenderSelectionState extends State<GenderSelection> {
   @override
   Widget build(BuildContext context) {
-    PickLanguageAndThemeCubit pickLanguageCubit = context.read<PickLanguageAndThemeCubit>();
+    final pickLanguageCubit = context.read<PickLanguageAndThemeCubit>();
+    final signupController = context.read<SignupCubit>();
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -47,6 +49,11 @@ class _GenderSelectionState extends State<GenderSelection> {
             value: SingnupScreen.genderValue,
             onChanged: (value) {
               SingnupScreen.genderValue = value.toString();
+              if (value == 'male') {
+                signupController.isMale = true;
+              } else if (value == 'female') {
+                signupController.isMale = false;
+              }
               setState(() {});
             },
             iconSize: 30.w,

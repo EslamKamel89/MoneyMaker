@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
           ],
           child: Builder(builder: (context) {
             final PickLanguageAndThemeCubit pickLanguageCubit = context.watch<PickLanguageAndThemeCubit>();
+            // pickLanguageCubit.checkCachedTheme();
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: pickLanguageCubit.state.themeData,

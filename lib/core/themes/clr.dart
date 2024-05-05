@@ -3,12 +3,14 @@ import 'package:trading/core/dependency-injection-container/injection_container.
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class Clr {
-  static Color a = aLight;
-  static Color b = bLight;
-  static Color c = cLight;
-  static Color d = dLight;
-  static Color e = eLight;
-  static Color f = fLight;
+  static Color a = aDark;
+  static Color b = bDark;
+  static Color c = cDark;
+  static Color d = dDark;
+  static Color e = eDark;
+  static Color f = fDark;
+  static Color currentUser = currentUserDark;
+  static Color otherUser = otherUserDark;
 
   static Color aLight = const Color(0xff131315);
   static Color bLight = const Color(0xffc8aa83);
@@ -16,6 +18,8 @@ class Clr {
   static Color dLight = const Color(0xff886848);
   static Color eLight = const Color(0xFFFFEDD8);
   static Color fLight = const Color(0xFFC07F00);
+  static Color currentUserLight = const Color(0xFF322C2B);
+  static Color otherUserLight = const Color(0xFFA79277);
 
   static Color aDark = const Color(0xffb69467);
   static Color bDark = const Color(0xff372e26);
@@ -23,6 +27,8 @@ class Clr {
   static Color dDark = const Color(0xff926840);
   static Color eDark = const Color(0xFF222831);
   static Color fDark = const Color(0xFFF6CA7B);
+  static Color currentUserDark = const Color(0xFF322C2B);
+  static Color otherUserDark = const Color(0xFF803D3B);
 
   static Color authFormFieldDark = const Color.fromRGBO(48, 48, 48, 1);
   static Color iconGoldColor = const Color(0xFFF6CA7B);
@@ -36,6 +42,8 @@ class Clr {
       d = dLight;
       e = eLight;
       f = fLight;
+      currentUser = currentUserLight;
+      otherUser = otherUserLight;
     } else {
       a = aDark;
       b = bDark;
@@ -43,6 +51,8 @@ class Clr {
       d = dDark;
       e = eDark;
       f = fDark;
+      currentUser = currentUserDark;
+      otherUser = otherUserDark;
     }
   }
 }

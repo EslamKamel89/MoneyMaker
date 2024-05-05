@@ -22,3 +22,14 @@ class OtpForgetState extends SigninState {
   @override
   List<Object> get props => [otp];
 }
+
+class SigninSuccessState extends SigninState {}
+
+class SigninLoadingState extends SigninState {}
+
+class SigninFailureState extends SigninState {
+  final String errorMessage;
+  const SigninFailureState({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
+}

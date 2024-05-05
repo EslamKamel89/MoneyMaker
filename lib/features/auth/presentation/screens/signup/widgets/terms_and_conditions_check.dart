@@ -5,7 +5,7 @@ import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
-import 'package:trading/features/auth/presentation/screens/signup/singnup_screen.dart';
+import 'package:trading/features/auth/presentation/screens/signup/signup_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 List<Widget> termsAndConditionsCheck(BuildContext context) {

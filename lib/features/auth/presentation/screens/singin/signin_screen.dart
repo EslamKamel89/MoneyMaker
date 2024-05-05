@@ -7,6 +7,7 @@ import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/exit-app-warning/exit_app_warining.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/scaffold_gradient_color.dart';
+import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/auth/presentation/blocs/singin-cubit/singin_cubit.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_appbar.dart';
@@ -15,7 +16,6 @@ import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_dra
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_text_field.dart';
 import 'package:trading/features/auth/presentation/screens/singin/widgets/dont_have_an_account.dart';
 import 'package:trading/features/auth/presentation/screens/singin/widgets/forget_password_button.dart';
-import 'package:trading/features/mainpage/presentation/screens/bottom-navigation-screen/bottom_navigation_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -44,6 +44,10 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     controller.initSignin();
+    // SharedPreferences sharedPreferences = sl();
+    // sharedPreferences.clear();
+    // sl<AuthRepo>().getUserData(userId: 17);
+    // sl<AuthRepo>().signin(userName: 'eslam@gmail.com', password: '123456');
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -59,74 +63,87 @@ class _SigninScreenState extends State<SigninScreen> {
           // resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           endDrawer: const AuthDrawer(),
-          body: BodyWidget(
-              verticalPadding: 0,
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      // SizedBox(height: 10.h),
-                      Image.asset(
-                        AppImages.moneymakerLogo,
-                        height: 275.h,
-                        fit: BoxFit.fill,
-                      ),
-                      // SizedBox(height: 20.h),
-                      AuthTextField(
-                        label: "EMAIL_MOBILE".tr(context),
-                        hint: "ENTER_EMAIL_MOBILE".tr(context),
-                        suffixIcon: Octicons.person,
-                        controller: controller.emailOrMobileCont,
-                        validator: (value) {
-                          return signinValidator(
-                            value: value!,
-                            minLength: 8,
-                            maxLength: 20,
-                            isEmailOrMobile: true,
-                          );
-                        },
-                      ),
-                      SizedBox(height: 5.h),
-                      AuthTextField(
-                        label: "PASSWORD".tr(context),
-                        hint: "ENTER_YOUR_PASSWORD".tr(context),
-                        suffixIcon: Icons.remove_red_eye_outlined,
-                        allowObsecure: true,
-                        controller: controller.passwordCont,
-                        validator: (value) {
-                          return signinValidator(
-                            value: value!,
-                            isPassword: true,
-                          );
-                        },
-                      ),
-                      // SizedBox(height: 5.h),
-                      Align(
-                        alignment: context.read<PickLanguageAndThemeCubit>().isEnglishLanguage()
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
-                        child: const ForgetPasswordButton(),
-                      ),
-                      SizedBox(height: 30.h),
-                      const DontHaveAnAccountWidget(),
-                      SizedBox(height: 20.h),
-                      AuthButton(
-                        buttonTitle: "Sign In",
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => const BottomNavigationScreen()));
-                            customSnackBar(
-                                context: context, title: "SINGIN_SUCCESS".tr(context), backgroundColor: Colors.green);
-                          }
-                        },
-                      ),
-                      SizedBox(height: 40.h),
-                    ],
+          body: BlocListener<SigninCubit, SigninState>(
+            listener: (context, state) {
+              if (state is SigninFailureState) {
+                customSnackBar(context: context, title: state.errorMessage, isSuccess: false);
+              } else if (state is SigninSuccessState) {
+                customSnackBar(context: context, title: 'Sign in completed successfuly');
+                Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => false);
+              }
+            },
+            child: BodyWidget(
+                verticalPadding: 0,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        // SizedBox(height: 10.h),
+                        Image.asset(
+                          AppImages.moneymakerLogo,
+                          height: 275.h,
+                          fit: BoxFit.fill,
+                        ),
+                        // SizedBox(height: 20.h),
+                        AuthTextField(
+                          label: "EMAIL_MOBILE".tr(context),
+                          hint: "ENTER_EMAIL_MOBILE".tr(context),
+                          suffixIcon: Octicons.person,
+                          controller: controller.emailOrMobileCont,
+                          validator: (value) {
+                            return signinValidator(
+                              value: value!,
+                              minLength: 5,
+                              maxLength: 20,
+                              isEmailOrMobile: true,
+                            );
+                          },
+                        ),
+                        SizedBox(height: 5.h),
+                        AuthTextField(
+                          label: "PASSWORD".tr(context),
+                          hint: "ENTER_YOUR_PASSWORD".tr(context),
+                          suffixIcon: Icons.remove_red_eye_outlined,
+                          allowObsecure: true,
+                          controller: controller.passwordCont,
+                          validator: (value) {
+                            return signinValidator(
+                              value: value!,
+                              isPassword: true,
+                            );
+                          },
+                        ),
+                        // SizedBox(height: 5.h),
+                        Align(
+                          alignment: context.read<PickLanguageAndThemeCubit>().isEnglishLanguage()
+                              ? Alignment.topRight
+                              : Alignment.topLeft,
+                          child: const ForgetPasswordButton(),
+                        ),
+                        SizedBox(height: 30.h),
+                        const DontHaveAnAccountWidget(),
+                        SizedBox(height: 20.h),
+                        BlocBuilder<SigninCubit, SigninState>(
+                          builder: (context, state) {
+                            return state is SigninLoadingState
+                                ? const CircularProgressIndicator()
+                                : AuthButton(
+                                    buttonTitle: "Sign In",
+                                    onTap: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        await controller.signIn();
+                                      }
+                                    },
+                                  );
+                          },
+                        ),
+                        SizedBox(height: 40.h),
+                      ],
+                    ),
                   ),
-                ),
-              )),
+                )),
+          ),
         ),
       ),
     );

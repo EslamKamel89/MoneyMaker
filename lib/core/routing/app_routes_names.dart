@@ -14,4 +14,5 @@ class AppRoutesNames {
   static const String withdrawMainBalance = '/withdrawMainBalance';
   static const String withdrawWeeklyBalance = '/withdrawWeeklyBalance';
   static const String transactions = '/transactions';
+  static const String userProfile = '/userProfile';
 }

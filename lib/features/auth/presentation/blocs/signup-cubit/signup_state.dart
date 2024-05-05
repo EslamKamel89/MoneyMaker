@@ -33,3 +33,14 @@ class OtpSignupState extends SignupState {
   @override
   List<Object?> get props => [otp];
 }
+
+class SignupSuccessState extends SignupState {}
+
+class SignupLoadingState extends SignupState {}
+
+class SignupFailureState extends SignupState {
+  final String errorMessage;
+  SignupFailureState({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
+}

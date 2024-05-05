@@ -19,12 +19,21 @@ class BottomNavigationScreen extends StatefulWidget {
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int _page = 1;
+  int _tempIndex = 1;
   @override
   void initState() {
     if (widget.args == null) {
       _page = 1;
     } else {
       _page = widget.args!['index'] ?? 1;
+    }
+    if (_page != 1) {
+      _tempIndex = _page;
+      _page = 1;
+      Future.delayed(const Duration(seconds: 1)).then((value) {
+        _page = _tempIndex;
+        setState(() {});
+      });
     }
     super.initState();
   }

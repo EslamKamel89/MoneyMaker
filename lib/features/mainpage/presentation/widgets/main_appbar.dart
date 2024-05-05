@@ -8,6 +8,7 @@ AppBar mainAppBar({
   required String title,
   required BuildContext context,
   bool automaticallyImplyLeading = true,
+  bool transparent = false,
 }) {
   return AppBar(
     // title: Txt.headlineMeduim(title),
@@ -16,7 +17,7 @@ AppBar mainAppBar({
     ),
     title: Txt.bodyMeduim(title.isEmpty ? 'Welcome, Eslam' : title, color: Colors.white),
     // toolbarHeight: 70.w,
-    backgroundColor: Clr.d,
+    backgroundColor: transparent ? Colors.transparent : Clr.d,
     automaticallyImplyLeading: automaticallyImplyLeading,
     iconTheme: const IconThemeData(color: Colors.white),
   );

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trading/core/localization/locale_cache_helper.dart';
@@ -32,14 +31,17 @@ class PickLanguageAndThemeCubit extends Cubit<PickLanguageAndThemeState> {
     ThemeData themeData = (activateLightTheme ? appThemeData[AppTheme.blueLight] : appThemeData[AppTheme.blueDark])!;
     themeCacheHelper.cacheTheme(themeType: activateLightTheme ? "light" : "dark");
     Clr.init();
-    // themeData.brightness.prm('Theme Type');
     emit(state.copyWith(themeData: themeData));
   }
 
   void checkCachedTheme() {
     ThemeData themeData = themeCacheHelper.getCachedTheme();
     Clr.init();
+
+    // themeData.brightness.toString().prm('checkCacheTheme');
     emit(state.copyWith(themeData: themeData));
+    // emit(state.copyWith(themeData: themeData));
+    // emit(state.copyWith(themeData: themeData));
   }
 
   bool isLightTheme() {

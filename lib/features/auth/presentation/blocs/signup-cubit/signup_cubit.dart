@@ -5,13 +5,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/features/auth/domain/repo/auth_repo_abstract.dart';
+import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(AuthInitial());
+  AuthRepoInterface authRepo;
+  SignupCubit({required this.authRepo}) : super(AuthInitial());
 
-  TextEditingController? signUpFullNameEngCont;
+  TextEditingController? signUpFullNameCont;
   TextEditingController? signUpFullNameArbCont;
   TextEditingController? signUpUserNameCont;
   TextEditingController? signUpIdNumberCont;
@@ -29,9 +33,10 @@ class SignupCubit extends Cubit<SignupState> {
 
   bool isVerificationMethodEmail = true;
   bool isUploadPassport = true;
+  bool isMale = true;
 
   initSignUp() {
-    signUpFullNameEngCont = TextEditingController();
+    signUpFullNameCont = TextEditingController();
     signUpFullNameArbCont = TextEditingController();
     signUpUserNameCont = TextEditingController();
     signUpIdNumberCont = TextEditingController();
@@ -42,7 +47,7 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   disposeSignUp() {
-    signUpFullNameEngCont!.dispose();
+    signUpFullNameCont!.dispose();
     signUpFullNameArbCont!.dispose();
     signUpUserNameCont!.dispose();
     signUpIdNumberCont!.dispose();
@@ -66,5 +71,33 @@ class SignupCubit extends Cubit<SignupState> {
 
   void otpSignup({required String otp}) {
     emit(OtpSignupState(otp: otp));
+  }
+
+  Future signup() async {
+    emit(SignupLoadingState());
+    final response = await authRepo.signup(
+      userName: signUpUserNameCont!.text,
+      fullName: signUpFullNameCont!.text,
+      gender: isMale ? 'male' : 'female',
+      email: signUpEmailCont!.text,
+      mobile: signUpMobileCont!.text,
+      password: signUpPassOneCont!.text,
+      profileXFile: uploadImageXFile,
+      passportXFile: uploadIdDoucmentXFileOne!,
+      passportBackXFile: uploadIdDoucmentXFileTwo,
+    );
+    response.fold(
+      (errorModel) {
+        emit(
+          SignupFailureState(
+              errorMessage: sl<PickLanguageAndThemeCubit>().isEnglishLanguage()
+                  ? errorModel.errorMessageEn ?? 'Unknown Error'
+                  : errorModel.errorMessageAr ?? 'خطأ غير معروف'),
+        );
+      },
+      (userModel) {
+        emit(SignupSuccessState());
+      },
+    );
   }
 }

@@ -2,6 +2,7 @@ class AppStrings {
   //! sharedpreferences key
   static String LOCALE_CODE = "LOCALE_CODE";
   static String THEME = "THEME";
+  static String USER_DATA = "USER_DATA";
   //! test news widget text
   static String NEWS =
       "The US dollar (USD) remains very firm, gaining against most of its major currency peers as slow progress on inflation drove a significant repricing of market expectations for Federal Reserve (Fed) rate cuts this year. In early February, swaps reflected around 150bps of easing expected by the Fed this year. But market expectations have repriced significantly after higher-than-expected US inflation data in January, February and again in March. Fed officials appeared to be looking through the January and February data but the persistence in price pressures is getting harder to dismiss as a “bump in the road” on the way to price stability. Indeed, our own forecasts now anticipate 50bps of Fed rate cuts this year versus 100bps of cuts in our last forecast round. A high for longer Fed likely means a strong for longer USD. Factors driving exchange rates in the coming months are likely to revolve mainly around interest rate policy but also valuation and domestic politics.";

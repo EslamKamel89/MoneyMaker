@@ -8,7 +8,6 @@ import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/scaffold_gradient_color.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
-import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/auth/presentation/blocs/signup-cubit/signup_cubit.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_appbar.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_button.dart';
@@ -56,12 +55,6 @@ class OtpSignupScreen extends StatelessWidget {
                       buttonTitle: "CONTINUE".tr(context),
                       onTap: () {
                         state.otp.prm("OTP Signup");
-                        customSnackBar(
-                          context: context,
-                          title: "SUCCESSFUL_SIGNUP".tr(context),
-                          backgroundColor: Colors.green,
-                          durationSeconds: 3,
-                        );
                         Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.signin, (route) => false);
                       },
                     );

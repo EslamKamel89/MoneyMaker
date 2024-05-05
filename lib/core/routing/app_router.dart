@@ -6,7 +6,7 @@ import 'package:trading/features/auth/presentation/screens/otp-signup/otp_signup
 import 'package:trading/features/auth/presentation/screens/pick-verify-method-forget/pick_verify_method_forget.dart';
 import 'package:trading/features/auth/presentation/screens/pick-verify-method-signup/pick_verify_method_signup_screen.dart';
 import 'package:trading/features/auth/presentation/screens/reset-password-forget/reset_password_screen.dart';
-import 'package:trading/features/auth/presentation/screens/signup/singnup_screen.dart';
+import 'package:trading/features/auth/presentation/screens/signup/signup_screen.dart';
 import 'package:trading/features/auth/presentation/screens/singin/signin_screen.dart';
 import 'package:trading/features/auth/presentation/screens/tems-conditions/terms_conditons_screen.dart';
 import 'package:trading/features/balance/presentation/screens/add-balance/add_balance_screen.dart';
@@ -15,6 +15,7 @@ import 'package:trading/features/balance/presentation/screens/withdraw-main-bala
 import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/wihtdraw_weekly_balance.dart';
 import 'package:trading/features/mainpage/presentation/screens/bottom-navigation-screen/bottom_navigation_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/screens/pick-language/pick_language.dart';
+import 'package:trading/features/profile/presentation/screens/user_profile_screen.dart';
 import 'package:trading/test.dart';
 
 class AppRouter {
@@ -101,6 +102,11 @@ class AppRouter {
       case AppRoutesNames.transactions:
         return MaterialPageRoute(
           builder: (context) => const TransactionsScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.userProfile:
+        return MaterialPageRoute(
+          builder: (context) => const UserProfileScreen(),
           settings: routeSettings,
         );
       // case AppRoutesNames.welcome:

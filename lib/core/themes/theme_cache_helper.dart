@@ -13,6 +13,7 @@ class ThemeCacheHelper {
 
   ThemeData getCachedTheme() {
     String? themeType = sharedPreferences.getString(AppStrings.THEME);
+
     if (themeType == "light") {
       return appThemeData[AppTheme.blueLight]!;
     } else {
@@ -22,10 +23,11 @@ class ThemeCacheHelper {
 
   bool isLightTheme() {
     String? themeType = sharedPreferences.getString(AppStrings.THEME);
-    if (themeType == "dark") {
-      return false;
-    } else {
+    // themeType.toString().prm('Theme Chche Helper');
+    if (themeType == "light") {
       return true;
+    } else {
+      return false;
     }
   }
 }
