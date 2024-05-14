@@ -87,7 +87,7 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  getUserData() async {
+  Future<UserModel?> getUserData() async {
     final response = await authRepo.getUserData(userId: userId ?? 0);
     response.fold(
       (errorModel) {},
@@ -95,7 +95,9 @@ class SigninCubit extends Cubit<SigninState> {
         await authRepo.cacheUserData(user);
         userModel = (await authRepo.getChacedUserData())!;
         userModel.prm('User Data in SigninCubit');
+        return userModel;
       },
     );
+    return null;
   }
 }

@@ -13,6 +13,12 @@ class AppRoutesNames {
   static const String addBalance = '/addBalance';
   static const String withdrawMainBalance = '/withdrawMainBalance';
   static const String withdrawWeeklyBalance = '/withdrawWeeklyBalance';
-  static const String transactions = '/transactions';
+  static const String transactionHistory = '/transactions';
   static const String userProfile = '/userProfile';
+  static const String addBalanceDetails = '/addBalanceDetails';
+  static const String withdrawMainBalanceDetails = '/withdrawMainBalanceDetails';
+  static const String withdrawWeeklyBalanceDetails = '/withdrawWeeklyBalanceDetails';
+  static const String referrals = '/referrals';
+  static const String withdrawHistoryDetails = '/withdrawHistoryDetails';
+  static const String depositHistoryDetails = '/depositHistoryDetails';
 }

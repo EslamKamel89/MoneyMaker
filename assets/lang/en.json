@@ -49,7 +49,7 @@
     "-----------TermsAndConditions Screen------------": "",
     "TERMS_AND_CONDITIONS" : "Terms And Conditons" ,
     "CONTITIONS_TITLE" : "Terms of use" ,
-    "CONDITIONS_CONTENT" : "This application is to make it easy for you to check your investments at the company , as you can make deposit or withdrawal request through it , which often can be processed within 48 hours as maximum, as you can track your daily profits and referrals profits and your transactions history .",
+    "CONDITIONS_CONTENT" : "This application is to make it easy for you to check your investments at the company , as you can make deposit or withdrawal request through it , which often can be processed within 48 hours as maximum, as you can track your daily profits and referrals profits and your transactions history .\n\nYou can withdraw profits each Saturday and Sunday from each week and can withdraw your capital money or some of it at the start of each month\n\nInvesting in the company is mainly based on forex trading which hase risk , but we do our best not to happen any losses in your account , but as the profit is possible also the lose is .",
     "PRIVACY_TITLE" : "privacy policy" ,
     "PRIVACY_CONTENT" : "Dear member / all information you shared with the application including your personal information is for protection your account and make it easy to contact you and offer the best security degrees to it , and not for sharing with others or other applications and not to use in any other purposes",
     "-----------Pick verification method signup Screen------------": "",
@@ -99,5 +99,6 @@
     "NOTIFICATIONS_NEWS" :    "Notifications and news",
     "SUPPORT" :     "Support",
     "CHAT" :    "Members chat",
+    "LICENSE" : "Licences and certificates" ,
     "-----------END ------------": ""
 }

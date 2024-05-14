@@ -8,15 +8,23 @@ import 'package:trading/features/mainpage/presentation/widgets/main_appbar.dart'
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class CustomScaffold extends StatelessWidget {
-  const CustomScaffold({super.key, required this.title, required this.child});
+  const CustomScaffold({
+    super.key,
+    required this.title,
+    required this.child,
+    this.showBackArrow = false,
+    this.bottom,
+  });
   final String title;
   final Widget child;
+  final bool showBackArrow;
+  final PreferredSizeWidget? bottom;
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<PickLanguageAndThemeCubit>();
     return Scaffold(
-      appBar: mainAppBar(title: title, context: context),
+      appBar: mainAppBar(title: title, context: context, showBackArrow: showBackArrow, bottom: bottom),
       endDrawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Clr.d,

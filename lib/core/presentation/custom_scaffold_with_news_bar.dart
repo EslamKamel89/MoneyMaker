@@ -10,15 +10,22 @@ import 'package:trading/features/notifications-news/presentation/widgets/news_wi
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class CustomScaffoldWithNewsBar extends StatelessWidget {
-  const CustomScaffoldWithNewsBar({super.key, required this.title, required this.child});
+  const CustomScaffoldWithNewsBar({
+    super.key,
+    required this.title,
+    required this.child,
+    this.scaffoldKey,
+  });
   final String title;
   final Widget child;
+  final GlobalKey? scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<PickLanguageAndThemeCubit>();
     return Scaffold(
       appBar: mainAppBar(title: title, context: context),
+      key: scaffoldKey,
       endDrawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Clr.d,
@@ -26,7 +33,7 @@ class CustomScaffoldWithNewsBar extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamedAndRemoveUntil(
             AppRoutesNames.bottomNavigationScreen,
-            (route) => false,
+            (route) => true,
             arguments: {'index': 1},
           );
         },

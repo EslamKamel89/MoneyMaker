@@ -9,16 +9,21 @@ AppBar mainAppBar({
   required BuildContext context,
   bool automaticallyImplyLeading = true,
   bool transparent = false,
+  bool showBackArrow = false,
+  PreferredSizeWidget? bottom,
 }) {
   return AppBar(
     // title: Txt.headlineMeduim(title),
-    leading: CircularImage(
-      imageName: AppImages.accountHeader,
-    ),
+    leading: showBackArrow
+        ? null
+        : const CircularImage(
+            imageName: AppImages.accountHeader,
+          ),
     title: Txt.bodyMeduim(title.isEmpty ? 'Welcome, Eslam' : title, color: Colors.white),
     // toolbarHeight: 70.w,
     backgroundColor: transparent ? Colors.transparent : Clr.d,
     automaticallyImplyLeading: automaticallyImplyLeading,
     iconTheme: const IconThemeData(color: Colors.white),
+    bottom: bottom,
   );
 }

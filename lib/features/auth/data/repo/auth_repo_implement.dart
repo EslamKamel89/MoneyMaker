@@ -84,19 +84,6 @@ class AuthRepo implements AuthRepoInterface {
     int levelId = 2,
   }) async {
     final t = 'Repo - signup'.prt;
-    EndPoint.signup.prm(t + ' EndPoint');
-    final _ = {
-      ApiKey.userName: userName,
-      ApiKey.fullName: fullName,
-      // ApiKey.gender: gender,
-      ApiKey.email: email,
-      ApiKey.mobile: mobile,
-      ApiKey.password: password,
-      ApiKey.levelId: levelId,
-      ApiKey.profile: profileXFile?.path,
-      ApiKey.passport: passportXFile.path,
-      ApiKey.passportBack: passportBackXFile?.path,
-    }.toString().prm(t);
     try {
       final response = await api.post(
         EndPoint.signup,

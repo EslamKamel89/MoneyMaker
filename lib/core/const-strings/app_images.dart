@@ -1,15 +1,16 @@
 class AppImages {
-  static String imagePath = "assets/images";
-  static String otp = "$imagePath/otp.png";
-  static String signin = "$imagePath/friendship.png";
-  static String moneymakerLogo = "$imagePath/moneymaker.png";
-  static String accountHeader = "$imagePath/account_header.png";
-  static String banner1 = "$imagePath/forex1_slider.png";
-  static String banner2 = "$imagePath/forex2_slider.png";
-  static String banner3 = "$imagePath/forex3_slider.jpg";
-  static String vodafone = "$imagePath/vodafone.jpg";
-  static String fawry = "$imagePath/fawry.jpg";
-  static String instapay = "$imagePath/instapay.png";
-  static String visa = "$imagePath/visa.png";
-  static String cib = "$imagePath/cib.png";
+  static const String imagePath = "assets/images";
+  static const String otp = "$imagePath/otp.png";
+  static const String signin = "$imagePath/friendship.png";
+  static const String moneymakerLogo = "$imagePath/moneymaker.png";
+  static const String accountHeader = "$imagePath/account_header.png";
+  static const String banner1 = "$imagePath/forex1_slider.png";
+  static const String banner2 = "$imagePath/forex2_slider.png";
+  static const String banner3 = "$imagePath/forex3_slider.jpg";
+  static const String vodafone = "$imagePath/vodafone.jpg";
+  static const String fawry = "$imagePath/fawry.jpg";
+  static const String instapay = "$imagePath/instapay.png";
+  static const String visa = "$imagePath/visa.png";
+  static const String cib = "$imagePath/cib.png";
+  static const String noInternet = "$imagePath/no_wifi.png";
 }

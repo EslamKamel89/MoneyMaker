@@ -10,9 +10,11 @@ class PaymentButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
+    this.width,
   });
   final String title;
   final IconData icon;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     context.watch<PickLanguageAndThemeCubit>();
@@ -28,7 +30,7 @@ class PaymentButton extends StatelessWidget {
         ),
       ),
       child: SizedBox(
-        width: 120.w,
+        width: width ?? 120.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,

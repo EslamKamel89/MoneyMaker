@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
                 ..checkCachedLanguage()
                 ..checkCachedTheme(),
             ),
-            BlocProvider<SignupCubit>(create: (context) => sl()),
-            BlocProvider<SigninCubit>(create: (context) => sl())
+            BlocProvider<SignupCubit>(create: (context) => sl<SignupCubit>()),
+            BlocProvider<SigninCubit>(create: (context) => sl<SigninCubit>())
           ],
           child: Builder(builder: (context) {
             final PickLanguageAndThemeCubit pickLanguageCubit = context.watch<PickLanguageAndThemeCubit>();
@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: pickLanguageCubit.state.themeData,
-              // initialRoute: AppRoutesNames.bottomNavigationScreen,
-              initialRoute: AppRoutesNames.signin,
+              initialRoute: AppRoutesNames.referrals,
+              // initialRoute: AppRoutesNames.signin,
               onGenerateRoute: sl<AppRouter>().onGenerateRoute,
               locale: pickLanguageCubit.state.locale,
               supportedLocales: const [

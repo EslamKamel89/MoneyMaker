@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/app_drawer.dart';
@@ -180,9 +180,10 @@ class MainpageChart extends StatelessWidget {
                     color: borderColor,
                   ),
                 ),
-                child: CustomChart(
+                child: CustomChartTwo(
                   sectionColor: sectionColor,
-                  value: 80,
+                  valueOne: 2,
+                  valueTwo: 1,
                   profitDollar: 1200,
                 )),
           )
@@ -192,48 +193,98 @@ class MainpageChart extends StatelessWidget {
   }
 }
 
-class CustomChart extends StatefulWidget {
-  const CustomChart({super.key, required this.sectionColor, required this.value, required this.profitDollar});
+class CustomChartTwo extends StatefulWidget {
+  const CustomChartTwo({
+    super.key,
+    required this.sectionColor,
+    required this.valueOne,
+    required this.valueTwo,
+    required this.profitDollar,
+  });
   final Color sectionColor;
-  final double value;
+  final double valueOne;
+  final double valueTwo;
   final double profitDollar;
   @override
-  State<CustomChart> createState() => _CustomChartState();
+  State<CustomChartTwo> createState() => _CustomChartTwoState();
 }
 
-class _CustomChartState extends State<CustomChart> {
+class _CustomChartTwoState extends State<CustomChartTwo> {
   @override
   Widget build(BuildContext context) {
+    final themeController = context.watch<PickLanguageAndThemeCubit>();
     return Center(
-      child: SfRadialGauge(
-        axes: <RadialAxis>[
-          RadialAxis(
-              showLabels: false,
-              showTicks: true,
-              startAngle: 0,
-              endAngle: 360,
-              radiusFactor: 0.9,
-              axisLineStyle: AxisLineStyle(
-                thickness: 0.1,
-                color: widget.sectionColor,
-                thicknessUnit: GaugeSizeUnit.factor,
-              ),
-              pointers: <GaugePointer>[
-                RangePointer(
-                  value: widget.value,
-                  width: 0.05,
-                  color: Clr.d,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  // animationType: AnimationType.ease,
-                )
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(widget: Txt.bodyMeduim('Daily Profit \$${widget.profitDollar.toStringAsFixed(0)}'))
-              ])
-        ],
-      ),
-    );
+        child: SfCircularChart(
+      backgroundColor: Colors.transparent,
+      key: GlobalKey(),
+      // legend: Legend(
+      //     toggleSeriesVisibility: false,
+      //     isVisible: false,
+      //     iconHeight: 20,
+      //     iconWidth: 20,
+      //     overflowMode: LegendItemOverflowMode.wrap),
+      // title: const ChartTitle(text: 'Monthly steps count tracker'),
+      // annotations: const <CircularChartAnnotation>[
+      //   CircularChartAnnotation(
+      //     height: '45%',
+      //     width: '65%',
+      //     widget: Column(
+      //       children: <Widget>[
+      //         Padding(
+      //             padding: EdgeInsets.only(top: 15),
+      //             child: Text('Goal -', style: TextStyle(fontWeight: FontWeight.bold))),
+      //         Padding(padding: EdgeInsets.only(top: 10)),
+      //         Text('6k steps/day', softWrap: false, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14))
+      //       ],
+      //     ),
+      //   ),
+      // ],
+      series: <RadialBarSeries<ChartData, String>>[
+        RadialBarSeries<ChartData, String>(
+          maximumValue: 1,
+          radius: '100%',
+          gap: '3%',
+          dataSource: [
+            ChartData('Referals', 0.6, Clr.a, 'Referals'),
+            ChartData('Daily Profit', 0.8, Clr.f, 'Daily Profit'),
+          ],
+          // cornerStyle: CornerStyle.bothCurve,
+          xValueMapper: (ChartData data, _) => data.x,
+          yValueMapper: (ChartData data, _) => data.y,
+          pointColorMapper: (ChartData data, _) => data.color,
+          dataLabelMapper: (ChartData data, _) => data.text,
+          trackColor: Colors.transparent,
+          dataLabelSettings: DataLabelSettings(
+            isVisible: true,
+            // color: Colors.transparent,
+            textStyle: TextStyle(
+              color: themeController.isLightTheme() ? Colors.black : Colors.white,
+            ),
+          ),
+        )
+      ],
+      // tooltipBehavior: _tooltipBehavior,
+      // onTooltipRender: (TooltipArgs args) {
+      //   final NumberFormat numberFormat = NumberFormat.compactCurrency(
+      //     decimalDigits: 2,
+      //     symbol: '',
+      //   );
+      //   // ignore: cast_nullable_to_non_nullable
+      //   args.text = chartData![args.pointIndex as int].text +
+      //       ' : ' +
+      //       numberFormat
+      //           // ignore: cast_nullable_to_non_nullable
+      //           .format(chartData![args.pointIndex as int].y);
+      // }
+    ));
   }
+}
+
+class ChartData {
+  ChartData(this.x, this.y, this.color, this.text);
+
+  final String x;
+  final num? y;
+  final Color color;
+  final String text;
 }

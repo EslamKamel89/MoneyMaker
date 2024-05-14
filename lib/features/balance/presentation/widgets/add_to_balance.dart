@@ -1,80 +1,37 @@
+// ignore_for_file: dead_code
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trading/core/themes/clr.dart';
-import 'package:trading/features/balance/presentation/widgets/payment_text_field.dart';
-import 'package:trading/features/balance/presentation/widgets/paymet_button.dart';
+import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/features/balance/domain/models/payment_method_model.dart';
+import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
+import 'package:trading/features/balance/presentation/screens/add-balance/add_balance_details_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
-class AddBalanceWidget extends StatelessWidget {
-  const AddBalanceWidget({super.key, required this.imagePath});
-  final String imagePath;
+class AddBalanceWidget extends StatefulWidget {
+  const AddBalanceWidget({super.key, required this.paymentModel});
+  final PaymentModel paymentModel;
 
+  @override
+  State<AddBalanceWidget> createState() => _AddBalanceWidgetState();
+}
+
+class _AddBalanceWidgetState extends State<AddBalanceWidget> {
   @override
   Widget build(BuildContext context) {
     final themeController = context.watch<PickLanguageAndThemeCubit>();
     return InkWell(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
-              child: Container(
-                // height: 100,
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
-                decoration: BoxDecoration(
-                  color: Clr.e,
-                  borderRadius: BorderRadius.circular(20.w),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage(imagePath),
-                            maxRadius: 20.w,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(Icons.close, size: 20.w),
-                        ),
-                      ],
-                    ),
-                    const PaymentTextField(
-                      hintText: 'Enter Transaction Number',
-                    ),
-                    SizedBox(height: 5.h),
-                    const PaymentTextField(
-                      hintText: 'Enter Transaction Date',
-                      fieldType: 'date',
-                    ),
-                    SizedBox(height: 5.h),
-                    const PaymentTextField(
-                      hintText: 'Enter Transaction Amount',
-                      fieldType: 'number',
-                    ),
-                    SizedBox(height: 20.h),
-                    InkWell(
-                      onTap: () {},
-                      child: const PaymentButton(title: 'Attach Files', icon: Icons.attach_file_outlined),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const PaymentButton(title: 'Submit', icon: Icons.login),
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
+        // Navigator.of(context).pushNamed(AppRoutesNames.addBalanceDetails, arguments: {'imagePath': widget.imagePath});
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: sl<AddBalanceCubit>(),
+              child: AddBalanceDetailsScreen(paymentModel: widget.paymentModel),
+            ),
+          ),
         );
       },
       child: Material(
@@ -83,7 +40,7 @@ class AddBalanceWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.w),
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(imagePath)),
+            image: DecorationImage(image: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? ''))),
             borderRadius: BorderRadius.circular(20.w),
           ),
         ),

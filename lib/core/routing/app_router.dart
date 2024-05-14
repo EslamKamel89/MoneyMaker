@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/routing/middleware.dart';
 import 'package:trading/features/auth/presentation/screens/otp-forget/otp_forget.dart';
@@ -9,13 +11,18 @@ import 'package:trading/features/auth/presentation/screens/reset-password-forget
 import 'package:trading/features/auth/presentation/screens/signup/signup_screen.dart';
 import 'package:trading/features/auth/presentation/screens/singin/signin_screen.dart';
 import 'package:trading/features/auth/presentation/screens/tems-conditions/terms_conditons_screen.dart';
+import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
+import 'package:trading/features/balance/presentation/blocs/transaction-history-cubit/transaction_history_cubit.dart';
+import 'package:trading/features/balance/presentation/blocs/withdraw_main_balance_cubit/withdraw_main_balance_cubit.dart';
+import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/add-balance/add_balance_screen.dart';
-import 'package:trading/features/balance/presentation/screens/transactions/transactions_screen.dart';
-import 'package:trading/features/balance/presentation/screens/withdraw-main-balance/withdraw_main_balance.dart';
-import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/wihtdraw_weekly_balance.dart';
+import 'package:trading/features/balance/presentation/screens/transaction-history/transaction_history_screen.dart';
+import 'package:trading/features/balance/presentation/screens/withdraw-main-balance/withdraw_main_balance_screen.dart';
+import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/wihtdraw_weekly_balance_screen.dart';
 import 'package:trading/features/mainpage/presentation/screens/bottom-navigation-screen/bottom_navigation_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/screens/pick-language/pick_language.dart';
 import 'package:trading/features/profile/presentation/screens/user_profile_screen.dart';
+import 'package:trading/features/referrals/presentation/screens/referrals-screen/referrals_screen.dart';
 import 'package:trading/test.dart';
 
 class AppRouter {
@@ -86,22 +93,34 @@ class AppRouter {
         );
       case AppRoutesNames.addBalance:
         return MaterialPageRoute(
-          builder: (context) => const AddBalanceScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<AddBalanceCubit>(),
+            child: const AddBalanceScreen(),
+          ),
           settings: routeSettings,
         );
       case AppRoutesNames.withdrawMainBalance:
         return MaterialPageRoute(
-          builder: (context) => const WithdrawMainBalanceScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<WithdrawMainBalanceCubit>(),
+            child: const WithdrawMainBalanceScreen(),
+          ),
           settings: routeSettings,
         );
       case AppRoutesNames.withdrawWeeklyBalance:
         return MaterialPageRoute(
-          builder: (context) => const WithdrawWeeklyBalanceScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<WithdrawWeeklyBalanceCubit>(),
+            child: const WithdrawWeeklyBalanceScreen(),
+          ),
           settings: routeSettings,
         );
-      case AppRoutesNames.transactions:
+      case AppRoutesNames.transactionHistory:
         return MaterialPageRoute(
-          builder: (context) => const TransactionsScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<TransactionHistoryCubit>(),
+            child: const TransactionHistoryScreen(),
+          ),
           settings: routeSettings,
         );
       case AppRoutesNames.userProfile:
@@ -109,6 +128,28 @@ class AppRouter {
           builder: (context) => const UserProfileScreen(),
           settings: routeSettings,
         );
+      case AppRoutesNames.referrals:
+        return MaterialPageRoute(
+          builder: (context) => const ReferralsScreen(),
+          settings: routeSettings,
+        );
+      // case AppRoutesNames.addBalanceDetails:
+      //   return MaterialPageRoute(
+      //     builder: (context) => AddBalanceDetailsScreen(
+      //       args: args as Map,
+      //     ),
+      //     settings: routeSettings,
+      //   );
+      // case AppRoutesNames.withdrawMainBalanceDetails:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const WithdrawMainBalanceDetailsScreen(),
+      //     settings: routeSettings,
+      //   );
+      // case AppRoutesNames.withdrawWeeklyBalanceDetails:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const WithdrawWeeklyBalanceDetailsScreen(),
+      //     settings: routeSettings,
+      //   );
       // case AppRoutesNames.welcome:
       //   return MaterialPageRoute(
       //     builder: (context) => BlocProvider(

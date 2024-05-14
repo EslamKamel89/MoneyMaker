@@ -36,7 +36,7 @@ class AppDrawer extends StatelessWidget {
                       iconData: Octicons.person,
                       title: "USER_PROFILE".tr(context),
                       onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.userProfile, (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.userProfile, (route) => true);
                       },
                     ),
                     SizedBox(
@@ -57,14 +57,14 @@ class AppDrawer extends StatelessWidget {
                   iconData: Octicons.diff_added,
                   title: "ADD_TO_BALANCE".tr(context),
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.addBalance, (route) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.addBalance, (route) => true);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: Octicons.diff_removed,
                   title: "WITHDRAW_FROM_MAIN_BALANCE".tr(context),
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.withdrawMainBalance, (route) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.withdrawMainBalance, (route) => true);
                   },
                 ),
                 ...drawerNavigationButtons(
@@ -72,25 +72,35 @@ class AppDrawer extends StatelessWidget {
                   title: "WITHDRAW_FROM_WEEKLY_BALANCE".tr(context),
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamedAndRemoveUntil(AppRoutesNames.withdrawWeeklyBalance, (route) => false);
+                        .pushNamedAndRemoveUntil(AppRoutesNames.withdrawWeeklyBalance, (route) => true);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.money,
                   title: "REFERRALS".tr(context),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutesNames.referrals,
+                      (route) => true,
+                    );
+                  },
                 ),
 
                 ...drawerNavigationButtons(
                   iconData: Linecons.money,
                   title: "TRNASACTIONS".tr(context),
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.transactions, (route) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.transactionHistory, (route) => true);
                   },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.newspaper,
                   title: "NOTIFICATIONS_NEWS".tr(context),
+                  onTap: () {},
+                ),
+                ...drawerNavigationButtons(
+                  iconData: FontAwesome.certificate,
+                  title: "LICENSE".tr(context),
                   onTap: () {},
                 ),
                 ...drawerNavigationButtons(
@@ -125,6 +135,7 @@ class AppDrawer extends StatelessWidget {
                     Center(child: PickThemeSelector(resize: 0.6)),
                   ],
                 ),
+                SizedBox(height: 40.h),
                 // InkWell(
                 //   onTap: () {
                 //     Navigator.of(context).pushNamed(AppRoutesNames.testScreen);

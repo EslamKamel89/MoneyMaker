@@ -9,6 +9,9 @@ class Clr {
   static Color d = dDark;
   static Color e = eDark;
   static Color f = fDark;
+  static Color success = successDark;
+  static Color warning = warningDark;
+  static Color danger = dangerDark;
   static Color currentUser = currentUserDark;
   static Color otherUser = otherUserDark;
 
@@ -18,6 +21,9 @@ class Clr {
   static Color dLight = const Color(0xff886848);
   static Color eLight = const Color(0xFFFFEDD8);
   static Color fLight = const Color(0xFFC07F00);
+  static Color successLight = const Color(0xFF75A47F);
+  static Color warningLight = const Color(0xFFFDA403);
+  static Color dangerLight = const Color(0xFFFF204E);
   static Color currentUserLight = const Color(0xFF322C2B);
   static Color otherUserLight = const Color(0xFFA79277);
 
@@ -27,6 +33,9 @@ class Clr {
   static Color dDark = const Color(0xff926840);
   static Color eDark = const Color(0xFF222831);
   static Color fDark = const Color(0xFFF6CA7B);
+  static Color successDark = const Color(0xFFC3FF93);
+  static Color warningDark = const Color(0xFFFEB941);
+  static Color dangerDark = const Color(0xFFD37676);
   static Color currentUserDark = const Color(0xFF322C2B);
   static Color otherUserDark = const Color(0xFF803D3B);
 
@@ -42,6 +51,9 @@ class Clr {
       d = dLight;
       e = eLight;
       f = fLight;
+      success = successLight;
+      warning = warningLight;
+      danger = dangerLight;
       currentUser = currentUserLight;
       otherUser = otherUserLight;
     } else {
@@ -51,6 +63,9 @@ class Clr {
       d = dDark;
       e = eDark;
       f = fDark;
+      success = successDark;
+      warning = warningDark;
+      danger = dangerDark;
       currentUser = currentUserDark;
       otherUser = otherUserDark;
     }

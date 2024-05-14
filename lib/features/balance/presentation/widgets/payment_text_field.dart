@@ -10,10 +10,12 @@ class PaymentTextField extends StatelessWidget {
     this.hintText,
     this.controller,
     this.fieldType,
+    this.validator,
   });
   final String? hintText;
   final TextEditingController? controller;
   final String? fieldType;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,8 @@ class PaymentTextField extends StatelessWidget {
         ),
       );
       return TextFormField(
+        validator: validator,
+        controller: controller,
         decoration: InputDecoration(
           border: border,
           enabledBorder: border,

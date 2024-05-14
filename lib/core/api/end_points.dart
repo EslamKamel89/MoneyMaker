@@ -6,6 +6,11 @@ class EndPoint {
   static const String getUserData = '${baseUrl}apiuser/';
   static const String _uploadFolder = '${uploadUrl}public/uploads/';
   static const String uploadUser = '${_uploadFolder}users/';
+  static const String uploadPayment = '${_uploadFolder}payments/';
+  static const String uploadDepositHistory = '${_uploadFolder}deposits/';
+  static const String paymentMehods = '${baseUrl}apipayment';
+  static const String depositHistory = '${baseUrl}apideposit/';
+  static const String addDeposit = '${baseUrl}apideposit';
   // static const String f = '';
   // static const String f = '';
   // static const String f = '';
@@ -40,19 +45,31 @@ class ApiKey {
   static const String updatedAt = "updated_at";
   //! signin
   static const String user = "user";
-
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
+  //! get payment data
+  static const String name = 'name';
+  static const String code = 'code';
+  static const String image = 'image';
+  //! add to balance
+  // static const paymentId = 'payment_id';
+  static const userId = 'user_id';
+  static const transactionNumber = 'process';
+  static const amount = 'amount';
+  // static const createdAt = 'created_at';
+  // static const image = 'image';
+  //! deposit history
+  static const String paymentId = "payment_id";
+  static const String paymentAmount = "amount";
+  static const String paymentUserId = "user_id";
+  static const String paymentImageOne = "image";
+  static const String paymentAccepted = "accepted";
+  static const String paymentProcess = "process";
+  static const String paymentRefuseReason = "refuse_reason";
+  static const String paymentCreatedAt = "created_at";
+  static const String paymentUpdatedAt = "updated_at";
+  static const String paymentFirstName = "first_name";
+  static const String paymentProfileImage = "profile";
+  static const String paymentName = "name";
+  static const String paymentImageTwo = "payments_image";
   //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;
