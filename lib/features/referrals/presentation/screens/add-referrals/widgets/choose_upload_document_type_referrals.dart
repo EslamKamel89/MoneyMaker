@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/text_styles/text_style.dart';
+import 'package:trading/features/referrals/presentation/blocs/add_refferals_cubit/add_referrals_cubit.dart';
 
 class ChooseUploadDocumentTypeReferrals extends StatefulWidget {
   const ChooseUploadDocumentTypeReferrals({super.key});
@@ -13,7 +15,7 @@ class ChooseUploadDocumentTypeReferrals extends StatefulWidget {
 class _ChooseUploadDocumentTypeReferralsState extends State<ChooseUploadDocumentTypeReferrals> {
   @override
   Widget build(BuildContext context) {
-    // SignupCubit controller = context.read<SignupCubit>();
+    AddReferralsCubit controller = context.read<AddReferralsCubit>();
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,10 +28,9 @@ class _ChooseUploadDocumentTypeReferralsState extends State<ChooseUploadDocument
               Txt.displayMeduim("PERSONAL_ID".tr(context)),
               SizedBox(width: 5.w),
               Switch(
-                // value: controller.isUploadPassport,
-                value: true,
+                value: controller.isUploadPassport,
                 onChanged: (value) {
-                  // controller.isUploadPassport = value;
+                  controller.isUploadPassport = value;
                   setState(() {});
                 },
                 activeColor: const Color(0xFFE9C874),
@@ -40,8 +41,7 @@ class _ChooseUploadDocumentTypeReferralsState extends State<ChooseUploadDocument
               Txt.displayMeduim("PASSPORT".tr(context)),
             ],
           ),
-          // controller.isUploadPassport
-          true
+          controller.isUploadPassport
               ? Txt.displayMeduim(
                   "UPLOAD_ONE_PHOTO".tr(context),
                   textAlign: TextAlign.center,

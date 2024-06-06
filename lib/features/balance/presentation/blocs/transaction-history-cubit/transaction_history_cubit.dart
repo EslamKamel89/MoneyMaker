@@ -10,6 +10,9 @@ class TransactionHistoryCubit extends Cubit<TransactionHistoryState> {
   final PaymentRepo paymentRepo;
   TransactionHistoryCubit({required this.paymentRepo}) : super(TransactionHistoryInitial());
   Future getDepositHistory() async {
+    if (isClosed) {
+      return null;
+    }
     emit(TransactionHistoryLoadingState());
     final response = await paymentRepo.getDepositHistory();
     response.fold(

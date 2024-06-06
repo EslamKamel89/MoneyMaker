@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_drawer.dart';
 import 'package:trading/features/chat/presentation/screens/chat-screen/chat_screen.dart';
@@ -58,7 +59,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           items: [
             Icon(Icons.help_outline_outlined, size: 30.w, color: Clr.c),
             Icon(Icons.home_outlined, size: 30.w, color: Clr.c),
-            Icon(Icons.chat_outlined, size: 30.w, color: Clr.c),
+            Icon(FontAwesome.chat_empty, size: 30.w, color: Clr.c),
           ],
           onTap: (index) {
             _page = index;
@@ -69,7 +70,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       body: [
         SupportScreen(),
         HomeScreen(),
-        ChatScreen(),
+        const ChatScreen(),
       ].elementAt(_page),
     );
   }

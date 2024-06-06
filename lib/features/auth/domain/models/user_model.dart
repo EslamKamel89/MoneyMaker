@@ -37,22 +37,22 @@ class UserModel {
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json[ApiKey.data][ApiKey.id],
-      userName: json[ApiKey.data][ApiKey.userName],
-      fullName: json[ApiKey.data][ApiKey.fullName],
-      gender: json[ApiKey.data][ApiKey.gender],
-      email: json[ApiKey.data][ApiKey.email],
-      mobile: json[ApiKey.data][ApiKey.mobile],
-      emailVerifiedAt: json[ApiKey.data][ApiKey.emailVerifiedAt] != null
-          ? DateTime.parse(json[ApiKey.data][ApiKey.emailVerifiedAt])
+      id: json[ApiKey.data]["0"][ApiKey.id],
+      userName: json[ApiKey.data]["0"][ApiKey.userName],
+      fullName: json[ApiKey.data]["0"][ApiKey.fullName],
+      gender: json[ApiKey.data]["0"][ApiKey.gender],
+      email: json[ApiKey.data]["0"][ApiKey.email],
+      mobile: json[ApiKey.data]["0"][ApiKey.mobile],
+      emailVerifiedAt: json[ApiKey.data]["0"][ApiKey.emailVerifiedAt] != null
+          ? DateTime.parse(json[ApiKey.data]["0"][ApiKey.emailVerifiedAt])
           : null,
-      password: json[ApiKey.data][ApiKey.password],
-      profile: json[ApiKey.data][ApiKey.profile],
-      passport: json[ApiKey.data][ApiKey.passport],
-      passportBack: json[ApiKey.data][ApiKey.passportBack],
-      rememberToken: json[ApiKey.data][ApiKey.rememberToken],
-      createdAt: DateTime.parse(json[ApiKey.data][ApiKey.createdAt]),
-      updatedAt: DateTime.parse(json[ApiKey.data][ApiKey.updatedAt]),
+      password: json[ApiKey.data]["0"][ApiKey.password],
+      profile: json[ApiKey.data]["0"][ApiKey.profile],
+      passport: json[ApiKey.data]["0"][ApiKey.passport],
+      passportBack: json[ApiKey.data]["0"][ApiKey.passportBack],
+      rememberToken: json[ApiKey.data]["0"][ApiKey.rememberToken],
+      createdAt: DateTime.parse(json[ApiKey.data]["0"][ApiKey.createdAt]),
+      updatedAt: DateTime.parse(json[ApiKey.data]["0"][ApiKey.updatedAt]),
     );
   }
 
@@ -64,17 +64,19 @@ class UserModel {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       ApiKey.data: {
-        ApiKey.id: id,
-        ApiKey.userName: userName,
-        ApiKey.fullName: fullName,
-        ApiKey.gender: gender,
-        ApiKey.email: email,
-        ApiKey.mobile: mobile,
-        ApiKey.emailVerifiedAt: emailVerifiedAt?.toString(),
-        ApiKey.password: password,
-        ApiKey.profile: profile,
-        ApiKey.createdAt: createdAt?.toString(),
-        ApiKey.updatedAt: updatedAt?.toString(),
+        "0": {
+          ApiKey.id: id,
+          ApiKey.userName: userName,
+          ApiKey.fullName: fullName,
+          ApiKey.gender: gender,
+          ApiKey.email: email,
+          ApiKey.mobile: mobile,
+          ApiKey.emailVerifiedAt: emailVerifiedAt?.toString(),
+          ApiKey.password: password,
+          ApiKey.profile: profile,
+          ApiKey.createdAt: createdAt?.toString(),
+          ApiKey.updatedAt: updatedAt?.toString(),
+        }
       }
     };
   }

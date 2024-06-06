@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:trading/core/const-strings/app_images.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/app_drawer.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
+import 'package:trading/features/mainpage/presentation/blocs/mainpage_cubit/mainpage_cubit.dart';
 import 'package:trading/features/mainpage/presentation/widgets/custom_image_slider.dart';
 import 'package:trading/features/mainpage/presentation/widgets/main_appbar.dart';
 import 'package:trading/features/notifications-news/presentation/widgets/news_widget.dart';
@@ -15,46 +16,54 @@ import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cu
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-  final List<String> bannerImages = [
-    AppImages.banner1,
-    AppImages.banner2,
-    AppImages.banner3,
-  ];
+
   @override
   Widget build(BuildContext context) {
     final themeCont = context.watch<PickLanguageAndThemeCubit>();
     Clr.init();
-    return Scaffold(
-      appBar: mainAppBar(title: '', context: context),
-      key: scaffoldKey,
-      endDrawer: const AppDrawer(),
-      // backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: const NewsWiget(showNews: true),
+    return BlocProvider(
+      create: (context) => sl<MainpageCubit>(),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: mainAppBar(title: '', context: context),
+          key: scaffoldKey,
+          endDrawer: const AppDrawer(),
+          // backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: BlocBuilder<MainpageCubit, MainpageState>(
+              buildWhen: (previous, current) {
+                return false;
+              },
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: const NewsWiget(showNews: true),
+                    ),
+                    SizedBox(height: 10.h),
+                    const CustomImageSlider(),
+                    SizedBox(height: 10.h),
+                    Expanded(
+                      flex: 3,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: MainpageChart(
+                          borderColor: Theme.of(context).scaffoldBackgroundColor,
+                          mainColor: Theme.of(context).scaffoldBackgroundColor,
+                          sectionColor: themeCont.isLightTheme() ? const Color(0xFFE4C59E) : const Color(0xFF322C2B),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
+                );
+              },
             ),
-            SizedBox(height: 10.h),
-            CustomImageSlider(bannerImages: bannerImages),
-            SizedBox(height: 10.h),
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: MainpageChart(
-                  borderColor: Theme.of(context).scaffoldBackgroundColor,
-                  mainColor: Theme.of(context).scaffoldBackgroundColor,
-                  sectionColor: themeCont.isLightTheme() ? const Color(0xFFE4C59E) : const Color(0xFF322C2B),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.h),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

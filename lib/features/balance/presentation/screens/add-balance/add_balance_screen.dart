@@ -54,7 +54,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
           }
           if (state is AddBalanceGetPaymentSuccessState) {
             return GridView.builder(
-              itemCount: state.allPayments.length,
+              itemCount: state.allPayments.length - 1,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: (MediaQuery.of(context).size.width / 2) - 30.w,
@@ -62,6 +62,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                 mainAxisSpacing: 20.w,
               ),
               itemBuilder: (context, index) {
+                index++;
                 return AddBalanceWidget(paymentModel: state.allPayments[index]);
               },
             );

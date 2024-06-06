@@ -13,4 +13,5 @@ class AppImages {
   static const String visa = "$imagePath/visa.png";
   static const String cib = "$imagePath/cib.png";
   static const String noInternet = "$imagePath/no_wifi.png";
+  static const String splashScreen = "$imagePath/moneymaker_splash.png";
 }

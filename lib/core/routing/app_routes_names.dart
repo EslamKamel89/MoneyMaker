@@ -1,6 +1,7 @@
 class AppRoutesNames {
   static const String pickLanguage = '/pickLanguage';
   static const String testScreen = '/TestScreen';
+  static const String testScreen1 = '/TestScreen1';
   static const String signup = '/Singup';
   static const String termsAndConditions = '/TermsAndConditions';
   static const String pickVerificationMethodSignup = '/pickVerficationMethodSignup';
@@ -21,4 +22,5 @@ class AppRoutesNames {
   static const String referrals = '/referrals';
   static const String withdrawHistoryDetails = '/withdrawHistoryDetails';
   static const String depositHistoryDetails = '/depositHistoryDetails';
+  static const String splashScreen = '/splashScreen';
 }

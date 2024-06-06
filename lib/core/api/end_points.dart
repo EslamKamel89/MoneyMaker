@@ -1,17 +1,20 @@
 class EndPoint {
   static const String baseUrl = "https://money.iuceg.com/api/";
   static const String uploadUrl = "https://money.iuceg.com/";
+  static const String _uploadFolder = '${uploadUrl}public/uploads/';
   static const String signin = '${baseUrl}userlogin';
   static const String signup = '${baseUrl}apiuser';
   static const String getUserData = '${baseUrl}apiuser/';
-  static const String _uploadFolder = '${uploadUrl}public/uploads/';
   static const String uploadUser = '${_uploadFolder}users/';
   static const String uploadPayment = '${_uploadFolder}payments/';
   static const String uploadDepositHistory = '${_uploadFolder}deposits/';
   static const String paymentMehods = '${baseUrl}apipayment';
   static const String depositHistory = '${baseUrl}apideposit/';
   static const String addDeposit = '${baseUrl}apideposit';
-  // static const String f = '';
+  static const String addRefferal = '${baseUrl}apirefferal';
+  static const String advertise = '${baseUrl}apiadvertises/3';
+  static const String advertiseBanners = "${_uploadFolder}advertises/";
+  static const String withdraw = '${baseUrl}apiwithdrawal';
   // static const String f = '';
   // static const String f = '';
   // static const String f = '';
@@ -56,6 +59,11 @@ class ApiKey {
   static const amount = 'amount';
   // static const createdAt = 'created_at';
   // static const image = 'image';
+  //! withdraw main and weelkly balance
+  static const type = " type";
+  static const accountNumber = 'process';
+  static const withdrawMainBalance = 'deposit';
+  static const withdrawWeeklyBalance = 'profit';
   //! deposit history
   static const String paymentId = "payment_id";
   static const String paymentAmount = "amount";
@@ -70,6 +78,13 @@ class ApiKey {
   static const String paymentProfileImage = "profile";
   static const String paymentName = "name";
   static const String paymentImageTwo = "payments_image";
+  //! banner images
+  static const String link = "link";
+  //  static const String = "" ;
+  //  static const String = "" ;
+  //  static const String = "" ;
+  //  static const String = "" ;
+  //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;

@@ -20,3 +20,12 @@ final class WithdrawWeeklyBalanceSuccessState extends WithdrawWeeklyBalanceState
   final List<PaymentModel> allPayments;
   const WithdrawWeeklyBalanceSuccessState({required this.allPayments});
 }
+
+class WithdrawWeeklyRequestLoadingState extends WithdrawWeeklyBalanceState {}
+
+class WithdrawWeeklyRequestFailedState extends WithdrawWeeklyBalanceState {
+  final String errorMessage;
+  const WithdrawWeeklyRequestFailedState({required this.errorMessage});
+}
+
+class WithdrawWeeklyRequestSuccessState extends WithdrawWeeklyBalanceState {}

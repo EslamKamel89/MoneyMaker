@@ -18,24 +18,39 @@ class AddBalanceCubit extends Cubit<AddBalanceState> {
   File? uploadDocumentFile;
 
   void uploadFromGallery() {
+    if (isClosed) {
+      return;
+    }
     emit(UploadDocumentGalleryState());
   }
 
   void uploadFromCamera() {
+    if (isClosed) {
+      return;
+    }
     emit(UploadDocumentCameraState());
   }
 
   void resetUploadDocument() {
+    if (isClosed) {
+      return;
+    }
     uploadDocumentFile = null;
     uploadDocumentXFile = null;
     emit(ResetUploadDocumentState());
   }
 
   void datePickedState(DateTime? transactionDate) {
+    if (isClosed) {
+      return;
+    }
     emit(DatePickedState(transactionDate: transactionDate));
   }
 
   Future getAllPaymentMethod() async {
+    if (isClosed) {
+      return null;
+    }
     emit(AddBalanceLoadingState());
     final response = await paymentRepo.getPaymentMehods();
     response.fold(
@@ -56,6 +71,9 @@ class AddBalanceCubit extends Cubit<AddBalanceState> {
     required XFile imageXFile,
     required String createdAt,
   }) async {
+    if (isClosed) {
+      return null;
+    }
     emit(AddBalanceDepositLoadingState());
     final response = await paymentRepo.addToBalance(
       paymentId: paymentId,

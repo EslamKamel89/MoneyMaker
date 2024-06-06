@@ -19,15 +19,24 @@ class PickLanguageAndThemeCubit extends Cubit<PickLanguageAndThemeState> {
     required this.themeCacheHelper,
   }) : super(PickLanguageAndThemeState(locale: const Locale('en'), themeData: appThemeData[AppTheme.blueLight]!));
   void changeLanguage(Locale locale) {
+    if (isClosed) {
+      return;
+    }
     localeCacheHelper.cacheLocale(languageCode: locale.languageCode);
     emit(state.copyWith(locale: locale));
   }
 
   void checkCachedLanguage() {
+    if (isClosed) {
+      return;
+    }
     emit(state.copyWith(locale: localeCacheHelper.getCachedLocale()));
   }
 
   void changeTheme(bool activateLightTheme) {
+    if (isClosed) {
+      return;
+    }
     ThemeData themeData = (activateLightTheme ? appThemeData[AppTheme.blueLight] : appThemeData[AppTheme.blueDark])!;
     themeCacheHelper.cacheTheme(themeType: activateLightTheme ? "light" : "dark");
     Clr.init();
@@ -35,6 +44,9 @@ class PickLanguageAndThemeCubit extends Cubit<PickLanguageAndThemeState> {
   }
 
   void checkCachedTheme() {
+    if (isClosed) {
+      return;
+    }
     ThemeData themeData = themeCacheHelper.getCachedTheme();
     Clr.init();
 

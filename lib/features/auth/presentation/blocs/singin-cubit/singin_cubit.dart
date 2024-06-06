@@ -57,14 +57,23 @@ class SigninCubit extends Cubit<SigninState> {
   }
 
   void pickResetPasswordMethod({required bool isEmail}) {
+    if (isClosed) {
+      return;
+    }
     emit(PickResetPasswordMethodState(isEmail: isEmail));
   }
 
   void otpForget({required String otp}) {
+    if (isClosed) {
+      return;
+    }
     emit(OtpForgetState(otp: otp));
   }
 
   signIn() async {
+    if (isClosed) {
+      return null;
+    }
     emit(SigninLoadingState());
     final response = await authRepo.signin(
       userName: emailOrMobileCont?.text ?? '',
@@ -88,6 +97,9 @@ class SigninCubit extends Cubit<SigninState> {
   }
 
   Future<UserModel?> getUserData() async {
+    if (isClosed) {
+      return null;
+    }
     final response = await authRepo.getUserData(userId: userId ?? 0);
     response.fold(
       (errorModel) {},

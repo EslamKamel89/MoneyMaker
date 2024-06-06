@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
+import 'package:trading/core/routing/app_routes_names.dart';
+import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/widgets/payment_text_field.dart';
@@ -41,36 +43,63 @@ class _WithdrawWeeklyBalanceDetailsScreenState extends State<WithdrawWeeklyBalan
   @override
   Widget build(BuildContext context) {
     final themeController = context.watch<PickLanguageAndThemeCubit>();
-    return CustomScaffold(
-      showBackArrow: true,
-      title: "WITHDRAW_FROM_WEEKLY_BALANCE".tr(context),
-      child: ListView(
-        // mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
-              maxRadius: 100.w,
+    return BlocListener<WithdrawWeeklyBalanceCubit, WithdrawWeeklyBalanceState>(
+      listener: (context, state) {
+        if (state is WithdrawWeeklyRequestFailedState) {
+          customSnackBar(context: context, title: state.errorMessage, isSuccess: false);
+          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => true);
+        }
+        if (state is WithdrawWeeklyRequestSuccessState) {
+          customSnackBar(context: context, title: 'Withdraw Process Completed Successfuly');
+          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => true);
+        }
+      },
+      child: CustomScaffold(
+        showBackArrow: true,
+        title: "WITHDRAW_FROM_WEEKLY_BALANCE".tr(context),
+        child: ListView(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
+                maxRadius: 100.w,
+              ),
             ),
-          ),
-          SizedBox(height: 20.h),
-          const PaymentTextField(
-            hintText: 'Enter Account Number',
-          ),
-          SizedBox(height: 20.h),
-          const PaymentTextField(
-            hintText: 'Enter Withdraw Amount',
-            fieldType: 'number',
-          ),
-          SizedBox(height: 40.h),
-          SizedBox(height: 20.h),
-          Center(
-            child: InkWell(
-              onTap: () {},
-              child: const PaymentButton(title: 'Submit', icon: Icons.login),
+            SizedBox(height: 20.h),
+            PaymentTextField(
+              hintText: 'Enter Account Number',
+              controller: accountNumberController,
             ),
-          )
-        ],
+            SizedBox(height: 20.h),
+            PaymentTextField(
+              hintText: 'Enter Withdraw Amount',
+              fieldType: 'number',
+              controller: withdrawAmountController,
+            ),
+            SizedBox(height: 40.h),
+            SizedBox(height: 20.h),
+            Center(
+              child: BlocBuilder<WithdrawWeeklyBalanceCubit, WithdrawWeeklyBalanceState>(
+                builder: (context, state) {
+                  if (state is WithdrawWeeklyRequestLoadingState) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return InkWell(
+                    onTap: () async {
+                      await withdrawWeeklyBalanceController.withdraw(
+                        paymentId: widget.paymentModel.id!,
+                        accountNumber: accountNumberController!.text,
+                        amount: double.parse(withdrawAmountController!.text),
+                      );
+                    },
+                    child: const PaymentButton(title: 'Submit', icon: Icons.login),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

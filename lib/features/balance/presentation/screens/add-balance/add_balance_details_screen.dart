@@ -8,6 +8,7 @@ import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
+import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/core/utils/snackbar.dart';
@@ -55,7 +56,15 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
       listener: (context, state) {
         if (state is AddBalanceDepositSuccessState) {
           customSnackBar(context: context, title: 'Add To Deposit Succeded');
-          Navigator.of(context).pop();
+          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => true);
+        }
+        if (state is AddBalanceFailedState) {
+          customSnackBar(
+            context: context,
+            title: state.errorModel.errorMessageEn ?? "Couldn't complete the deposit process successfully",
+            isSuccess: false,
+          );
+          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => true);
         }
       },
       child: CustomScaffold(

@@ -23,6 +23,7 @@ class SignupCubit extends Cubit<SignupState> {
   TextEditingController? signUpEmailCont;
   TextEditingController? signUpPassOneCont;
   TextEditingController? signUpPassTwoCont;
+  String? countryMobileCode;
 
   XFile? uploadImageXFile;
   XFile? uploadIdDoucmentXFileOne;
@@ -74,13 +75,16 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   Future signup() async {
+    if (isClosed) {
+      return;
+    }
     emit(SignupLoadingState());
     final response = await authRepo.signup(
       userName: signUpUserNameCont!.text,
       fullName: signUpFullNameCont!.text,
       gender: isMale ? 'male' : 'female',
       email: signUpEmailCont!.text,
-      mobile: signUpMobileCont!.text,
+      mobile: "${countryMobileCode ?? '+20'} + ${signUpMobileCont!.text}",
       password: signUpPassOneCont!.text,
       profileXFile: uploadImageXFile,
       passportXFile: uploadIdDoucmentXFileOne!,

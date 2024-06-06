@@ -42,7 +42,7 @@ class WithdrawWeeklyBalanceScreen extends StatelessWidget {
           }
           if (state is WithdrawWeeklyBalanceSuccessState) {
             return GridView.builder(
-              itemCount: state.allPayments.length,
+              itemCount: state.allPayments.length - 1,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: (MediaQuery.of(context).size.width / 2) - 30.w,
@@ -50,6 +50,7 @@ class WithdrawWeeklyBalanceScreen extends StatelessWidget {
                 mainAxisSpacing: 20.w,
               ),
               itemBuilder: (context, index) {
+                index++;
                 return WithdrawFromWeeklyBalanceWidget(paymentModel: state.allPayments[index]);
               },
             );

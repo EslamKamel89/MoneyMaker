@@ -6,8 +6,20 @@ import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 import 'package:trading/features/referrals/presentation/screens/add-referrals/add_referrals_screen.dart';
 
-class ReferralsScreen extends StatelessWidget {
+class ReferralsScreen extends StatefulWidget {
   const ReferralsScreen({super.key});
+
+  @override
+  State<ReferralsScreen> createState() => _ReferralsScreenState();
+}
+
+class _ReferralsScreenState extends State<ReferralsScreen> {
+  late final GlobalKey<ScaffoldState> scaffoldKey;
+  @override
+  void initState() {
+    scaffoldKey = GlobalKey();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +30,8 @@ class ReferralsScreen extends StatelessWidget {
       initialIndex: 0,
       child: CustomScaffold(
         title: 'Referrals',
+        scaffoldKey: scaffoldKey,
+        // showHomeIcon: false,
         bottom: TabBar(
           dividerColor: Clr.f,
           indicatorColor: Clr.f,
@@ -38,7 +52,7 @@ class ReferralsScreen extends StatelessWidget {
         child: TabBarView(
           children: [
             Center(child: Txt.bodyMeduim('History')),
-            const AddReferralsScreen(),
+            AddReferralsScreen(scaffoldKey: scaffoldKey),
           ],
         ),
       ),

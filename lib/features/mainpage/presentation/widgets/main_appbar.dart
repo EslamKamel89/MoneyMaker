@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/const-strings/app_images.dart';
-import 'package:trading/core/presentation/circular_image.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
+import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
+import 'package:trading/features/auth/domain/models/user_model.dart';
 
 AppBar mainAppBar({
   required String title,
@@ -12,14 +16,47 @@ AppBar mainAppBar({
   bool showBackArrow = false,
   PreferredSizeWidget? bottom,
 }) {
+  final AuthRepo authRepo = sl<AuthRepo>();
+  final Future<UserModel?> userModel = authRepo.getChacedUserData();
   return AppBar(
     // title: Txt.headlineMeduim(title),
     leading: showBackArrow
         ? null
-        : const CircularImage(
-            imageName: AppImages.accountHeader,
-          ),
-    title: Txt.bodyMeduim(title.isEmpty ? 'Welcome, Eslam' : title, color: Colors.white),
+        : FutureBuilder(
+            future: userModel,
+            builder: (context, snapshot) {
+              return Container(
+                width: 50.w,
+                height: 50.w,
+                margin: EdgeInsets.only(left: 10.w, bottom: 5.w),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: snapshot.connectionState == ConnectionState.done && snapshot.data?.profile != null
+                        ? NetworkImage('${EndPoint.uploadUser}${snapshot.data?.profile}')
+                        : const AssetImage(AppImages.accountHeader) as ImageProvider,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                  ),
+                ),
+              );
+            }),
+    title: FutureBuilder(
+        future: userModel,
+        builder: (context, snapshot) {
+          String finalTitle;
+          if (title.isNotEmpty) {
+            finalTitle = title;
+          } else {
+            if (snapshot.connectionState == ConnectionState.done) {
+              finalTitle = snapshot.data?.fullName ?? 'error';
+              finalTitle = "Welcome, $finalTitle";
+            } else {
+              finalTitle = "Welcome, Eslam";
+            }
+          }
+          return Txt.bodyMeduim(finalTitle, color: Colors.white);
+        }),
     // toolbarHeight: 70.w,
     backgroundColor: transparent ? Colors.transparent : Clr.d,
     automaticallyImplyLeading: automaticallyImplyLeading,

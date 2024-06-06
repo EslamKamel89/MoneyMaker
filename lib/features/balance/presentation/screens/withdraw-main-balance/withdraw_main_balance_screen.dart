@@ -21,7 +21,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
   @override
   void initState() {
     controller = context.read<WithdrawMainBalanceCubit>();
-    controller.getAllPaymentMethod();
+    // controller.getAllPaymentMethod();
     super.initState();
   }
 
@@ -31,10 +31,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
     controller.getAllPaymentMethod();
     return CustomScaffoldWithNewsBar(
       title: "WITHDRAW_FROM_MAIN_BALANCE".tr(context),
-      child: BlocConsumer<WithdrawMainBalanceCubit, WithdrawMainBalanceState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+      child: BlocBuilder<WithdrawMainBalanceCubit, WithdrawMainBalanceState>(
         builder: (context, state) {
           if (state is WithdrawMainBalanceFailedState) {
             final String errorMessage;
@@ -55,7 +52,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
           }
           if (state is WithdrawMainBalanceSuccessState) {
             return GridView.builder(
-              itemCount: state.allPayments.length,
+              itemCount: state.allPayments.length - 1,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: (MediaQuery.of(context).size.width / 2) - 30.w,
@@ -63,6 +60,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
                 mainAxisSpacing: 20.w,
               ),
               itemBuilder: (context, index) {
+                index++;
                 return WithdrawFromMainBalanceWidget(paymentModel: state.allPayments[index]);
                 // return _withdrawFromMainBalanceStaticData[index];
               },

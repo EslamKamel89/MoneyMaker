@@ -22,8 +22,11 @@ import 'package:trading/features/balance/presentation/screens/withdraw-weekly-ba
 import 'package:trading/features/mainpage/presentation/screens/bottom-navigation-screen/bottom_navigation_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/screens/pick-language/pick_language.dart';
 import 'package:trading/features/profile/presentation/screens/user_profile_screen.dart';
+import 'package:trading/features/referrals/presentation/blocs/add_refferals_cubit/add_referrals_cubit.dart';
 import 'package:trading/features/referrals/presentation/screens/referrals-screen/referrals_screen.dart';
+import 'package:trading/splash_screen/splash_screen.dart';
 import 'package:trading/test.dart';
+import 'package:trading/test1.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
@@ -32,6 +35,11 @@ class AppRouter {
     final args = routeSettings.arguments;
     String? routeName = appMiddleWare.middlleware(routeSettings.name);
     switch (routeName) {
+      case AppRoutesNames.splashScreen:
+        return MaterialPageRoute(
+          builder: (context) => const SplashScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.pickLanguage:
         return MaterialPageRoute(
           builder: (context) => const PickLanguageScreen(),
@@ -40,6 +48,11 @@ class AppRouter {
       case AppRoutesNames.testScreen:
         return MaterialPageRoute(
           builder: (context) => const TestScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.testScreen1:
+        return MaterialPageRoute(
+          builder: (context) => const TestScreen1(),
           settings: routeSettings,
         );
       case AppRoutesNames.signup:
@@ -130,7 +143,10 @@ class AppRouter {
         );
       case AppRoutesNames.referrals:
         return MaterialPageRoute(
-          builder: (context) => const ReferralsScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<AddReferralsCubit>(),
+            child: const ReferralsScreen(),
+          ),
           settings: routeSettings,
         );
       // case AppRoutesNames.addBalanceDetails:

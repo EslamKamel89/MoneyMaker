@@ -102,4 +102,40 @@ class PaymentRepo implements PaymentRepoInterface {
       return Left(e.errModel);
     }
   }
+
+  @override
+  Future<Either<ErrorModel, String>> withdraw({
+    required int userId,
+    required String accountNumber,
+    required double amount,
+    required String type,
+    required int paymentId,
+  }) async {
+    final t = 'PaymentRepo - withdraw'.prt;
+    try {
+      final response = await api.post(
+        EndPoint.withdraw,
+        data: {
+          ApiKey.userId: userId,
+          ApiKey.accountNumber: accountNumber,
+          ApiKey.paymentId: paymentId,
+          ApiKey.amount: amount,
+          ApiKey.type: type,
+        },
+        isFormData: true,
+      );
+      final ErrorModel? errorModel;
+      errorModel = ErrorModel.checkResponse(jsonDecode(response));
+      if (errorModel != null) {
+        errorModel.errorMessageEn.prm(t);
+        return Left(errorModel);
+      } else {
+        'Withdraw from $type comptedted successfully'.prm(t);
+        return const Right('success');
+      }
+    } on ServerException catch (e) {
+      e.errModel.errorMessageEn.prm(t);
+      return Left(e.errModel);
+    }
+  }
 }

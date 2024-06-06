@@ -14,33 +14,40 @@ class CustomScaffold extends StatelessWidget {
     required this.child,
     this.showBackArrow = false,
     this.bottom,
+    this.scaffoldKey,
+    this.showHomeIcon = true,
   });
   final String title;
   final Widget child;
   final bool showBackArrow;
   final PreferredSizeWidget? bottom;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  final bool showHomeIcon;
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<PickLanguageAndThemeCubit>();
     return Scaffold(
       appBar: mainAppBar(title: title, context: context, showBackArrow: showBackArrow, bottom: bottom),
+      key: scaffoldKey,
       endDrawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Clr.d,
-        elevation: 5,
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            AppRoutesNames.bottomNavigationScreen,
-            (route) => false,
-            arguments: {'index': 1},
-          );
-        },
-        child: const Icon(
-          Icons.home_outlined,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: showHomeIcon
+          ? FloatingActionButton(
+              backgroundColor: Clr.d,
+              elevation: 5,
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutesNames.bottomNavigationScreen,
+                  (route) => false,
+                  arguments: {'index': 1},
+                );
+              },
+              child: const Icon(
+                Icons.home_outlined,
+                color: Colors.white,
+              ),
+            )
+          : null,
       body: BodyWidget(
         child: child,
       ),

@@ -15,4 +15,11 @@ abstract class PaymentRepoInterface {
     required XFile imageXFile,
     required String createdAt,
   });
+  Future<Either<ErrorModel, String>> withdraw({
+    required int userId,
+    required String accountNumber,
+    required double amount,
+    required String type,
+    required int paymentId,
+  });
 }

@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: pickLanguageCubit.state.themeData,
-              initialRoute: AppRoutesNames.referrals,
+              initialRoute: AppRoutesNames.splashScreen,
               // initialRoute: AppRoutesNames.signin,
               onGenerateRoute: sl<AppRouter>().onGenerateRoute,
               locale: pickLanguageCubit.state.locale,

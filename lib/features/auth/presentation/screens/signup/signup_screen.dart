@@ -130,6 +130,9 @@ class _SingnupScreenState extends State<SingnupScreen> {
                         validator: (value) {
                           return signupValidator(value: value!, isEmail: true);
                         },
+                        countryCodeCallback: (countryCode) {
+                          controller.countryMobileCode = countryCode.code;
+                        },
                       ),
                       AuthTextField(
                         label: "PASSWORD".tr(context),
