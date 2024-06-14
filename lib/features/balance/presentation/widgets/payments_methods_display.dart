@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
+import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class PaymentMethodDisplay extends StatelessWidget {
   const PaymentMethodDisplay({
     super.key,
     required this.paymentModel,
+    this.transformProfitBalance = false,
   });
 
   final PaymentModel paymentModel;
+  final bool transformProfitBalance;
 
   @override
   Widget build(BuildContext context) {
+    final languageController = context.read<PickLanguageAndThemeCubit>();
     return Material(
       // shape: const CircleBorder(),
       elevation: 5,
@@ -32,19 +38,31 @@ class PaymentMethodDisplay extends StatelessWidget {
                 color: Colors.red,
               ),
               clipBehavior: Clip.hardEdge,
-              child: Image.network(
-                EndPoint.uploadPayment + (paymentModel.image ?? ''),
-                // loadingBuilder: (context, child, imageChunck) {
-                //   // imageChunck.
-                //   return const CircularProgressIndicator();
-                // },
-                errorBuilder: (context, error, stackTrace) {
-                  return Txt.bodyMeduim('Image Not Found');
-                },
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: transformProfitBalance
+                  ? languageController.isEnglishLanguage()
+                      ? Image.asset(
+                          AppImages.transformProfitBlanace,
+                          // width: ,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          AppImages.transformProfitBlanaceAr,
+                          // width: ,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                  : Image.network(
+                      EndPoint.uploadPayment + (paymentModel.image ?? ''),
+                      errorBuilder: (context, error, stackTrace) {
+                        return Txt.bodyMeduim('Image Not Found');
+                      },
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           Txt.bodyMeduim(paymentModel.name ?? 'Unknown', textAlign: TextAlign.center, color: Colors.white),

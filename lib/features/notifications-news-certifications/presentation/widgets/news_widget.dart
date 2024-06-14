@@ -2,8 +2,9 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trading/core/const-strings/app_strings.dart';
+import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/mainpage/presentation/widgets/section_background_border.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/blocs/news-cubit/news_cubit.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class NewsWiget extends StatelessWidget {
@@ -15,29 +16,40 @@ class NewsWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeCont = context.watch<PickLanguageAndThemeCubit>();
+    final NewsCubit newsCubit = context.read<NewsCubit>();
+    // sl<NewsRepo>().getNews();
     if (!showNews) {
       return const SizedBox();
     }
-    return SectionBackgroundAndBorder(
-      // height: 40.h,
-      child: DefaultTextStyle(
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontFamily: 'Agne',
-        ),
-        textAlign: TextAlign.center,
-        child: AnimatedTextKit(
-          animatedTexts: [
-            ...typeTextAnimation(
-              themeCont.isEnglishLanguage() ? AppStrings.NEWS : AppStrings.NEWS_ARABIC,
-              themeCont.isEnglishLanguage() ? 6 : 7,
+    return BlocConsumer<NewsCubit, NewsState>(
+      listener: (context, state) {
+        if (state is NewsFailureState) {
+          customSnackBar(context: context, title: state.errorMessage, isSuccess: false);
+        }
+      },
+      builder: (context, state) {
+        return SectionBackgroundAndBorder(
+          // height: 40.h,
+          child: DefaultTextStyle(
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontFamily: 'Agne',
             ),
-          ],
-          onTap: () {},
-          isRepeatingAnimation: true,
-          repeatForever: true,
-        ),
-      ),
+            textAlign: TextAlign.center,
+            child: AnimatedTextKit(
+              animatedTexts: [
+                ...typeTextAnimation(
+                  themeCont.isEnglishLanguage() ? newsCubit.newsEn : newsCubit.newsAr,
+                  themeCont.isEnglishLanguage() ? 6 : 7,
+                ),
+              ],
+              onTap: () {},
+              isRepeatingAnimation: true,
+              repeatForever: true,
+            ),
+          ),
+        );
+      },
     );
   }
 }

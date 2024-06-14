@@ -14,4 +14,6 @@ class AppImages {
   static const String cib = "$imagePath/cib.png";
   static const String noInternet = "$imagePath/no_wifi.png";
   static const String splashScreen = "$imagePath/moneymaker_splash.png";
+  static const String transformProfitBlanace = "$imagePath/transform_final.jpg";
+  static const String transformProfitBlanaceAr = "$imagePath/transform_ar.jpg";
 }

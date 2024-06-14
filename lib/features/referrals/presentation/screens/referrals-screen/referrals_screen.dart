@@ -5,6 +5,7 @@ import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 import 'package:trading/features/referrals/presentation/screens/add-referrals/add_referrals_screen.dart';
+import 'package:trading/features/referrals/presentation/screens/referals-history/referals_history_screen.dart';
 
 class ReferralsScreen extends StatefulWidget {
   const ReferralsScreen({super.key});
@@ -51,7 +52,7 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
         ),
         child: TabBarView(
           children: [
-            Center(child: Txt.bodyMeduim('History')),
+            const ReferalsHistoryScreen(),
             AddReferralsScreen(scaffoldKey: scaffoldKey),
           ],
         ),

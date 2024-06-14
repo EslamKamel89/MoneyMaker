@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/withdraw_weekly_balance_detials_screen.dart';
@@ -21,7 +20,7 @@ class WithdrawFromWeeklyBalanceWidget extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-              value: sl<WithdrawWeeklyBalanceCubit>(),
+              value: context.read<WithdrawWeeklyBalanceCubit>(),
               child: WithdrawWeeklyBalanceDetailsScreen(
                 paymentModel: paymentModel,
               ),

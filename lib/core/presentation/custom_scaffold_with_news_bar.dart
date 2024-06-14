@@ -6,7 +6,7 @@ import 'package:trading/core/presentation/app_drawer.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/mainpage/presentation/widgets/main_appbar.dart';
-import 'package:trading/features/notifications-news/presentation/widgets/news_widget.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/widgets/news_widget.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class CustomScaffoldWithNewsBar extends StatelessWidget {

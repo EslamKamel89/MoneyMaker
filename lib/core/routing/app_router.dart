@@ -11,7 +11,6 @@ import 'package:trading/features/auth/presentation/screens/reset-password-forget
 import 'package:trading/features/auth/presentation/screens/signup/signup_screen.dart';
 import 'package:trading/features/auth/presentation/screens/singin/signin_screen.dart';
 import 'package:trading/features/auth/presentation/screens/tems-conditions/terms_conditons_screen.dart';
-import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/blocs/transaction-history-cubit/transaction_history_cubit.dart';
 import 'package:trading/features/balance/presentation/blocs/withdraw_main_balance_cubit/withdraw_main_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
@@ -20,8 +19,11 @@ import 'package:trading/features/balance/presentation/screens/transaction-histor
 import 'package:trading/features/balance/presentation/screens/withdraw-main-balance/withdraw_main_balance_screen.dart';
 import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/wihtdraw_weekly_balance_screen.dart';
 import 'package:trading/features/mainpage/presentation/screens/bottom-navigation-screen/bottom_navigation_screen.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/screens/blog-news/blog_news_screen.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/screens/certifications/certifications_screen.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/screens/pick-language/pick_language.dart';
 import 'package:trading/features/profile/presentation/screens/user_profile_screen.dart';
+import 'package:trading/features/referrals/data/referals_repo_implement.dart';
 import 'package:trading/features/referrals/presentation/blocs/add_refferals_cubit/add_referrals_cubit.dart';
 import 'package:trading/features/referrals/presentation/screens/referrals-screen/referrals_screen.dart';
 import 'package:trading/splash_screen/splash_screen.dart';
@@ -106,16 +108,13 @@ class AppRouter {
         );
       case AppRoutesNames.addBalance:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => sl<AddBalanceCubit>(),
-            child: const AddBalanceScreen(),
-          ),
+          builder: (context) => const AddBalanceScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.withdrawMainBalance:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => sl<WithdrawMainBalanceCubit>(),
+            create: (context) => WithdrawMainBalanceCubit(paymentRepo: sl()),
             child: const WithdrawMainBalanceScreen(),
           ),
           settings: routeSettings,
@@ -123,7 +122,7 @@ class AppRouter {
       case AppRoutesNames.withdrawWeeklyBalance:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => sl<WithdrawWeeklyBalanceCubit>(),
+            create: (context) => WithdrawWeeklyBalanceCubit(paymentRepo: sl()),
             child: const WithdrawWeeklyBalanceScreen(),
           ),
           settings: routeSettings,
@@ -131,7 +130,7 @@ class AppRouter {
       case AppRoutesNames.transactionHistory:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => sl<TransactionHistoryCubit>(),
+            create: (context) => TransactionHistoryCubit(paymentRepo: sl()),
             child: const TransactionHistoryScreen(),
           ),
           settings: routeSettings,
@@ -144,9 +143,19 @@ class AppRouter {
       case AppRoutesNames.referrals:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => sl<AddReferralsCubit>(),
+            create: (context) => AddReferralsCubit(refferalRepo: sl<ReferalsRepo>()),
             child: const ReferralsScreen(),
           ),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.certifications:
+        return MaterialPageRoute(
+          builder: (context) => const CertificationsScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.blogNews:
+        return MaterialPageRoute(
+          builder: (context) => const BlogNewsScreen(),
           settings: routeSettings,
         );
       // case AppRoutesNames.addBalanceDetails:

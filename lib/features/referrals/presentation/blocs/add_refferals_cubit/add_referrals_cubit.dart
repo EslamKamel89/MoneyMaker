@@ -4,12 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
-import 'package:trading/features/referrals/data/RefferalsRepo.dart';
+import 'package:trading/features/referrals/data/referals_repo_implement.dart';
+import 'package:trading/features/referrals/domain/models/referals_history_model.dart';
 
 part 'add_referrals_state.dart';
 
 class AddReferralsCubit extends Cubit<AddReferralsState> {
-  final RefferalsRepo refferalRepo;
+  final ReferalsRepo refferalRepo;
   AddReferralsCubit({required this.refferalRepo}) : super(AddReferralsInitial());
   String? countryMobileCode;
 
@@ -19,6 +20,8 @@ class AddReferralsCubit extends Cubit<AddReferralsState> {
   File? uploadImageFile;
   File? uploadIdDocumentFileOne;
   File? uploadIdDocumentFileTwo;
+
+  List<ReferalHistoryModel> referalHistory = [];
 
   bool isUploadPassport = true;
   bool isTermsApproved = false;
@@ -52,7 +55,7 @@ class AddReferralsCubit extends Cubit<AddReferralsState> {
       return null;
     }
     emit(AddReferralLoadingState());
-    final response = await refferalRepo.addRefferal(
+    final response = await refferalRepo.addReferal(
       userName: userName,
       fullName: fullName,
       gender: gender,
@@ -75,6 +78,25 @@ class AddReferralsCubit extends Cubit<AddReferralsState> {
       },
       (userModel) {
         emit(AddReferralSuccessState());
+      },
+    );
+  }
+
+  Future getReferralHistory() async {
+    if (isClosed) {
+      return null;
+    }
+    emit(ReferralHistoryLoadingState());
+    final response = await refferalRepo.getReferalsHistory();
+    response.fold(
+      (errorModel) {
+        emit(
+          ReferralHistoryFailureState(errorMessage: errorModel.errorMessageEn ?? 'Unknown Error'),
+        );
+      },
+      (referrals) {
+        referalHistory = referrals;
+        emit(ReferralHistorySuccessState());
       },
     );
   }

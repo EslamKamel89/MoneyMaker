@@ -100,5 +100,16 @@
     "SUPPORT" :     "Support",
     "CHAT" :    "Members chat",
     "LICENSE" : "Licences and certificates" ,
+    "----------- ADD BALANCE ------------": "" ,
+    "PROFIT_BALANCE" : "Profit👉Balance" ,
+    "FROM_PROFIT_BALANCE" : "From Profit To Balance" ,
+    "TRANSFER_AMOUNT": "Change profit to deposit amount" ,
+    "SUBMIT" : "Submit" ,
+    "TRANSACTION_NUMBER" : "Enter Transaction Number" , 
+    "TRANSACTION_AMOUNT" : "Enter Transaction Amount" ,
+    "TRANSACTION_DATE" : "Pick Transaction Date" ,
+    "ATTACH" : "Attach" ,
+    "MUST_TRANSACTION_DATE" : "You Must Pick Transaction Date" ,
+    "MUST_TRANSACTION_DOCUMENT" : "You Must Upload Transaction Document" ,
     "-----------END ------------": ""
 }

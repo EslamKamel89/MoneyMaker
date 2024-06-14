@@ -121,7 +121,7 @@ class AuthRepo implements AuthRepoInterface {
   Future<UserModel?> getChacedUserData() async {
     final userDataString = sl<SharedPreferences>().getString(AppStrings.USER_DATA);
     if (userDataString == null) {
-      'No current user is signed in'.prt('Auth checking cahce');
+      'No current user is signed in'.prm('Auth checking cahce');
       return null;
     }
     final user = UserModel.fromJson(jsonDecode(userDataString));

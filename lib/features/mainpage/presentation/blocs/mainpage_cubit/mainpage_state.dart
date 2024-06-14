@@ -15,3 +15,8 @@ class MainpageFailureState extends MainpageState {
   final String errorMessage;
   MainpageFailureState({required this.errorMessage});
 }
+
+class MainpageSuccessState extends MainpageState {
+  final UserModel userModel;
+  MainpageSuccessState({required this.userModel});
+}

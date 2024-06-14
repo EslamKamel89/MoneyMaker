@@ -12,13 +12,14 @@ import 'package:trading/core/errors/exception.dart';
 import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/auth/domain/models/user_model.dart';
-import 'package:trading/features/referrals/domain/repo_interface/refferal_repo_interface.dart';
+import 'package:trading/features/referrals/domain/models/referals_history_model.dart';
+import 'package:trading/features/referrals/domain/repo_interface/referal_repo_interface.dart';
 
-class RefferalsRepo implements RefferalsRepoInterface {
+class ReferalsRepo implements ReferalsRepoInterface {
   ApiConsumer api;
-  RefferalsRepo({required this.api});
+  ReferalsRepo({required this.api});
   @override
-  Future<Either<ErrorModel, int>> addRefferal(
+  Future<Either<ErrorModel, int>> addReferal(
       {required String userName,
       required String fullName,
       required String gender,
@@ -66,6 +67,40 @@ class RefferalsRepo implements RefferalsRepoInterface {
       } else {
         'Add Refferal Succeded'.prm(t);
         return const Right(1);
+      }
+    } on ServerException catch (e) {
+      e.errModel.errorMessageEn.prm(t);
+      return Left(e.errModel);
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<ReferalHistoryModel>>> getReferalsHistory() async {
+    final t = 'AddRefferalsRepos - getReferalsHistory'.prt;
+    try {
+      final authRepo = sl<AuthRepo>();
+      final userModel = await authRepo.getChacedUserData();
+      if (userModel == null) {
+        return Left(ErrorModel(
+          error: true,
+          status: ApiKey.fail,
+          errorMessageEn: "No current user data is saved in cache",
+        ));
+      }
+      final response = await api.get(
+        "${EndPoint.referalsHistory}${userModel.id}",
+      );
+      final ErrorModel? errorModel;
+      errorModel = ErrorModel.checkResponse(jsonDecode(response));
+      if (errorModel != null) {
+        errorModel.errorMessageEn.prm(t);
+        return Left(errorModel);
+      } else {
+        final List listJson = jsonDecode(response)[ApiKey.data];
+        final List<ReferalHistoryModel> referalsHistory =
+            listJson.map((json) => ReferalHistoryModel.fromJson(json)).toList();
+        '$referalsHistory'.prm(t);
+        return Right(referalsHistory);
       }
     } on ServerException catch (e) {
       e.errModel.errorMessageEn.prm(t);

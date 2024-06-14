@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
@@ -54,6 +56,7 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
     addBalanceController.resetUploadDocument();
     return BlocListener<AddBalanceCubit, AddBalanceState>(
       listener: (context, state) {
+        state.runtimeType.prm('add balance details listener');
         if (state is AddBalanceDepositSuccessState) {
           customSnackBar(context: context, title: 'Add To Deposit Succeded');
           Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.bottomNavigationScreen, (route) => true);
@@ -82,23 +85,29 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                 ),
               ),
               SizedBox(height: 20.h),
-              Center(
-                child: Txt.bodyMeduim(
-                  '${widget.paymentModel.name ?? ''} / ${widget.paymentModel.code ?? ''}',
-                  fontWeight: FontWeight.bold,
-                  color: Clr.f,
+              InkWell(
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: widget.paymentModel.code ?? ''));
+                },
+                child: Center(
+                  child: Txt.bodyMeduim(
+                    '${widget.paymentModel.name ?? ''} \n ${widget.paymentModel.code ?? ''}',
+                    fontWeight: FontWeight.bold,
+                    color: Clr.f,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               SizedBox(height: 20.h),
               PaymentTextField(
-                hintText: 'Enter Transaction Number',
+                hintText: "TRANSACTION_NUMBER".tr(context),
                 controller: transactionNumberController,
                 validator: _addDepositValidator,
               ),
               SizedBox(height: 20.h),
               PaymentTextField(
-                hintText: 'Enter Transaction Amount',
-                fieldType: 'number',
+                hintText: "TRANSACTION_AMOUNT".tr(context),
+                fieldType: "number",
                 controller: transactionAmountController,
                 validator: _addDepositValidator,
               ),
@@ -111,11 +120,12 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                     transactionDate = await showDatePicker(
                         context: context,
                         firstDate: dateNow.subtract(const Duration(days: 30)),
-                        lastDate: dateNow.add(const Duration(days: 2)));
+                        lastDate: dateNow.add(const Duration(days: 30)));
                     addBalanceController.datePickedState(transactionDate);
                   },
                   child: BlocBuilder<AddBalanceCubit, AddBalanceState>(
                     buildWhen: (previous, current) {
+                      (current.runtimeType).prm('add balance details screen');
                       if (current is DatePickedState) {
                         return true;
                       }
@@ -129,7 +139,7 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                           Txt.bodyMeduim(
                             state is DatePickedState && state.transactionDate != null
                                 ? state.transactionDate!.toIso8601String().split('T').first
-                                : 'Pick Transaction Date',
+                                : "TRANSACTION_DATE".tr(context),
                             color: themeController.isLightTheme() ? Clr.bDark.withOpacity(0.5) : Clr.bLight,
                             size: 14.sp,
                           ),
@@ -156,7 +166,7 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                     child: BlocBuilder<AddBalanceCubit, AddBalanceState>(
                       builder: (context, state) {
                         return PaymentButton(
-                          title: 'Attach',
+                          title: "ATTACH".tr(context),
                           icon: state is UploadDocumentGalleryState ? Icons.check : Icons.attach_file_outlined,
                           width: 90.w,
                         );
@@ -174,7 +184,7 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                     child: BlocBuilder<AddBalanceCubit, AddBalanceState>(
                       builder: (context, state) {
                         return PaymentButton(
-                          title: 'Camera',
+                          title: "CAMERA".tr(context),
                           icon: state is UploadDocumentCameraState ? Icons.check : Icons.camera_alt_rounded,
                           width: 90.w,
                         );
@@ -207,14 +217,14 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                               }
                               if (transactionDate == null) {
                                 customSnackBar(
-                                    context: context, title: 'You Must Pick Transaction Date', isSuccess: false);
+                                    context: context, title: "MUST_TRANSACTION_DATE".tr(context), isSuccess: false);
                               }
                               if (addBalanceController.uploadDocumentXFile == null) {
                                 customSnackBar(
-                                    context: context, title: 'You Must Upload Transaction Document', isSuccess: false);
+                                    context: context, title: "MUST_TRANSACTION_DOCUMENT".tr(context), isSuccess: false);
                               }
                             },
-                            child: const PaymentButton(title: 'Submit', icon: Icons.login),
+                            child: PaymentButton(title: "SUBMIT".tr(context), icon: Icons.login),
                           ),
                         );
                 },

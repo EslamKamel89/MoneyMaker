@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,6 +121,9 @@ class _SingnupScreenState extends State<SingnupScreen> {
                         isMobile: true,
                         validator: (value) {
                           return signupValidator(value: value!, minLength: 10, maxLength: 20);
+                        },
+                        countryCodeCallback: (CountryCode countryCode) {
+                          controller.countryMobileCode = countryCode.dialCode;
                         },
                       ),
                       AuthTextField(

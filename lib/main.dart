@@ -7,8 +7,15 @@ import 'package:trading/core/dependency-injection-container/injection_container.
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_router.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
+import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/auth/presentation/blocs/signup-cubit/signup_cubit.dart';
 import 'package:trading/features/auth/presentation/blocs/singin-cubit/singin_cubit.dart';
+import 'package:trading/features/balance/data/payment_repo_imp.dart';
+import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
+import 'package:trading/features/chat/data/chat_repo_implement.dart';
+import 'package:trading/features/chat/presentation/blocs/chat-cubit/chat_cubit.dart';
+import 'package:trading/features/notifications-news-certifications/data/news_repo_implement.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/blocs/news-cubit/news_cubit.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 void main() async {
@@ -40,8 +47,11 @@ class MyApp extends StatelessWidget {
                 ..checkCachedLanguage()
                 ..checkCachedTheme(),
             ),
-            BlocProvider<SignupCubit>(create: (context) => sl<SignupCubit>()),
-            BlocProvider<SigninCubit>(create: (context) => sl<SigninCubit>())
+            BlocProvider<SignupCubit>(create: (context) => SignupCubit(authRepo: sl<AuthRepo>())),
+            BlocProvider<SigninCubit>(create: (context) => SigninCubit(authRepo: sl<AuthRepo>())),
+            BlocProvider<ChatCubit>(create: (context) => ChatCubit(chatRepo: sl<ChatRepo>())),
+            BlocProvider<AddBalanceCubit>(create: (context) => AddBalanceCubit(paymentRepo: sl<PaymentRepo>())),
+            BlocProvider<NewsCubit>(create: (context) => NewsCubit(newsRepo: sl<NewsRepo>())),
           ],
           child: Builder(builder: (context) {
             final PickLanguageAndThemeCubit pickLanguageCubit = context.watch<PickLanguageAndThemeCubit>();
@@ -50,7 +60,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: pickLanguageCubit.state.themeData,
               initialRoute: AppRoutesNames.splashScreen,
-              // initialRoute: AppRoutesNames.signin,
+              // initialRoute: AppRoutesNames.blogNews,
               onGenerateRoute: sl<AppRouter>().onGenerateRoute,
               locale: pickLanguageCubit.state.locale,
               supportedLocales: const [

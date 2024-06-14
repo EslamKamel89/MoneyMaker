@@ -23,4 +23,6 @@ class AppRoutesNames {
   static const String withdrawHistoryDetails = '/withdrawHistoryDetails';
   static const String depositHistoryDetails = '/depositHistoryDetails';
   static const String splashScreen = '/splashScreen';
+  static const String certifications = '/certifications';
+  static const String blogNews = '/blogNews';
 }

@@ -15,6 +15,27 @@ class EndPoint {
   static const String advertise = '${baseUrl}apiadvertises/3';
   static const String advertiseBanners = "${_uploadFolder}advertises/";
   static const String withdraw = '${baseUrl}apiwithdrawal';
+  static const String getChatAfterId = '${baseUrl}apichats/>,';
+  static const String getChatBeforeId = '${baseUrl}apichats/<,';
+  static const String postNewChatOrGetLastChatId = "${baseUrl}apichats";
+  static const String news = '${baseUrl}apiblogs';
+  static const String referalsHistory = '${baseUrl}apirefferal/';
+  static const String uploadReferalsHistory = '${_uploadFolder}users/';
+  static const String certifications = "${baseUrl}apicerts";
+  static const String uploadCertifications = "${_uploadFolder}certs/";
+  static const String blogNews = "${baseUrl}apiblogs/new";
+  static const String uploadBlogNews = "${_uploadFolder}blogs/";
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
+  // static const String f = '';
   // static const String f = '';
   // static const String f = '';
   // static const String f = '';
@@ -30,7 +51,7 @@ class ApiKey {
   static const String messageEn = "messageEn";
   static const String success = "success";
   static const String fail = "fail";
-  //! getUserData - signup
+  //! getUserData
   static const String id = "id";
   static const String fullName = "last_name";
   static const String userName = "first_name";
@@ -46,6 +67,12 @@ class ApiKey {
   static const String rememberToken = "remember_token";
   static const String createdAt = "created_at";
   static const String updatedAt = "updated_at";
+  static const String balance = "balance";
+  static const String profit = "profit";
+  static const String daily = "daily";
+  static const String weekly = "weekly";
+  static const String referral = "referral";
+  // static const String = "";
   //! signin
   static const String user = "user";
   //! get payment data
@@ -64,6 +91,7 @@ class ApiKey {
   static const accountNumber = 'process';
   static const withdrawMainBalance = 'deposit';
   static const withdrawWeeklyBalance = 'profit';
+  static const withdrawProfitBlance = 'profitdeposit';
   //! deposit history
   static const String paymentId = "payment_id";
   static const String paymentAmount = "amount";
@@ -80,6 +108,27 @@ class ApiKey {
   static const String paymentImageTwo = "payments_image";
   //! banner images
   static const String link = "link";
+  //! chat
+  static const String cachedId = "cachedId";
+  static const String senderId = "sender_id";
+  static const String senderMessage = "sender_message";
+  static const String senderName = "sender_name";
+  //! news bar
+  static const String nameAr = "name_ar";
+  static const String descriptionAr = "description_ar";
+  static const String descriptionEn = "description_en";
+  static const String nameEn = "name_en";
+  //! refferals history
+  static const String currentUserId = "main_user_id";
+  static const String refferalUserId = "user_id";
+  //  static const String createdAt= "created_at" ;
+  static const String currentFirstName = "main_first_name";
+  static const String currentLastName = "main_last_name";
+  static const String refferalFirstName = "user_first_name";
+  static const String refferalLastName = "user_last_name";
+  static const String refferalUserProfile = "user_profile";
+  //  static const String = "" ;
+  //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;

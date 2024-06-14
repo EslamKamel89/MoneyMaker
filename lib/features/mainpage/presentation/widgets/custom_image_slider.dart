@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/const-strings/app_images.dart';
+import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/mainpage/domain/models/banner_model.dart';
 import 'package:trading/features/mainpage/presentation/blocs/mainpage_cubit/mainpage_cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomImageSlider extends StatefulWidget {
   const CustomImageSlider({
@@ -36,22 +38,39 @@ class _CustomImageSliderState extends State<CustomImageSlider> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainpageCubit, MainpageState>(
+      buildWhen: (previous, current) {
+        if (current is MainpageSuccessState) {
+          return false;
+        }
+        return true;
+      },
       builder: (context, state) {
         List<Widget> imageList;
         if (state is AdvertiseSuccessState) {
           imageList = state.banners.map((BannerModel banner) {
             return LayoutBuilder(builder: (context, constrains) {
-              return Material(
-                elevation: 5,
-                borderRadius: BorderRadius.circular(20.w),
-                // shadowColor: Clr.d,
-                child: Container(
-                  height: 150.h,
-                  width: constrains.maxWidth,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.w),
-                    image: DecorationImage(
-                        image: NetworkImage("${EndPoint.advertiseBanners}${banner.image}"), fit: BoxFit.cover),
+              return InkWell(
+                onLongPress: () async {
+                  // final Uri url = Uri.parse('https://flutter.dev');
+                  final Uri url = Uri.parse(banner.link);
+                  try {
+                    await launchUrl(url);
+                  } on Exception catch (e) {
+                    customSnackBar(context: context, title: "Couldn't connect With the Url: $e", isSuccess: false);
+                  }
+                },
+                child: Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(20.w),
+                  // shadowColor: Clr.d,
+                  child: Container(
+                    height: 150.h,
+                    width: constrains.maxWidth,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.w),
+                      image: DecorationImage(
+                          image: NetworkImage("${EndPoint.advertiseBanners}${banner.image}"), fit: BoxFit.cover),
+                    ),
                   ),
                 ),
               );

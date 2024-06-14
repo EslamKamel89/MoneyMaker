@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/chat/domain/models/message_model.dart';
+import 'package:trading/features/chat/presentation/blocs/chat-cubit/chat_cubit.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class AddMessage extends StatefulWidget {
@@ -19,6 +20,13 @@ class AddMessage extends StatefulWidget {
 class _AddMessageState extends State<AddMessage> {
   bool showTextField = false;
   Color sendIconColor = Clr.f;
+  late final ChatCubit chatCubit;
+  @override
+  void initState() {
+    chatCubit = context.read<ChatCubit>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<PickLanguageAndThemeCubit>();
@@ -36,15 +44,17 @@ class _AddMessageState extends State<AddMessage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-              onTap: () {
+              onTap: () async {
                 if (showTextField && widget.messageController.text != "") {
-                  MessageChat message = MessageChat(
-                    senderId: '1',
-                    senderName: 'Eslam Kamel',
-                    text: widget.messageController.text,
+                  ChatMessageModel message = ChatMessageModel(
+                    senderId: chatCubit.currentUserId,
+                    senderName: chatCubit.currentUserName,
+                    message: widget.messageController.text,
                     createdAt: DateTime.now(),
                   );
-                  MessageChat.messagesChatStatic.add(message);
+                  // ChatMessageModel.messagesChatStatic.add(message);
+                  await chatCubit.postNewChatMessage(
+                      userId: chatCubit.currentUserId, message: widget.messageController.text);
                   widget.messageController.text = "";
                   sendIconColor = Clr.f;
                   showTextField = !showTextField;

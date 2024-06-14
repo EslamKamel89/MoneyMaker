@@ -52,7 +52,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
           }
           if (state is WithdrawMainBalanceSuccessState) {
             return GridView.builder(
-              itemCount: state.allPayments.length - 1,
+              itemCount: state.allPayments.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: (MediaQuery.of(context).size.width / 2) - 30.w,
@@ -60,7 +60,7 @@ class _WithdrawMainBalanceScreenState extends State<WithdrawMainBalanceScreen> {
                 mainAxisSpacing: 20.w,
               ),
               itemBuilder: (context, index) {
-                index++;
+                // index++;
                 return WithdrawFromMainBalanceWidget(paymentModel: state.allPayments[index]);
                 // return _withdrawFromMainBalanceStaticData[index];
               },

@@ -68,12 +68,12 @@ class _WithdrawMainBalanceDetailsScreenState extends State<WithdrawMainBalanceDe
             ),
             SizedBox(height: 20.h),
             PaymentTextField(
-              hintText: 'Enter Account Number',
+              hintText: "TRANSACTION_NUMBER".tr(context),
               controller: accountNumberController,
             ),
             SizedBox(height: 20.h),
             PaymentTextField(
-              hintText: 'Enter Withdraw Amount',
+              hintText: "TRANSACTION_AMOUNT".tr(context),
               fieldType: 'number',
               controller: withdrawAmountController,
             ),
@@ -93,7 +93,7 @@ class _WithdrawMainBalanceDetailsScreenState extends State<WithdrawMainBalanceDe
                         amount: double.parse(withdrawAmountController!.text),
                       );
                     },
-                    child: const PaymentButton(title: 'Submit', icon: Icons.login),
+                    child: PaymentButton(title: 'SUBMIT'.tr(context), icon: Icons.login),
                   );
                 },
               ),

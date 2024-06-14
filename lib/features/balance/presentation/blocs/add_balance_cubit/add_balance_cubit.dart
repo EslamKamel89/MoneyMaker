@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/errors/error_model.dart';
+import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
+import 'package:trading/features/auth/domain/models/user_model.dart';
 import 'package:trading/features/balance/data/payment_repo_imp.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
@@ -55,10 +59,14 @@ class AddBalanceCubit extends Cubit<AddBalanceState> {
     final response = await paymentRepo.getPaymentMehods();
     response.fold(
       (errorModel) {
-        emit(AddBalanceFailedState(errorModel: errorModel));
+        if (!isClosed) {
+          emit(AddBalanceFailedState(errorModel: errorModel));
+        }
       },
       (allPayments) {
-        emit(AddBalanceGetPaymentSuccessState(allPayments: allPayments));
+        if (!isClosed) {
+          emit(AddBalanceGetPaymentSuccessState(allPayments: allPayments));
+        }
       },
     );
   }
@@ -85,15 +93,49 @@ class AddBalanceCubit extends Cubit<AddBalanceState> {
     );
     response.fold(
       (errorModel) {
-        emit(
-          AddBalanceDepositFailedState(
-              errorMessage: sl<PickLanguageAndThemeCubit>().isEnglishLanguage()
-                  ? errorModel.errorMessageEn ?? 'Unknown Error'
-                  : errorModel.errorMessageAr ?? 'خطأ غير معروف'),
-        );
+        if (!isClosed) {
+          emit(
+            AddBalanceDepositFailedState(
+                errorMessage: sl<PickLanguageAndThemeCubit>().isEnglishLanguage()
+                    ? errorModel.errorMessageEn ?? 'Unknown Error'
+                    : errorModel.errorMessageAr ?? 'خطأ غير معروف'),
+          );
+        }
       },
       (_) {
-        emit(AddBalanceDepositSuccessState());
+        if (!isClosed) {
+          emit(AddBalanceDepositSuccessState());
+        }
+      },
+    );
+  }
+
+  Future withdrawProfitBalance({
+    required int paymentId,
+    required String accountNumber,
+    required double amount,
+  }) async {
+    if (isClosed) {
+      return null;
+    }
+    emit(AddBalanceFromProfitLoadingState());
+    final authRepo = sl<AuthRepo>();
+    final UserModel? userModel = await authRepo.getChacedUserData();
+    final int userId = userModel?.id ?? 0;
+    final response = await paymentRepo.withdraw(
+      userId: userId,
+      accountNumber: accountNumber,
+      amount: amount,
+      type: ApiKey.withdrawProfitBlance,
+      paymentId: paymentId,
+    );
+    response.fold(
+      (errorModel) {
+        emit(AddBalanceFromProfitFailedState(
+            errorMessage: errorModel.errorMessageEn ?? "can't complete the withdraw for unknown reason"));
+      },
+      (allPayments) {
+        emit(AddBalanceFromProfitSuccessState());
       },
     );
   }

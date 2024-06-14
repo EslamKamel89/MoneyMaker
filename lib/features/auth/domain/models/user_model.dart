@@ -19,6 +19,11 @@ class UserModel {
   String? rememberToken;
   DateTime? createdAt;
   DateTime? updatedAt;
+  double? balance;
+  double? profit;
+  double? daily;
+  double? weekly;
+  double? referral;
   UserModel({
     this.id,
     this.userName,
@@ -34,6 +39,11 @@ class UserModel {
     this.rememberToken,
     this.createdAt,
     this.updatedAt,
+    this.balance,
+    this.profit,
+    this.daily,
+    this.weekly,
+    this.referral,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -53,12 +63,12 @@ class UserModel {
       rememberToken: json[ApiKey.data]["0"][ApiKey.rememberToken],
       createdAt: DateTime.parse(json[ApiKey.data]["0"][ApiKey.createdAt]),
       updatedAt: DateTime.parse(json[ApiKey.data]["0"][ApiKey.updatedAt]),
+      balance: json[ApiKey.data]["0"][ApiKey.balance]?.toDouble(),
+      profit: json[ApiKey.data]["0"][ApiKey.profit]?.toDouble(),
+      daily: json[ApiKey.data][ApiKey.daily]?.toDouble(),
+      weekly: json[ApiKey.data][ApiKey.weekly]?.toDouble(),
+      referral: json[ApiKey.data][ApiKey.referral]?.toDouble(),
     );
-  }
-
-  @override
-  String toString() {
-    return 'UserModel(id: $id, userName: $userName, fullName: $fullName, gender: $gender, email: $email, mobile: $mobile, emailVerifiedAt: $emailVerifiedAt, password: $password, profile: $profile, passport: $passport, passportBack: $passportBack, levelId: $levelId, rememberToken: $rememberToken, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +86,12 @@ class UserModel {
           ApiKey.profile: profile,
           ApiKey.createdAt: createdAt?.toString(),
           ApiKey.updatedAt: updatedAt?.toString(),
-        }
+          ApiKey.balance: balance,
+          ApiKey.profit: profit,
+        },
+        ApiKey.daily: daily,
+        ApiKey.weekly: weekly,
+        ApiKey.referral: referral,
       }
     };
   }
@@ -84,6 +99,11 @@ class UserModel {
   String toJsonString() => json.encode(toJson());
 
   // factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'UserModel(id: $id, userName: $userName, fullName: $fullName, gender: $gender, email: $email, mobile: $mobile, emailVerifiedAt: $emailVerifiedAt, password: $password, profile: $profile, passport: $passport, passportBack: $passportBack, levelId: $levelId, rememberToken: $rememberToken, createdAt: $createdAt, updatedAt: $updatedAt, balance: $balance, profit: $profit, daily: $daily, weekly: $weekly, referral: $referral)';
+  }
 }
 
 
@@ -112,6 +132,34 @@ class UserModel {
   "status": "success",
   "error": false
 }
+! new response
+{
+  "data": {
+    "0": {
+      "id": 1,
+      "first_name": "Osama",
+      "last_name": "Elmahdy",
+      "email": "osama.fathi1@gmail.com",
+      "mobile": "01008052485",
+      "email_verified_at": null,
+      "profile": "1714479053.jpg",
+      "passport": "1714479053.jpg",
+      "passport_back": "1714479053.png",
+      "level_id": 1,
+      "active": "1",
+      "created_at": "2024-04-18 11:22:56",
+      "updated_at": "2024-05-26 12:40:36",
+      "balance": 555,
+      "profit": 2907.18
+    },
+    "daily": null,
+    "weekly": 25.18,
+    "referral": 51.39
+  },
+  "status": "success",
+  "error": false
+}
+
 !Failure
 Status: 500 Internal Server Error
 

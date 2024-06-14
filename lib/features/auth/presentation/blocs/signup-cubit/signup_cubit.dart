@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/features/auth/domain/repo/auth_repo_abstract.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
@@ -79,12 +80,18 @@ class SignupCubit extends Cubit<SignupState> {
       return;
     }
     emit(SignupLoadingState());
+    String mobileNum = signUpMobileCont!.text;
+    if (mobileNum[0] == "0") {
+      mobileNum = mobileNum.substring(1);
+    }
+    mobileNum = "${countryMobileCode ?? '+20'}$mobileNum";
+    mobileNum.prm("mobile number in signupCubit - signup");
     final response = await authRepo.signup(
       userName: signUpUserNameCont!.text,
       fullName: signUpFullNameCont!.text,
       gender: isMale ? 'male' : 'female',
       email: signUpEmailCont!.text,
-      mobile: "${countryMobileCode ?? '+20'} + ${signUpMobileCont!.text}",
+      mobile: mobileNum,
       password: signUpPassOneCont!.text,
       profileXFile: uploadImageXFile,
       passportXFile: uploadIdDoucmentXFileOne!,

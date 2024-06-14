@@ -96,12 +96,16 @@ class AppDrawer extends StatelessWidget {
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.newspaper,
                   title: "NOTIFICATIONS_NEWS".tr(context),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.blogNews, (route) => true);
+                  },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.certificate,
                   title: "LICENSE".tr(context),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.certifications, (route) => true);
+                  },
                 ),
                 ...drawerNavigationButtons(
                   iconData: FontAwesome.chat,

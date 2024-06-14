@@ -18,3 +18,12 @@ class AddReferralFailureState extends AddReferralsState {
   final String errorMessage;
   AddReferralFailureState({required this.errorMessage});
 }
+
+class ReferralHistorySuccessState extends AddReferralsState {}
+
+class ReferralHistoryLoadingState extends AddReferralsState {}
+
+class ReferralHistoryFailureState extends AddReferralsState {
+  final String errorMessage;
+  ReferralHistoryFailureState({required this.errorMessage});
+}

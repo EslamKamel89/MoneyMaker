@@ -5,8 +5,8 @@ import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/features/referrals/presentation/blocs/add_refferals_cubit/add_referrals_cubit.dart';
 
-class UploadPassportStatusRefferals extends StatelessWidget {
-  const UploadPassportStatusRefferals({super.key});
+class UploadPassportStatusReferals extends StatelessWidget {
+  const UploadPassportStatusReferals({super.key});
 
   @override
   Widget build(BuildContext context) {

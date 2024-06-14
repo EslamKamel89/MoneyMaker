@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:trading/features/chat/domain/models/message_model.dart';
-import 'package:trading/features/chat/domain/models/user_models.dart';
+import 'package:trading/features/chat/domain/models/user_chat_models.dart';
 
 class Chat {
   final String? id;
   final List<UserChat>? users;
-  final List<MessageChat>? messages;
+  final List<ChatMessageModel>? messages;
   Chat({
     this.id,
     this.users = const [],
@@ -15,7 +15,7 @@ class Chat {
   Chat copyWith({
     String? id,
     List<UserChat>? users,
-    List<MessageChat>? messages,
+    List<ChatMessageModel>? messages,
   }) {
     return Chat(
       id: id ?? this.id,

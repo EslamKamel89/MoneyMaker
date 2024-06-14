@@ -49,7 +49,7 @@ AppBar mainAppBar({
             finalTitle = title;
           } else {
             if (snapshot.connectionState == ConnectionState.done) {
-              finalTitle = snapshot.data?.fullName ?? 'error';
+              finalTitle = snapshot.data?.fullName ?? 'User';
               finalTitle = "Welcome, $finalTitle";
             } else {
               finalTitle = "Welcome, Eslam";

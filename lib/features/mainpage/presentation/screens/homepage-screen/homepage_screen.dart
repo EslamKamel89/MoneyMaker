@@ -3,14 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/functions/format_currency.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/app_drawer.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
+import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
+import 'package:trading/features/mainpage/data/advertise_repo_implement.dart';
 import 'package:trading/features/mainpage/presentation/blocs/mainpage_cubit/mainpage_cubit.dart';
 import 'package:trading/features/mainpage/presentation/widgets/custom_image_slider.dart';
 import 'package:trading/features/mainpage/presentation/widgets/main_appbar.dart';
-import 'package:trading/features/notifications-news/presentation/widgets/news_widget.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/blocs/news-cubit/news_cubit.dart';
+import 'package:trading/features/notifications-news-certifications/presentation/widgets/news_widget.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,50 +24,76 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeCont = context.watch<PickLanguageAndThemeCubit>();
+    final newsCubit = context.read<NewsCubit>()..getNews();
     Clr.init();
     return BlocProvider(
-      create: (context) => sl<MainpageCubit>(),
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: mainAppBar(title: '', context: context),
-          key: scaffoldKey,
-          endDrawer: const AppDrawer(),
-          // backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: BlocBuilder<MainpageCubit, MainpageState>(
-              buildWhen: (previous, current) {
-                return false;
-              },
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      child: const NewsWiget(showNews: true),
-                    ),
-                    SizedBox(height: 10.h),
-                    const CustomImageSlider(),
-                    SizedBox(height: 10.h),
-                    Expanded(
-                      flex: 3,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        child: MainpageChart(
-                          borderColor: Theme.of(context).scaffoldBackgroundColor,
-                          mainColor: Theme.of(context).scaffoldBackgroundColor,
-                          sectionColor: themeCont.isLightTheme() ? const Color(0xFFE4C59E) : const Color(0xFF322C2B),
+      create: (context) => MainpageCubit(
+        advertiseRepo: sl<AdvertiseRepo>(),
+        authRepo: sl<AuthRepo>(),
+      )
+        ..getAdvertise()
+        ..getUserData(),
+      child: Builder(
+        builder: (context) {
+          final controller = context.read<MainpageCubit>();
+          // controller.getUserData();
+          // controller.getAdvertise();
+          return Scaffold(
+            appBar: mainAppBar(title: '', context: context),
+            key: scaffoldKey,
+            endDrawer: const AppDrawer(),
+            // backgroundColor: Colors.transparent,
+            body: SafeArea(
+              child: BlocBuilder<MainpageCubit, MainpageState>(
+                buildWhen: (previous, current) {
+                  return true;
+                },
+                builder: (context, state) {
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.getUserData();
+                      await controller.getAdvertise();
+                      await newsCubit.getNews();
+                    },
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: 550.h,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10.h),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                                child: const NewsWiget(showNews: true),
+                              ),
+                              SizedBox(height: 10.h),
+                              const CustomImageSlider(),
+                              SizedBox(height: 10.h),
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                  child: MainpageChart(
+                                    borderColor: Theme.of(context).scaffoldBackgroundColor,
+                                    mainColor: Theme.of(context).scaffoldBackgroundColor,
+                                    sectionColor:
+                                        themeCont.isLightTheme() ? const Color(0xFFE4C59E) : const Color(0xFF322C2B),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20.h),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    SizedBox(height: 20.h),
-                  ],
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
@@ -80,6 +110,7 @@ class MainpageChart extends StatelessWidget {
   final Color sectionColor;
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<MainpageCubit>();
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Stack(
@@ -103,7 +134,12 @@ class MainpageChart extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [Txt.bodyMeduim("WEEKLY_PROFIT".tr(context)), Txt.displayMeduim('\$155.2')],
+                children: [
+                  Txt.bodyMeduim("WEEKLY_PROFIT".tr(context)),
+                  Txt.displayMeduim(
+                    formatCurrency(controller.userModel?.weekly),
+                  ),
+                ],
               ),
             ),
           ),
@@ -117,7 +153,12 @@ class MainpageChart extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Txt.bodyMeduim("ACCOUNT".tr(context)), Txt.displayMeduim('\$15482.2')],
+                  children: [
+                    Txt.bodyMeduim("ACCOUNT".tr(context)),
+                    Txt.displayMeduim(formatCurrency(controller.userModel?.balance)
+                        // '\$15482.2',
+                        ),
+                  ],
                 ),
               ),
             ),
@@ -132,7 +173,13 @@ class MainpageChart extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Txt.displayMeduim('\$15482.2'), Txt.bodyMeduim("DAILY_PROFIT".tr(context))],
+                  children: [
+                    Txt.displayMeduim(
+                      formatCurrency(controller.userModel?.daily),
+                      // '\$15482.2',
+                    ),
+                    Txt.bodyMeduim("DAILY_PROFIT".tr(context)),
+                  ],
                 ),
               ),
             ),
@@ -147,7 +194,12 @@ class MainpageChart extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Txt.displayMeduim('\$15482.2'), Txt.bodyMeduim("REFERELS".tr(context))],
+                  children: [
+                    Txt.displayMeduim(formatCurrency(controller.userModel?.referral)
+                        // '\$15482.2',
+                        ),
+                    Txt.bodyMeduim("REFERELS".tr(context)),
+                  ],
                 ),
               ),
             ),
@@ -191,8 +243,14 @@ class MainpageChart extends StatelessWidget {
                 ),
                 child: CustomChartTwo(
                   sectionColor: sectionColor,
-                  valueOne: 2,
-                  valueTwo: 1,
+                  dailyProfitPercent: showGraphRatio(
+                    numerator: controller.userModel?.daily,
+                    denominator: controller.userModel?.balance,
+                  ),
+                  referallProfitPercent: showGraphRatio(
+                    numerator: controller.userModel?.referral,
+                    denominator: controller.userModel?.balance,
+                  ),
                   profitDollar: 1200,
                 )),
           )
@@ -206,13 +264,13 @@ class CustomChartTwo extends StatefulWidget {
   const CustomChartTwo({
     super.key,
     required this.sectionColor,
-    required this.valueOne,
-    required this.valueTwo,
+    required this.dailyProfitPercent,
+    required this.referallProfitPercent,
     required this.profitDollar,
   });
   final Color sectionColor;
-  final double valueOne;
-  final double valueTwo;
+  final double dailyProfitPercent;
+  final double referallProfitPercent;
   final double profitDollar;
   @override
   State<CustomChartTwo> createState() => _CustomChartTwoState();
@@ -254,8 +312,8 @@ class _CustomChartTwoState extends State<CustomChartTwo> {
           radius: '100%',
           gap: '3%',
           dataSource: [
-            ChartData('Referals', 0.6, Clr.a, 'Referals'),
-            ChartData('Daily Profit', 0.8, Clr.f, 'Daily Profit'),
+            ChartData('Referals', widget.referallProfitPercent, Clr.a, 'Referals'),
+            ChartData('Daily Profit', widget.dailyProfitPercent, Clr.f, 'Daily Profit'),
           ],
           // cornerStyle: CornerStyle.bothCurve,
           xValueMapper: (ChartData data, _) => data.x,
@@ -296,4 +354,16 @@ class ChartData {
   final num? y;
   final Color color;
   final String text;
+}
+
+double showGraphRatio({
+  required double? numerator,
+  required double? denominator,
+}) {
+  if (denominator == null || numerator == null || denominator == 0) {
+    return 0.05;
+  } else {
+    double result = numerator / denominator;
+    return result > 1 ? 1 : result;
+  }
 }

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/balance/presentation/blocs/withdraw_main_balance_cubit/withdraw_main_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/withdraw-main-balance/withdraw_main_balance_details_screen.dart';
@@ -21,7 +20,7 @@ class WithdrawFromMainBalanceWidget extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-              value: sl<WithdrawMainBalanceCubit>(),
+              value: context.read<WithdrawMainBalanceCubit>(),
               child: WithdrawMainBalanceDetailsScreen(
                 paymentModel: paymentModel,
               ),

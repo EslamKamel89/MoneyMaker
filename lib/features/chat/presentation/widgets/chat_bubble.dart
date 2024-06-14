@@ -12,15 +12,15 @@ class ChatBubble extends StatelessWidget {
     this.lastMessageKey,
   });
 
-  final MessageChat message;
-  final String currentUserId;
+  final ChatMessageModel message;
+  final int currentUserId;
   final GlobalKey? lastMessageKey;
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    DateTime messageTime = message.createdAt;
+    DateTime messageTime = message.createdAt!;
     return Align(
       key: lastMessageKey,
       alignment: message.senderId == currentUserId ? Alignment.centerRight : Alignment.centerLeft,
@@ -36,7 +36,8 @@ class ChatBubble extends StatelessWidget {
                 SizedBox(width: 10.w),
                 message.senderId == currentUserId
                     ? const SizedBox()
-                    : Txt.bodyMeduim(message.senderName.split(" ").sublist(0, 2).join(" "), size: 10.sp),
+                    // : Txt.bodyMeduim(message.senderName!.split(" ").sublist(0, 2).join(" "), size: 10.sp),
+                    : Txt.bodyMeduim(message.senderName!.split(" ")[0], size: 10.sp),
                 message.senderId == currentUserId ? const SizedBox() : SizedBox(width: 2.w),
                 Txt.bodyMeduim('${messageTime.hour}:${messageTime.minute}', size: 10.sp),
                 SizedBox(width: 10.w),
@@ -49,7 +50,7 @@ class ChatBubble extends StatelessWidget {
                 color: message.senderId == currentUserId ? Clr.currentUser : Clr.otherUser,
                 borderRadius: BorderRadius.circular(20.w),
               ),
-              child: Txt.bodyMeduim(message.text, color: Colors.white),
+              child: Txt.bodyMeduim((message.message)!, color: Colors.white),
             ),
           ],
         ),

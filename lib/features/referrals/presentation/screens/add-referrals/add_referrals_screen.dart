@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/utils/snackbar.dart';
@@ -13,7 +14,7 @@ import 'package:trading/features/referrals/presentation/blocs/add_refferals_cubi
 import 'package:trading/features/referrals/presentation/screens/add-referrals/widgets/pick_image_referrals_widget.dart';
 import 'package:trading/features/referrals/presentation/screens/add-referrals/widgets/terms_and_conditions_check_refferals.dart';
 import 'package:trading/features/referrals/presentation/screens/add-referrals/widgets/upload_passport_photo_referrals_screen.dart';
-import 'package:trading/features/referrals/presentation/screens/add-referrals/widgets/upload_passport_status_refferals.dart';
+import 'package:trading/features/referrals/presentation/screens/add-referrals/widgets/upload_passport_status_referals.dart';
 
 class AddReferralsScreen extends StatefulWidget {
   const AddReferralsScreen({super.key, required this.scaffoldKey});
@@ -196,7 +197,7 @@ class AddRefferalsWidget extends StatelessWidget {
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: UploadPassportStatusRefferals(),
+                child: UploadPassportStatusReferals(),
               ),
               SizedBox(height: 10.h),
               const Divider(),
@@ -236,11 +237,17 @@ class AddRefferalsWidget extends StatelessWidget {
                       if (formKey.currentState!.validate() &&
                           controller.isTermsApproved &&
                           controller.uploadIdDocumentFileOne != null) {
+                        String mobileNum = signUpMobileCont!.text;
+                        if (mobileNum[0] == "0") {
+                          mobileNum = mobileNum.substring(1);
+                        }
+                        mobileNum = "$countryCodeNum$mobileNum";
+                        mobileNum.prm("mobile number in AddRefferals");
                         await controller.addRefferal(
                           userName: signUpUserNameCont?.text ?? '',
                           fullName: signUpFullNameCont?.text ?? '',
                           email: signUpEmailCont?.text ?? '',
-                          mobile: "$countryCodeNum${signUpMobileCont?.text ?? ''}",
+                          mobile: mobileNum,
                           password: signUpPassOneCont?.text ?? '',
                           profileXFile: controller.uploadImageXFile,
                           passportXFile: controller.uploadIdDoucmentXFileOne!,

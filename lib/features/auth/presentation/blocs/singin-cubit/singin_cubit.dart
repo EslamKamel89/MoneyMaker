@@ -101,8 +101,10 @@ class SigninCubit extends Cubit<SigninState> {
       return null;
     }
     final response = await authRepo.getUserData(userId: userId ?? 0);
-    response.fold(
-      (errorModel) {},
+    return response.fold(
+      (errorModel) {
+        return null;
+      },
       (user) async {
         await authRepo.cacheUserData(user);
         userModel = (await authRepo.getChacedUserData())!;
@@ -110,6 +112,5 @@ class SigninCubit extends Cubit<SigninState> {
         return userModel;
       },
     );
-    return null;
   }
 }
