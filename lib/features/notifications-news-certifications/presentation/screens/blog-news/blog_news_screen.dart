@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/localization/localization.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
@@ -31,7 +33,7 @@ class _BlogNewsScreenState extends State<BlogNewsScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       showBackArrow: true,
-      title: "LICENSE".tr(context),
+      title: "NOTIFICATIONS_NEWS".tr(context),
       child: BlocConsumer<NewsCubit, NewsState>(
         listener: (context, state) {
           if (state is NewsBlogFailureState) {
@@ -97,22 +99,28 @@ class BlogNewsDisplayWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            child: Container(
-              // padding: EdgeInsets.only(bottom: 10.w, left: 10.w, right: 10.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.w),
-                color: Colors.red,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Image.network(
-                EndPoint.uploadBlogNews + (newsModel.image ?? ''),
-                errorBuilder: (context, error, stackTrace) {
-                  return Txt.bodyMeduim('Image Not Found');
-                },
-                width: 200.w,
-                height: 200.w,
-                fit: BoxFit.cover,
-              ),
+            // child: Container(
+            //   // padding: EdgeInsets.only(bottom: 10.w, left: 10.w, right: 10.w),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(20.w),
+            //     color: Colors.red,
+            //   ),
+            //   clipBehavior: Clip.hardEdge,
+            //   child: Image.network(
+            //     EndPoint.uploadBlogNews + (newsModel.image ?? ''),
+            //     errorBuilder: (context, error, stackTrace) {
+            //       return Txt.bodyMeduim('Image Not Found');
+            //     },
+            //     width: 200.w,
+            //     height: 200.w,
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            child: CustomRectangleImage(
+              placeholderAssetPath: AppImages.moneyMaker,
+              networkImagePath: EndPoint.uploadBlogNews + (newsModel.image ?? ''),
+              width: double.infinity,
+              height: double.infinity,
             ),
           ),
           // Txt.bodyMeduim(certificationModel.nameEn ?? 'Unknown', textAlign: TextAlign.center, color: Colors.white),

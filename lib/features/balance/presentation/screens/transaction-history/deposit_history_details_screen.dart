@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trading/core/api/end_points.dart';
-import 'package:trading/core/presentation/custom_scaffold.dart';
-import 'package:trading/core/text_styles/text_style.dart';
-import 'package:trading/core/themes/clr.dart';
-import 'package:trading/features/balance/domain/models/transaction_history_model.dart';
-import 'package:trading/features/balance/presentation/screens/transaction-history/widgets/deposit_history_details_info.dart';
+import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:trading/core/api/end_points.dart";
+import "package:trading/core/localization/localization.dart";
+import "package:trading/core/presentation/custom_scaffold.dart";
+import "package:trading/core/text_styles/text_style.dart";
+import "package:trading/core/themes/clr.dart";
+import "package:trading/features/balance/domain/models/transaction_history_model.dart";
+import "package:trading/features/balance/presentation/screens/transaction-history/widgets/deposit_history_details_info.dart";
 
 class DepositHistoryDetailsScreen extends StatefulWidget {
   const DepositHistoryDetailsScreen({
@@ -41,24 +42,24 @@ class _DepositHistoryDetailsScreenState extends State<DepositHistoryDetailsScree
   @override
   Widget build(BuildContext context) {
     Color statusColor = Clr.success;
-    String requestState = '';
+    String requestState = "";
 
     if (widget.accepted) {
-      requestState = 'Accepted';
+      requestState = "ACCEPTED".tr(context);
 
       statusColor = colapseContainer ? Clr.success : Clr.success.withOpacity(0.1);
     } else if (widget.waiting) {
-      requestState = 'Waiting';
+      requestState = "WAITING".tr(context);
 
       statusColor = colapseContainer ? Clr.warning : Clr.warning.withOpacity(0.1);
     } else if (widget.rejected) {
-      requestState = 'Rejected';
+      requestState = "REJECTED".tr(context);
 
       statusColor = colapseContainer ? Clr.danger : Clr.danger.withOpacity(0.1);
     }
-    // '${EndPoint.uploadUrl}${widget.depositHistory.imageOne}'.prt('network Image');
+    // "${EndPoint.uploadUrl}${widget.depositHistory.imageOne}".prt("network Image");
     return CustomScaffold(
-      title: 'Deposit History Details',
+      title: "DEPOSIT_HISTORY_DETAILS".tr(context),
       showBackArrow: true,
       child: AnimatedContainer(
         duration: const Duration(seconds: 2),
@@ -88,10 +89,10 @@ class _DepositHistoryDetailsScreenState extends State<DepositHistoryDetailsScree
                       child: Builder(
                         builder: (context) {
                           final image = Image.network(
-                            '${EndPoint.uploadDepositHistory}${widget.depositHistory.imageOne}',
+                            "${EndPoint.uploadDepositHistory}${widget.depositHistory.imageOne}",
                             errorBuilder: (context, error, stackTrace) => Center(
                               child: Txt.bodyMeduim(
-                                'Deposit Documents\nNot Found',
+                                "DEPOSIT_DOCUMENTS_NOT_FOUND".tr(context),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -104,27 +105,15 @@ class _DepositHistoryDetailsScreenState extends State<DepositHistoryDetailsScree
                     SizedBox(height: 10.h),
                     Divider(color: Clr.f),
                     SizedBox(height: 10.h),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Txt.headlineMeduim('Deposit Date'),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Txt.bodyMeduim(widget.depositHistory.createdAt?.split(' ').first ?? 'Not known'),
-                    ),
+                    Txt.headlineMeduim("DEPOSIT_DATE".tr(context)),
+                    Txt.bodyMeduim(widget.depositHistory.createdAt?.split(" ").first ?? "NOT_KNOWN".tr(context)),
                     SizedBox(height: 10.h),
-                    widget.rejected
-                        ? Align(
-                            alignment: Alignment.topLeft,
-                            child: Txt.headlineMeduim('Rejection Reason'),
-                          )
-                        : const SizedBox(),
-                    widget.rejected
-                        ? Align(
-                            alignment: Alignment.topLeft,
-                            child: Txt.bodyMeduim(widget.depositHistory.refuseReason ?? 'Not known'),
-                          )
-                        : const SizedBox(),
+                    Visibility(visible: widget.rejected, child: Divider(color: Clr.f)),
+                    Visibility(visible: widget.rejected, child: SizedBox(height: 10.h)),
+                    Visibility(visible: widget.rejected, child: Txt.headlineMeduim("REJECTION_REASON".tr(context))),
+                    Visibility(
+                        visible: widget.rejected,
+                        child: Txt.bodyMeduim(widget.depositHistory.refuseReason ?? "NOT_KNOWN".tr(context))),
                   ],
                 ),
               ),

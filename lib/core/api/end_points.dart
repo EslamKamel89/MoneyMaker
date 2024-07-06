@@ -10,6 +10,7 @@ class EndPoint {
   static const String uploadDepositHistory = '${_uploadFolder}deposits/';
   static const String paymentMehods = '${baseUrl}apipayment';
   static const String depositHistory = '${baseUrl}apideposit/';
+  static const String withdrawHistory = '${baseUrl}apiwithdrawal/';
   static const String addDeposit = '${baseUrl}apideposit';
   static const String addRefferal = '${baseUrl}apirefferal';
   static const String advertise = '${baseUrl}apiadvertises/3';
@@ -25,6 +26,8 @@ class EndPoint {
   static const String uploadCertifications = "${_uploadFolder}certs/";
   static const String blogNews = "${baseUrl}apiblogs/new";
   static const String uploadBlogNews = "${_uploadFolder}blogs/";
+  static const String supportMessages = "${baseUrl}apisupport";
+  static const String referralWebLink = "${uploadUrl}ref/";
   // static const String f = '';
   // static const String f = '';
   // static const String f = '';
@@ -98,7 +101,7 @@ class ApiKey {
   static const String paymentUserId = "user_id";
   static const String paymentImageOne = "image";
   static const String paymentAccepted = "accepted";
-  static const String paymentProcess = "process";
+  static const String depositPaymentProcess = "process";
   static const String paymentRefuseReason = "refuse_reason";
   static const String paymentCreatedAt = "created_at";
   static const String paymentUpdatedAt = "updated_at";
@@ -106,6 +109,8 @@ class ApiKey {
   static const String paymentProfileImage = "profile";
   static const String paymentName = "name";
   static const String paymentImageTwo = "payments_image";
+  //! withdraw history
+  static const String withdrawPaymentProcess = "account";
   //! banner images
   static const String link = "link";
   //! chat
@@ -127,6 +132,16 @@ class ApiKey {
   static const String refferalFirstName = "user_first_name";
   static const String refferalLastName = "user_last_name";
   static const String refferalUserProfile = "user_profile";
+  //! support chat
+  //  static const String senderId = "sender_id" ;
+  static const String messageId = "message_id";
+  //  static const String  senderMessage = "sender_message" ;
+  static const String supportId = "support_id";
+  static const String supportMessage = "support_message";
+  //  static const String createdAt = "created_at" ;
+  //  static const String senderName = "sender_name" ;
+  static const String supportName = "support_name";
+  //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;
   //  static const String = "" ;

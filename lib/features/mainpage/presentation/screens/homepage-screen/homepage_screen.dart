@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/functions/format_currency.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/app_drawer.dart';
+import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/mainpage/data/advertise_repo_implement.dart';
 import 'package:trading/features/mainpage/presentation/blocs/mainpage_cubit/mainpage_cubit.dart';
+import 'package:trading/features/mainpage/presentation/screens/homepage-screen/functions/show_graph_ratio.dart';
+import 'package:trading/features/mainpage/presentation/screens/homepage-screen/widgets/custom_mainpage_chart.dart';
+import 'package:trading/features/mainpage/presentation/screens/homepage-screen/widgets/mainpage_navigation_button.dart';
 import 'package:trading/features/mainpage/presentation/widgets/custom_image_slider.dart';
 import 'package:trading/features/mainpage/presentation/widgets/main_appbar.dart';
 import 'package:trading/features/notifications-news-certifications/presentation/blocs/news-cubit/news_cubit.dart';
@@ -46,7 +49,7 @@ class HomeScreen extends StatelessWidget {
             body: SafeArea(
               child: BlocBuilder<MainpageCubit, MainpageState>(
                 buildWhen: (previous, current) {
-                  return true;
+                  return false;
                 },
                 builder: (context, state) {
                   return RefreshIndicator(
@@ -64,20 +67,47 @@ class HomeScreen extends StatelessWidget {
                               SizedBox(height: 10.h),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 25.w),
-                                child: const NewsWiget(showNews: true),
+                                child: BlocBuilder<MainpageCubit, MainpageState>(
+                                  builder: (context, state) {
+                                    return const NewsWiget(showNews: true);
+                                  },
+                                ),
                               ),
                               SizedBox(height: 10.h),
-                              const CustomImageSlider(),
+                              BlocBuilder<MainpageCubit, MainpageState>(
+                                buildWhen: (previous, current) {
+                                  if (current is AdvertiseSuccessState) {
+                                    return true;
+                                  } else {
+                                    return false;
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return const CustomImageSlider();
+                                },
+                              ),
                               SizedBox(height: 10.h),
                               Expanded(
                                 flex: 3,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: MainpageChart(
-                                    borderColor: Theme.of(context).scaffoldBackgroundColor,
-                                    mainColor: Theme.of(context).scaffoldBackgroundColor,
-                                    sectionColor:
-                                        themeCont.isLightTheme() ? const Color(0xFFE4C59E) : const Color(0xFF322C2B),
+                                  child: BlocBuilder<MainpageCubit, MainpageState>(
+                                    buildWhen: (previous, current) {
+                                      if (current is MainpageSuccessState) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      return MainpageChart(
+                                        borderColor: Theme.of(context).scaffoldBackgroundColor,
+                                        mainColor: Theme.of(context).scaffoldBackgroundColor,
+                                        sectionColor: themeCont.isLightTheme()
+                                            ? const Color(0xFFE4C59E)
+                                            : const Color(0xFF322C2B),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -98,7 +128,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class MainpageChart extends StatelessWidget {
+class MainpageChart extends StatefulWidget {
   const MainpageChart({
     super.key,
     required this.mainColor,
@@ -108,6 +138,22 @@ class MainpageChart extends StatelessWidget {
   final Color mainColor;
   final Color borderColor;
   final Color sectionColor;
+
+  @override
+  State<MainpageChart> createState() => _MainpageChartState();
+}
+
+class _MainpageChartState extends State<MainpageChart> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.read<MainpageCubit>();
@@ -118,19 +164,20 @@ class MainpageChart extends StatelessWidget {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: sectionColor,
+              color: widget.sectionColor,
               borderRadius: BorderRadius.circular(50.w),
               border: Border.all(
                 width: 10.w,
-                color: borderColor,
+                color: widget.borderColor,
               ),
             ),
           ),
           Positioned(
             top: 30.w,
             left: 30.w,
-            child: Container(
-              color: Colors.transparent,
+            child: MainpageNavigationButton(
+              color: widget.borderColor,
+              routeName: AppRoutesNames.withdrawWeeklyBalance,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -146,20 +193,18 @@ class MainpageChart extends StatelessWidget {
           Positioned(
             top: 30.w,
             right: 30.w,
-            child: Container(
-              color: Colors.transparent,
-              child: Container(
-                color: Colors.transparent,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Txt.bodyMeduim("ACCOUNT".tr(context)),
-                    Txt.displayMeduim(formatCurrency(controller.userModel?.balance)
-                        // '\$15482.2',
-                        ),
-                  ],
-                ),
+            child: MainpageNavigationButton(
+              color: widget.borderColor,
+              routeName: AppRoutesNames.withdrawMainBalance,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Txt.bodyMeduim("ACCOUNT".tr(context)),
+                  Txt.displayMeduim(formatCurrency(controller.userModel?.balance)
+                      // '\$15482.2',
+                      ),
+                ],
               ),
             ),
           ),
@@ -211,7 +256,7 @@ class MainpageChart extends StatelessWidget {
                 return Container(
                   width: 10.w,
                   height: constraints.maxHeight,
-                  color: borderColor,
+                  color: widget.borderColor,
                 );
               },
             ),
@@ -223,7 +268,7 @@ class MainpageChart extends StatelessWidget {
                 return Container(
                   height: 10.w,
                   width: constraints.maxWidth,
-                  color: borderColor,
+                  color: widget.borderColor,
                 );
               },
             ),
@@ -235,14 +280,14 @@ class MainpageChart extends StatelessWidget {
                 width: 250.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: mainColor,
+                  color: widget.mainColor,
                   border: Border.all(
                     width: 10.w,
-                    color: borderColor,
+                    color: widget.borderColor,
                   ),
                 ),
-                child: CustomChartTwo(
-                  sectionColor: sectionColor,
+                child: CustomMainpageChart(
+                  sectionColor: widget.sectionColor,
                   dailyProfitPercent: showGraphRatio(
                     numerator: controller.userModel?.daily,
                     denominator: controller.userModel?.balance,
@@ -257,113 +302,5 @@ class MainpageChart extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class CustomChartTwo extends StatefulWidget {
-  const CustomChartTwo({
-    super.key,
-    required this.sectionColor,
-    required this.dailyProfitPercent,
-    required this.referallProfitPercent,
-    required this.profitDollar,
-  });
-  final Color sectionColor;
-  final double dailyProfitPercent;
-  final double referallProfitPercent;
-  final double profitDollar;
-  @override
-  State<CustomChartTwo> createState() => _CustomChartTwoState();
-}
-
-class _CustomChartTwoState extends State<CustomChartTwo> {
-  @override
-  Widget build(BuildContext context) {
-    final themeController = context.watch<PickLanguageAndThemeCubit>();
-    return Center(
-        child: SfCircularChart(
-      backgroundColor: Colors.transparent,
-      key: GlobalKey(),
-      // legend: Legend(
-      //     toggleSeriesVisibility: false,
-      //     isVisible: false,
-      //     iconHeight: 20,
-      //     iconWidth: 20,
-      //     overflowMode: LegendItemOverflowMode.wrap),
-      // title: const ChartTitle(text: 'Monthly steps count tracker'),
-      // annotations: const <CircularChartAnnotation>[
-      //   CircularChartAnnotation(
-      //     height: '45%',
-      //     width: '65%',
-      //     widget: Column(
-      //       children: <Widget>[
-      //         Padding(
-      //             padding: EdgeInsets.only(top: 15),
-      //             child: Text('Goal -', style: TextStyle(fontWeight: FontWeight.bold))),
-      //         Padding(padding: EdgeInsets.only(top: 10)),
-      //         Text('6k steps/day', softWrap: false, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14))
-      //       ],
-      //     ),
-      //   ),
-      // ],
-      series: <RadialBarSeries<ChartData, String>>[
-        RadialBarSeries<ChartData, String>(
-          maximumValue: 1,
-          radius: '100%',
-          gap: '3%',
-          dataSource: [
-            ChartData('Referals', widget.referallProfitPercent, Clr.a, 'Referals'),
-            ChartData('Daily Profit', widget.dailyProfitPercent, Clr.f, 'Daily Profit'),
-          ],
-          // cornerStyle: CornerStyle.bothCurve,
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y,
-          pointColorMapper: (ChartData data, _) => data.color,
-          dataLabelMapper: (ChartData data, _) => data.text,
-          trackColor: Colors.transparent,
-          dataLabelSettings: DataLabelSettings(
-            isVisible: true,
-            // color: Colors.transparent,
-            textStyle: TextStyle(
-              color: themeController.isLightTheme() ? Colors.black : Colors.white,
-            ),
-          ),
-        )
-      ],
-      // tooltipBehavior: _tooltipBehavior,
-      // onTooltipRender: (TooltipArgs args) {
-      //   final NumberFormat numberFormat = NumberFormat.compactCurrency(
-      //     decimalDigits: 2,
-      //     symbol: '',
-      //   );
-      //   // ignore: cast_nullable_to_non_nullable
-      //   args.text = chartData![args.pointIndex as int].text +
-      //       ' : ' +
-      //       numberFormat
-      //           // ignore: cast_nullable_to_non_nullable
-      //           .format(chartData![args.pointIndex as int].y);
-      // }
-    ));
-  }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, this.color, this.text);
-
-  final String x;
-  final num? y;
-  final Color color;
-  final String text;
-}
-
-double showGraphRatio({
-  required double? numerator,
-  required double? denominator,
-}) {
-  if (denominator == null || numerator == null || denominator == 0) {
-    return 0.05;
-  } else {
-    double result = numerator / denominator;
-    return result > 1 ? 1 : result;
   }
 }

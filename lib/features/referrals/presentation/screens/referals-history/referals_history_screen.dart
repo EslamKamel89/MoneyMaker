@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/const-strings/app_images.dart';
-import 'package:trading/core/presentation/custom_circular_image.dart';
+import 'package:trading/core/localization/localization.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/core/utils/snackbar.dart';
@@ -41,34 +42,38 @@ class _ReferalsHistoryScreenState extends State<ReferalsHistoryScreen> {
         }
         if (controller.referalHistory.isEmpty) {
           return Center(
-            child: Txt.bodyMeduim("You don't have any referrals"),
+            child: Txt.bodyMeduim("REFERRALS_EMPTY".tr(context)),
           );
         }
         return ListView.builder(
           itemCount: controller.referalHistory.length,
           itemBuilder: (context, index) {
             final referal = controller.referalHistory[index];
-            return Material(
-              elevation: 5,
-              color: Clr.e,
-              borderRadius: BorderRadius.circular(20.w),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.w),
-                // height: 80.h,
-                decoration: BoxDecoration(
-                  color: Clr.e,
-                  borderRadius: BorderRadius.circular(20.w),
-                ),
-                child: ListTile(
-                  leading: Builder(builder: (context) {
-                    return CustomCircularImage(
-                      placeholderAssetPath: AppImages.accountHeader,
-                      margin: EdgeInsets.only(left: 5.w, bottom: 5.w, top: 5.w),
-                      networkImagePath: '${EndPoint.uploadReferalsHistory}/${referal.referalUserProfile}',
-                    );
-                  }),
-                  title: Txt.bodyMeduim("${referal.referalFirstName} ${referal.referalLastName}"),
-                  trailing: Txt.displayMeduim(referal.createdAt.toString().split(' ')[0]),
+            return Container(
+              margin: EdgeInsets.only(bottom: 10.w),
+              child: Material(
+                elevation: 5,
+                color: Clr.e,
+                borderRadius: BorderRadius.circular(20.w),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.w),
+                  // margin: EdgeInsets.only(bottom: 10.w),
+                  // height: 80.h,
+                  decoration: BoxDecoration(
+                    color: Clr.e,
+                    borderRadius: BorderRadius.circular(20.w),
+                  ),
+                  child: ListTile(
+                    leading: Builder(builder: (context) {
+                      return CustomCircularImage(
+                        placeholderAssetPath: AppImages.accountHeader,
+                        margin: EdgeInsets.only(left: 5.w, bottom: 5.w, top: 5.w),
+                        networkImagePath: '${EndPoint.uploadReferalsHistory}/${referal.referalUserProfile}',
+                      );
+                    }),
+                    title: Txt.bodyMeduim("${referal.referalFirstName}"),
+                    trailing: Txt.displayMeduim(referal.createdAt.toString().split(' ')[0]),
+                  ),
                 ),
               ),
             );

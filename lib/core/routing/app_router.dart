@@ -12,8 +12,6 @@ import 'package:trading/features/auth/presentation/screens/signup/signup_screen.
 import 'package:trading/features/auth/presentation/screens/singin/signin_screen.dart';
 import 'package:trading/features/auth/presentation/screens/tems-conditions/terms_conditons_screen.dart';
 import 'package:trading/features/balance/presentation/blocs/transaction-history-cubit/transaction_history_cubit.dart';
-import 'package:trading/features/balance/presentation/blocs/withdraw_main_balance_cubit/withdraw_main_balance_cubit.dart';
-import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/add-balance/add_balance_screen.dart';
 import 'package:trading/features/balance/presentation/screens/transaction-history/transaction_history_screen.dart';
 import 'package:trading/features/balance/presentation/screens/withdraw-main-balance/withdraw_main_balance_screen.dart';
@@ -113,18 +111,12 @@ class AppRouter {
         );
       case AppRoutesNames.withdrawMainBalance:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => WithdrawMainBalanceCubit(paymentRepo: sl()),
-            child: const WithdrawMainBalanceScreen(),
-          ),
+          builder: (context) => const WithdrawMainBalanceScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.withdrawWeeklyBalance:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => WithdrawWeeklyBalanceCubit(paymentRepo: sl()),
-            child: const WithdrawWeeklyBalanceScreen(),
-          ),
+          builder: (context) => const WithdrawWeeklyBalanceScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.transactionHistory:

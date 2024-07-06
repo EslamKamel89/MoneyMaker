@@ -37,7 +37,7 @@ class TransactionHistoryModel {
       userId: json[ApiKey.paymentUserId],
       imageOne: json[ApiKey.paymentImageOne],
       accepted: json[ApiKey.paymentAccepted],
-      process: json[ApiKey.paymentProcess],
+      process: json[ApiKey.depositPaymentProcess],
       refuseReason: json[ApiKey.paymentRefuseReason],
       createdAt: json[ApiKey.paymentCreatedAt],
       updatedAt: json[ApiKey.paymentUpdatedAt],

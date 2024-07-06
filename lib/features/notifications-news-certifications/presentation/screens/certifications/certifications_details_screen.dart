@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/localization/localization.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
@@ -22,22 +24,27 @@ class CertificationDetailsScreen extends StatelessWidget {
         children: [
           _getTitle(context: context, certificationModel: certificationModel),
           _getDescription(context: context, certificationModel: certificationModel),
-          Container(
-            // padding: EdgeInsets.only(bottom: 10.w, left: 10.w, right: 10.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.w),
-              color: Colors.red,
-            ),
-            clipBehavior: Clip.hardEdge,
-            child: Image.network(
-              EndPoint.uploadCertifications + (certificationModel.image ?? ''),
-              errorBuilder: (context, error, stackTrace) {
-                return Txt.bodyMeduim('Image Not Found');
-              },
-              // width: .w,
-              height: 600.w,
-              fit: BoxFit.cover,
-            ),
+          // Container(
+          //   // padding: EdgeInsets.only(bottom: 10.w, left: 10.w, right: 10.w),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(20.w),
+          //     color: Colors.red,
+          //   ),
+          //   clipBehavior: Clip.hardEdge,
+          //   child: Image.network(
+          //     EndPoint.uploadCertifications + (certificationModel.image ?? ''),
+          //     errorBuilder: (context, error, stackTrace) {
+          //       return Txt.bodyMeduim('Image Not Found');
+          //     },
+          //     // width: .w,
+          //     height: 600.w,
+          //     fit: BoxFit.cover,
+          //   ),
+          // )
+          CustomRectangleImage(
+            placeholderAssetPath: AppImages.splashScreen,
+            networkImagePath: "${EndPoint.uploadCertifications}${certificationModel.image ?? ''}",
+            height: 600.w,
           )
         ],
       ),

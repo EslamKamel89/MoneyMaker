@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/core/localization/localization.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
@@ -78,12 +80,19 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
           child: ListView(
             // mainAxisSize: MainAxisSize.min,
             children: [
-              Center(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
-                  maxRadius: 100.w,
-                ),
+              // Center(
+              //   child:
+              // CircleAvatar(
+              //   backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
+              //   maxRadius: 100.w,
+              // ),
+              CustomCircularImage(
+                placeholderAssetPath: AppImages.moneymakerLogo,
+                networkImagePath: EndPoint.uploadPayment + (widget.paymentModel.image ?? ''),
+                size: 200.w,
+                margin: null,
               ),
+              // ),
               SizedBox(height: 20.h),
               InkWell(
                 onTap: () async {
@@ -184,7 +193,7 @@ class _AddBalanceDetailsScreenState extends State<AddBalanceDetailsScreen> {
                     child: BlocBuilder<AddBalanceCubit, AddBalanceState>(
                       builder: (context, state) {
                         return PaymentButton(
-                          title: "CAMERA".tr(context),
+                          title: "CAMERA2".tr(context),
                           icon: state is UploadDocumentCameraState ? Icons.check : Icons.camera_alt_rounded,
                           width: 90.w,
                         );

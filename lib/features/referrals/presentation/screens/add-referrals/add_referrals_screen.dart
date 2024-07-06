@@ -1,12 +1,16 @@
 // ignore_for_file: dead_code
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/utils/snackbar.dart';
+import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_button.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_text_field.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/gender_selection.dart';
@@ -116,6 +120,14 @@ class AddRefferalsWidget extends StatelessWidget {
         child: SizedBox(
           child: ListView(
             children: [
+              SizedBox(height: 20.h),
+              AuthButton(
+                  buttonTitle: "COPY_WEB_LINK".tr(context),
+                  onTap: () async {
+                    int currentUserId = (await sl<AuthRepo>().getChacedUserData())?.id ?? 0;
+                    await Clipboard.setData(ClipboardData(text: "${EndPoint.referralWebLink}$currentUserId"));
+                  }),
+              SizedBox(height: 20.h),
               Center(
                 child: PickImageReferralsWidget(
                   controller: controller,
@@ -152,7 +164,7 @@ class AddRefferalsWidget extends StatelessWidget {
                 controller: signUpMobileCont,
                 isMobile: true,
                 validator: (value) {
-                  return _refferalsValidator(context: context, value: value!, minLength: 10, maxLength: 20);
+                  return _refferalsValidator(context: context, value: value!, minLength: 6, maxLength: 20);
                 },
                 countryCodeCallback: (countryCode) {
                   countryCodeNum = countryCode.code ?? "+20";

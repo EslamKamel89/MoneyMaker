@@ -8,6 +8,7 @@ import 'package:trading/core/themes/clr.dart';
 import 'package:trading/core/utils/snackbar.dart';
 import 'package:trading/features/balance/presentation/blocs/transaction-history-cubit/transaction_history_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/transaction-history/widgets/depoist_history_widget.dart';
+import 'package:trading/features/balance/presentation/screens/transaction-history/widgets/withdraw_history_widget.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
   const TransactionHistoryScreen({super.key});
@@ -22,6 +23,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   void initState() {
     controller = context.read<TransactionHistoryCubit>();
     controller.getDepositHistory();
+    controller.getWithdrawHistory();
     super.initState();
   }
 
@@ -39,55 +41,84 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           labelColor: Clr.f,
           unselectedLabelColor: Clr.b,
           indicatorWeight: 5,
-          tabs: const [
+          onTap: (value) {
+            controller.getDepositHistory();
+            controller.getWithdrawHistory();
+          },
+          tabs: [
             Tab(
-              text: 'Withdraw History',
-              icon: Icon(Icons.history),
+              text: "WITHDRAW_HISTORY".tr(context),
+              icon: const Icon(Icons.history),
             ),
             Tab(
-              text: 'Deposit History',
-              icon: Icon(Icons.add),
+              text: "DEPOSIT_HISTORY".tr(context),
+              icon: const Icon(Icons.add),
             ),
           ],
         ),
-        child: BlocConsumer<TransactionHistoryCubit, TransactionHistoryState>(
-          listener: (context, state) {
-            if (state is TransactionHistorySuccessState) {
-              state.allDepositHistory.prm('Fetched Deposit History Data');
-            }
-            if (state is TransactionHistoryFailedState) {
-              customSnackBar(context: context, title: state.errorModel.errorMessageEn ?? 'Error', isSuccess: false);
-            }
-          },
-          builder: (context, state) {
-            if (state is TransactionHistoryLoadingState) {
-              return const TabBarView(
-                children: [
-                  Center(child: CircularProgressIndicator()),
-                  Center(child: CircularProgressIndicator()),
-                ],
-              );
-            }
-            if (state is TransactionHistorySuccessState) {
-              if (state.allDepositHistory.isEmpty) {
-                return TabBarView(
-                  children: [
-                    Center(child: Txt.bodyMeduim('No data in withdraw history')),
-                    Center(child: Txt.bodyMeduim('No data in deposit history')),
-                  ],
-                );
+        child: BlocListener<TransactionHistoryCubit, TransactionHistoryState>(
+            listener: (context, state) {
+              if (state is TransactionHistorySuccessState) {
+                state.allDepositHistory.prm('Fetched Deposit History Data');
               }
-              return TabBarView(
-                children: [
-                  Center(child: Txt.bodyMeduim('Withdraw History')),
-                  DepositHistoryWidget(depositHistoryList: state.allDepositHistory),
-                ],
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+              if (state is TransactionHistoryFailedState) {
+                customSnackBar(context: context, title: state.errorModel.errorMessageEn ?? 'Error', isSuccess: false);
+              }
+              if (state is WithdrawHistorySuccessState) {
+                state.allWithdrawHistory.prm('Fetched Deposit History Data');
+              }
+              if (state is WithdrawHistoryFailedState) {
+                customSnackBar(context: context, title: state.errorModel.errorMessageEn ?? 'Error', isSuccess: false);
+              }
+            },
+            child: TabBarView(
+              children: [
+                BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
+                  buildWhen: (previous, current) {
+                    if (current is WithdrawHistoryLoadingState || current is WithdrawHistorySuccessState) {
+                      return true;
+                    }
+                    return false;
+                  },
+                  builder: (context, state) {
+                    if (state is WithdrawHistoryLoadingState) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is WithdrawHistorySuccessState) {
+                      if (state.allWithdrawHistory.isEmpty) {
+                        return Center(child: Txt.bodyMeduim("NO_DATA_WITHDRAW_HISTORY".tr(context)));
+                      } else {
+                        return WithdrawHistoryWidget(withdrawHistoryList: state.allWithdrawHistory);
+                      }
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+                BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
+                  buildWhen: (previous, current) {
+                    if (current is TransactionHistoryLoadingState || current is TransactionHistorySuccessState) {
+                      return true;
+                    }
+                    return false;
+                  },
+                  builder: (context, state) {
+                    if (state is TransactionHistoryLoadingState) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is TransactionHistorySuccessState) {
+                      if (state.allDepositHistory.isEmpty) {
+                        return Center(child: Txt.bodyMeduim("NO_DATA_DEPOSIT_HISTORY".tr(context)));
+                      } else {
+                        return DepositHistoryWidget(depositHistoryList: state.allDepositHistory);
+                      }
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
+            )),
       ),
     );
   }

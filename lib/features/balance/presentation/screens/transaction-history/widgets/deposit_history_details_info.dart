@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/features/balance/presentation/screens/transaction-history/deposit_history_details_screen.dart';
 
@@ -23,8 +24,8 @@ class DepositInfoDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Txt.bodyMeduim('Deposit Amount'),
-            Txt.headlineMeduim('${widget.depositHistory.amount} \$'),
+            Txt.bodyMeduim('DEPOSIT_AMOUNT'.tr(context)),
+            Txt.headlineMeduim('${widget.depositHistory.amount}\$'),
           ],
         ),
         const Spacer(),
@@ -33,7 +34,7 @@ class DepositInfoDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Txt.bodyMeduim('Deposit State'),
+            Txt.bodyMeduim('DEPOSIT_STATE'.tr(context)),
             Txt.headlineMeduim(requestState),
           ],
         ),

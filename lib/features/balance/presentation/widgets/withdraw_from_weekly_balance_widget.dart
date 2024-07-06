@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
-import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/balance/presentation/screens/withdraw-weekly-balance/withdraw_weekly_balance_detials_screen.dart';
 import 'package:trading/features/balance/presentation/widgets/payments_methods_display.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
@@ -19,11 +18,8 @@ class WithdrawFromWeeklyBalanceWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: context.read<WithdrawWeeklyBalanceCubit>(),
-              child: WithdrawWeeklyBalanceDetailsScreen(
-                paymentModel: paymentModel,
-              ),
+            builder: (_) => WithdrawWeeklyBalanceDetailsScreen(
+              paymentModel: paymentModel,
             ),
           ),
         );

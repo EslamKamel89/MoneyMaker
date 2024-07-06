@@ -45,22 +45,24 @@ class NewsCubit extends Cubit<NewsState> {
         newsAr = "";
         newsEn = "";
         for (var newModel in news) {
-          if (newModel.nameAr == null ||
-              newModel.nameAr == "" ||
-              newModel.descriptionAr == null ||
-              newModel.descriptionAr == "") {
-            newsAr = "$newsAr -- ${AppStrings.newsAr} --";
-          } else {
-            newsAr = "$newsAr -- ${newModel.nameAr} - ${newModel.descriptionAr} --";
-          }
-          if (newModel.nameEn == null ||
-              newModel.nameEn == "" ||
-              newModel.descriptionEn == null ||
-              newModel.descriptionEn == "") {
-            newsEn = "$newsEn -- ${AppStrings.newsEn} --";
-          } else {
-            newsEn = "$newsAr --${newModel.nameEn} - ${newModel.descriptionEn}--";
-          }
+          // if (newModel.nameAr == null ||
+          //     newModel.nameAr == "" ||
+          //     newModel.descriptionAr == null ||
+          //     newModel.descriptionAr == "") {
+          //   newsAr = "$newsAr -- ${AppStrings.newsAr} --";
+          // } else {
+          //   newsAr = "$newsAr ${newModel.nameAr} ${newModel.descriptionAr} ";
+          // }
+          // if (newModel.nameEn == null ||
+          //     newModel.nameEn == "" ||
+          //     newModel.descriptionEn == null ||
+          //     newModel.descriptionEn == "") {
+          //   newsEn = "$newsEn -- ${AppStrings.newsEn} --";
+          // } else {
+          //   newsEn = "$newsEn ${newModel.nameEn} ${newModel.descriptionEn}";
+          // }
+          newsAr = "$newsAr ${newModel.nameAr} ${newModel.descriptionAr} ";
+          newsEn = "$newsEn ${newModel.nameEn} ${newModel.descriptionEn}";
         }
         newsAr.prm(t);
         newsEn.prm(t);

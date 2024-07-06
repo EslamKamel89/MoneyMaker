@@ -120,7 +120,7 @@ class _SingnupScreenState extends State<SingnupScreen> {
                         controller: controller.signUpMobileCont,
                         isMobile: true,
                         validator: (value) {
-                          return signupValidator(value: value!, minLength: 10, maxLength: 20);
+                          return signupValidator(value: value!, minLength: 6, maxLength: 20);
                         },
                         countryCodeCallback: (CountryCode countryCode) {
                           controller.countryMobileCode = countryCode.dialCode;

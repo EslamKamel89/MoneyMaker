@@ -13,6 +13,7 @@ import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/auth/domain/models/user_model.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/balance/domain/models/transaction_history_model.dart';
+import 'package:trading/features/balance/domain/models/withdraw_history_model.dart';
 import 'package:trading/features/balance/domain/repo_interface/payment_repo_interface.dart';
 
 class PaymentRepo implements PaymentRepoInterface {
@@ -133,6 +134,26 @@ class PaymentRepo implements PaymentRepoInterface {
         'Withdraw from $type comptedted successfully'.prm(t);
         return const Right('success');
       }
+    } on ServerException catch (e) {
+      e.errModel.errorMessageEn.prm(t);
+      return Left(e.errModel);
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<WithdrawHistoryModel>>> getWithdrawHistory() async {
+    final t = 'PaymentRepo - getWithdrawHistory'.prt;
+    try {
+      UserModel? userModel = await sl<AuthRepo>().getChacedUserData();
+      final response = await api.get("${EndPoint.withdrawHistory}${userModel?.id}");
+      // final response = await api.get("${EndPoint.depositHistory}5");
+      final List<WithdrawHistoryModel> allWithdrawHistoryList = [];
+      final List allWithdrawHistoryJson = jsonDecode(response)[ApiKey.data];
+      for (var json in allWithdrawHistoryJson) {
+        allWithdrawHistoryList.add(WithdrawHistoryModel.fromJson(json));
+      }
+      '$allWithdrawHistoryList'.prm(t);
+      return Right(allWithdrawHistoryList);
     } on ServerException catch (e) {
       e.errModel.errorMessageEn.prm(t);
       return Left(e.errModel);

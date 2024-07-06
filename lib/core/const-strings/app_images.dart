@@ -16,4 +16,6 @@ class AppImages {
   static const String splashScreen = "$imagePath/moneymaker_splash.png";
   static const String transformProfitBlanace = "$imagePath/transform_final.jpg";
   static const String transformProfitBlanaceAr = "$imagePath/transform_ar.jpg";
+  static const String moneyMaker = "$imagePath/moneymaker_launch_icon.jpg";
+  static const String support = "$imagePath/support.png";
 }

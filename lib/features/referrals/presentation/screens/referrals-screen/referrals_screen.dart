@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
@@ -30,7 +31,7 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
       animationDuration: const Duration(seconds: 1),
       initialIndex: 0,
       child: CustomScaffold(
-        title: 'Referrals',
+        title: "REFERRALS".tr(context),
         scaffoldKey: scaffoldKey,
         // showHomeIcon: false,
         bottom: TabBar(
@@ -42,11 +43,11 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
           tabs: [
             Tab(
               icon: const Icon(Icons.history),
-              child: Txt.bodyMeduim('Your Referrals'),
+              child: Txt.bodyMeduim("YOUR_REFERRAL".tr(context)),
             ),
             Tab(
               icon: const Icon(Icons.add),
-              child: Txt.bodyMeduim('Add Referrals'),
+              child: Txt.bodyMeduim("ADD_REFERRAL".tr(context)),
             ),
           ],
         ),

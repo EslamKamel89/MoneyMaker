@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
 import 'package:trading/core/localization/localization.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/presentation/custom_scaffold.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/utils/snackbar.dart';
@@ -60,11 +62,17 @@ class _WithdrawMainBalanceDetailsScreenState extends State<WithdrawMainBalanceDe
         child: ListView(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            Center(
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
-                maxRadius: 100.w,
-              ),
+            // Center(
+            //   child: CircleAvatar(
+            //     backgroundImage: NetworkImage(EndPoint.uploadPayment + (widget.paymentModel.image ?? '')),
+            //     maxRadius: 100.w,
+            //   ),
+            // ),
+            CustomCircularImage(
+              placeholderAssetPath: AppImages.moneymakerLogo,
+              networkImagePath: EndPoint.uploadPayment + (widget.paymentModel.image ?? ''),
+              size: 200.w,
+              margin: null,
             ),
             SizedBox(height: 20.h),
             PaymentTextField(

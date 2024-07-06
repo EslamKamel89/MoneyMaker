@@ -125,6 +125,9 @@ class AuthRepo implements AuthRepoInterface {
       return null;
     }
     final user = UserModel.fromJson(jsonDecode(userDataString));
+    //! fake data delete in production
+    // user.referral = 1000;
+    // user.daily = 1500;
     "$user".prm('Auth checking cahce');
     return user;
   }

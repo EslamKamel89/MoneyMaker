@@ -12,11 +12,15 @@ import 'package:trading/features/auth/presentation/blocs/signup-cubit/signup_cub
 import 'package:trading/features/auth/presentation/blocs/singin-cubit/singin_cubit.dart';
 import 'package:trading/features/balance/data/payment_repo_imp.dart';
 import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
+import 'package:trading/features/balance/presentation/blocs/withdraw_main_balance_cubit/withdraw_main_balance_cubit.dart';
+import 'package:trading/features/balance/presentation/blocs/withdraw_weekly_balance_cubit/withdraw_weekly_balance_cubit.dart';
 import 'package:trading/features/chat/data/chat_repo_implement.dart';
 import 'package:trading/features/chat/presentation/blocs/chat-cubit/chat_cubit.dart';
 import 'package:trading/features/notifications-news-certifications/data/news_repo_implement.dart';
 import 'package:trading/features/notifications-news-certifications/presentation/blocs/news-cubit/news_cubit.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
+import 'package:trading/features/support/data/support_repo_implement.dart';
+import 'package:trading/features/support/presentation/blocs/support-cubit/support_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +56,11 @@ class MyApp extends StatelessWidget {
             BlocProvider<ChatCubit>(create: (context) => ChatCubit(chatRepo: sl<ChatRepo>())),
             BlocProvider<AddBalanceCubit>(create: (context) => AddBalanceCubit(paymentRepo: sl<PaymentRepo>())),
             BlocProvider<NewsCubit>(create: (context) => NewsCubit(newsRepo: sl<NewsRepo>())),
+            BlocProvider<SupportCubit>(create: (context) => SupportCubit(supportRepo: sl<SupportRepo>())),
+            BlocProvider<WithdrawMainBalanceCubit>(
+                create: (context) => WithdrawMainBalanceCubit(paymentRepo: sl<PaymentRepo>())),
+            BlocProvider<WithdrawWeeklyBalanceCubit>(
+                create: (context) => WithdrawWeeklyBalanceCubit(paymentRepo: sl<PaymentRepo>())),
           ],
           child: Builder(builder: (context) {
             final PickLanguageAndThemeCubit pickLanguageCubit = context.watch<PickLanguageAndThemeCubit>();
@@ -60,7 +69,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: pickLanguageCubit.state.themeData,
               initialRoute: AppRoutesNames.splashScreen,
-              // initialRoute: AppRoutesNames.blogNews,
+              // initialRoute: AppRoutesNames.transactionHistory,
               onGenerateRoute: sl<AppRouter>().onGenerateRoute,
               locale: pickLanguageCubit.state.locale,
               supportedLocales: const [

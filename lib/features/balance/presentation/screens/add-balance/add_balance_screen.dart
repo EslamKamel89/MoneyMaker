@@ -4,11 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/custom_scaffold_with_news_bar.dart';
 import 'package:trading/core/presentation/no_internet.dart';
-import 'package:trading/features/balance/domain/models/payment_method_model.dart';
 import 'package:trading/features/balance/presentation/blocs/add_balance_cubit/add_balance_cubit.dart';
-import 'package:trading/features/balance/presentation/screens/transform-profit-balance/transform_profit_balance_screen.dart';
 import 'package:trading/features/balance/presentation/widgets/add_to_balance.dart';
-import 'package:trading/features/balance/presentation/widgets/payments_methods_display.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class AddBalanceScreen extends StatefulWidget {
@@ -57,7 +54,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
           }
           if (state is AddBalanceGetPaymentSuccessState) {
             return GridView.builder(
-              itemCount: state.allPayments.length + 1,
+              itemCount: state.allPayments.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: (MediaQuery.of(context).size.width / 2) - 30.w,
@@ -65,19 +62,19 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                 mainAxisSpacing: 20.w,
               ),
               itemBuilder: (context, index) {
-                if (index == 0) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => const TransformProfitBalanceScreen()));
-                    },
-                    child: PaymentMethodDisplay(
-                      paymentModel: PaymentModel(name: "PROFIT_BALANCE".tr(context)),
-                      transformProfitBalance: true,
-                    ),
-                  );
-                }
-                index--;
+                // if (index == 0) {
+                //   return InkWell(
+                //     onTap: () {
+                //       Navigator.of(context)
+                //           .push(MaterialPageRoute(builder: (_) => const TransformProfitBalanceScreen()));
+                //     },
+                //     child: PaymentMethodDisplay(
+                //       paymentModel: PaymentModel(name: "PROFIT_BALANCE".tr(context)),
+                //       transformProfitBalance: true,
+                //     ),
+                //   );
+                // }
+                // index--;
                 return AddBalanceWidget(paymentModel: state.allPayments[index]);
               },
             );

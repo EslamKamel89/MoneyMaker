@@ -14,6 +14,7 @@ import 'package:trading/features/mainpage/data/advertise_repo_implement.dart';
 import 'package:trading/features/notifications-news-certifications/data/news_repo_implement.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 import 'package:trading/features/referrals/data/referals_repo_implement.dart';
+import 'package:trading/features/support/data/support_repo_implement.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -48,4 +49,6 @@ Future<void> init() async {
   sl.registerSingleton<ChatRepo>(ChatRepo(api: sl(), sharedPreferences: sl()));
   //! -- Features -- news -------------------------------------------------------------------------------------------------------
   sl.registerSingleton<NewsRepo>(NewsRepo(api: sl()));
+  //! -- Features -- support messages -------------------------------------------------------------------------------------------------------
+  sl.registerSingleton<SupportRepo>(SupportRepo(api: sl()));
 }

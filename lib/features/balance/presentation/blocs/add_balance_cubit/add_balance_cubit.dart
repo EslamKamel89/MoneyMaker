@@ -127,7 +127,8 @@ class AddBalanceCubit extends Cubit<AddBalanceState> {
       accountNumber: accountNumber,
       amount: amount,
       type: ApiKey.withdrawProfitBlance,
-      paymentId: paymentId,
+      // paymentId: paymentId,
+      paymentId: 2,
     );
     response.fold(
       (errorModel) {

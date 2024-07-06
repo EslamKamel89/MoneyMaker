@@ -37,7 +37,7 @@ class ChatBubble extends StatelessWidget {
                 message.senderId == currentUserId
                     ? const SizedBox()
                     // : Txt.bodyMeduim(message.senderName!.split(" ").sublist(0, 2).join(" "), size: 10.sp),
-                    : Txt.bodyMeduim(message.senderName!.split(" ")[0], size: 10.sp),
+                    : Txt.bodyMeduim(message.senderName?.split(" ")[0] ?? "unknown user", size: 10.sp),
                 message.senderId == currentUserId ? const SizedBox() : SizedBox(width: 2.w),
                 Txt.bodyMeduim('${messageTime.hour}:${messageTime.minute}', size: 10.sp),
                 SizedBox(width: 10.w),

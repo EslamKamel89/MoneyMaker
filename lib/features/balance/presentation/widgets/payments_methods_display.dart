@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/api/end_points.dart';
 import 'package:trading/core/const-strings/app_images.dart';
+import 'package:trading/core/presentation/custom_image.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/balance/domain/models/payment_method_model.dart';
@@ -54,14 +55,21 @@ class PaymentMethodDisplay extends StatelessWidget {
                           height: double.infinity,
                           fit: BoxFit.cover,
                         )
-                  : Image.network(
-                      EndPoint.uploadPayment + (paymentModel.image ?? ''),
-                      errorBuilder: (context, error, stackTrace) {
-                        return Txt.bodyMeduim('Image Not Found');
-                      },
-                      width: double.infinity,
+                  :
+                  // Image.network(
+                  //     EndPoint.uploadPayment + (paymentModel.image ?? ''),
+                  //     errorBuilder: (context, error, stackTrace) {
+                  //       return Txt.bodyMeduim('Image Not Found');
+                  //     },
+                  //     width: double.infinity,
+                  //     height: double.infinity,
+                  //     fit: BoxFit.cover,
+                  //   )
+                  CustomRectangleImage(
+                      networkImagePath: EndPoint.uploadPayment + (paymentModel.image ?? ''),
+                      placeholderAssetPath: AppImages.moneyMaker,
                       height: double.infinity,
-                      fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
             ),
           ),
