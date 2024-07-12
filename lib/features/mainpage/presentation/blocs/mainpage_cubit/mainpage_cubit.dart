@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trading/core/const-strings/app_strings.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
 import 'package:trading/core/extensions/extensions.dart';
 import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
@@ -62,5 +64,9 @@ class MainpageCubit extends Cubit<MainpageState> {
         return userModel;
       },
     );
+  }
+
+  void refreshUserData() {
+    sl<AuthRepo>().getUserData(userId: sl<SharedPreferences>().getInt(AppStrings.USER_ID) ?? -1);
   }
 }

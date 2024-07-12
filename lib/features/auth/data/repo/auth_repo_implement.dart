@@ -31,6 +31,9 @@ class AuthRepo implements AuthRepoInterface {
         return Left(errorModel);
       } else {
         final userModel = UserModel.fromJson(jsonDecode(response));
+        // userModel.chat = ApiKey.chatAllowed;
+        sl<SharedPreferences>().setString(AppStrings.CHAT_STATUS, userModel.chat ?? ApiKey.chatBlocked);
+        sl<SharedPreferences>().setInt(AppStrings.USER_ID, userModel.id ?? -1);
         '$userModel'.prm(t);
         return Right(userModel);
       }
@@ -128,6 +131,7 @@ class AuthRepo implements AuthRepoInterface {
     //! fake data delete in production
     // user.referral = 1000;
     // user.daily = 1500;
+    // user.chat = 'block';
     "$user".prm('Auth checking cahce');
     return user;
   }

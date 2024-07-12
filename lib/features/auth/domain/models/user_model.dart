@@ -24,6 +24,7 @@ class UserModel {
   double? daily;
   double? weekly;
   double? referral;
+  String? chat;
   UserModel({
     this.id,
     this.userName,
@@ -44,6 +45,7 @@ class UserModel {
     this.daily,
     this.weekly,
     this.referral,
+    this.chat,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -68,6 +70,7 @@ class UserModel {
       daily: json[ApiKey.data][ApiKey.daily]?.toDouble(),
       weekly: json[ApiKey.data][ApiKey.weekly]?.toDouble(),
       referral: json[ApiKey.data][ApiKey.referral]?.toDouble(),
+      chat: json[ApiKey.data]["0"][ApiKey.chat],
     );
   }
 
@@ -88,6 +91,7 @@ class UserModel {
           ApiKey.updatedAt: updatedAt?.toString(),
           ApiKey.balance: balance,
           ApiKey.profit: profit,
+          ApiKey.chat: chat,
         },
         ApiKey.daily: daily,
         ApiKey.weekly: weekly,
@@ -102,7 +106,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, userName: $userName, fullName: $fullName, gender: $gender, email: $email, mobile: $mobile, emailVerifiedAt: $emailVerifiedAt, password: $password, profile: $profile, passport: $passport, passportBack: $passportBack, levelId: $levelId, rememberToken: $rememberToken, createdAt: $createdAt, updatedAt: $updatedAt, balance: $balance, profit: $profit, daily: $daily, weekly: $weekly, referral: $referral)';
+    return 'UserModel(id: $id, userName: $userName, fullName: $fullName, gender: $gender, email: $email, mobile: $mobile, emailVerifiedAt: $emailVerifiedAt, password: $password, profile: $profile, passport: $passport, passportBack: $passportBack, levelId: $levelId, rememberToken: $rememberToken, createdAt: $createdAt, updatedAt: $updatedAt, balance: $balance, profit: $profit, daily: $daily, weekly: $weekly, referral: $referral, chat: $chat)';
   }
 }
 
@@ -136,31 +140,54 @@ class UserModel {
 {
   "data": {
     "0": {
-      "id": 1,
-      "first_name": "Osama",
-      "last_name": "Elmahdy",
-      "email": "osama.fathi1@gmail.com",
-      "mobile": "01008052485",
+      "id": 24,
+      "username": "",
+      "first_name": "mounir",
+      "last_name": "Mohamed mounir",
+      "email": "admin@lambh.com",
+      "mobile": "+2010000000000",
       "email_verified_at": null,
-      "profile": "1714479053.jpg",
-      "passport": "1714479053.jpg",
-      "passport_back": "1714479053.png",
-      "level_id": 1,
-      "active": "1",
-      "created_at": "2024-04-18 11:22:56",
-      "updated_at": "2024-05-26 12:40:36",
-      "balance": 555,
-      "profit": 2907.18
+      "password": "$2y$12$OZ.NRqnDiActCELC5SGzlOu8JQ1IhNxqSI9HAaO9hQJyfbS1p453y",
+      "profile": "1718454360.jpg",
+      "passport": "1718451862.jpg",
+      "passport_back": null,
+      "level_id": 2,
+      "remember_token": null,
+      "active": "0",
+      "block": "chat",
+      "created_at": "2024-06-15 14:44:23",
+      "updated_at": "2024-07-11 23:21:17",
+      "balance": null,
+      "profit": null
     },
-    "daily": null,
-    "weekly": 25.18,
-    "referral": 51.39
+    "daily": 0,
+    "weekly": 0,
+    "referral": null
   },
   "status": "success",
   "error": false
 }
 
-!Failure
-Status: 500 Internal Server Error
-
+! blocked chat userdata
+{
+  "data": {
+    "0": {
+      "id": 28,
+      "username": "Eslam",
+      "first_name": "Eslam",
+      "last_name": "Eslam Ahmed Kamel",
+      "email": "eslam@gmail.com",
+      "mobile": "+201020504470",
+      "email_verified_at": null,
+      "password": "$2y$12$/IbqQNf3XV87LoXSIyE7Je8snOW6BSiagK1fQJOMqjjf6dWhZZEx.",
+      "profile": "1718485950.jpg",
+      "passport": "1718485951.jpg",
+      "passport_back": null,
+      "level_id": 2,
+      "remember_token": null,
+      "active": "0",
+      "block": "blocked",
+      "created_at": "2024-06-16 00:12:32",
+      "updated_at": "2024-06-16 00:13:06",
+      "balance": null,
  */

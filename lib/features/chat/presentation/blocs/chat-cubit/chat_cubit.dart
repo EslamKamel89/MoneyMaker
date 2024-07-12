@@ -58,6 +58,7 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   Future periodicCheck() async {
+    const t = 'ChatCubit - periodicCheck';
     // messageList = [];
     await getLastMessageId();
     if (messageList.isEmpty) {
@@ -70,7 +71,9 @@ class ChatCubit extends Cubit<ChatState> {
       emit(ChatAddNewState());
       return;
     }
-    int lastMessageId = messageList.last.messageId!;
+    int lastMessageId = messageList.last.messageId ?? 0;
+    // lastMessageIdDb
+
     if (lastMessageIdDb > lastMessageId) {
       await getChatMessages(lastMessageId: lastMessageId);
       emit(ChatAddNewState());
@@ -110,9 +113,9 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   Future cacheNewMessages() async {
-    if (messageList.isNotEmpty) {
-      await chatRepo.cacheNewMessages(lastMessageId: messageList.last.messageId! - 50);
-    }
+    // if (messageList.isNotEmpty) {
+    //   await chatRepo.cacheNewMessages(lastMessageId: messageList.last.messageId! - 50);
+    // }
   }
 
   Future getCachedMessages() async {

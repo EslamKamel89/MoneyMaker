@@ -75,6 +75,9 @@ class ApiKey {
   static const String daily = "daily";
   static const String weekly = "weekly";
   static const String referral = "referral";
+  static const String chatBlocked = "blocked";
+  static const String chatAllowed = "chat";
+  static const String chat = "block";
   // static const String = "";
   //! signin
   static const String user = "user";

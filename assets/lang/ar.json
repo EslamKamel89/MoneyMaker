@@ -88,7 +88,7 @@
     "ACCOUNT" : "الرصيد" , 
     "REFERELS" : "الأحالات" , 
     "DAILY_PROFIT" : "الربح اليومي" , 
-    "WEEKLY_PROFIT" :"الربح الأجمالي" , 
+    "WEEKLY_PROFIT" :"الربح" , 
     "----------- APP DRAWER ------------": "" ,
     "ADD_TO_BALANCE" :    "الإيداع"  ,
     "WITHDRAW_FROM_MAIN_BALANCE" :  "السحب من رأس المال" ,

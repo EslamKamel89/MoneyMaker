@@ -16,6 +16,12 @@ class NewsCubit extends Cubit<NewsState> {
       "عزيزي المستخدم، نرحب بك ترحيبًا حارًا. نأمل مخلصين أن تجربتك مع  تطبيقنا لن تكون أقل من تجربة استثنائية. ";
   String newsEn =
       "Dear User, we extend our warmest welcome to you. We sincerely hope that your experience with MoneyMaker will be nothing short of exceptional. ";
+  List<String> newsArrayAr = [
+    "عزيزي المستخدم، نرحب بك ترحيبًا حارًا. نأمل مخلصين أن تجربتك مع  تطبيقنا لن تكون أقل من تجربة استثنائية. "
+  ];
+  List<String> newsArrayEn = [
+    "Dear User, we extend our warmest welcome to you. We sincerely hope that your experience with MoneyMaker will be nothing short of exceptional. "
+  ];
   List<CertificationModel> certifications = [];
   List<NewsModel> blogNews = [];
 
@@ -45,27 +51,49 @@ class NewsCubit extends Cubit<NewsState> {
         newsAr = "";
         newsEn = "";
         for (var newModel in news) {
-          // if (newModel.nameAr == null ||
-          //     newModel.nameAr == "" ||
-          //     newModel.descriptionAr == null ||
-          //     newModel.descriptionAr == "") {
-          //   newsAr = "$newsAr -- ${AppStrings.newsAr} --";
-          // } else {
-          //   newsAr = "$newsAr ${newModel.nameAr} ${newModel.descriptionAr} ";
-          // }
-          // if (newModel.nameEn == null ||
-          //     newModel.nameEn == "" ||
-          //     newModel.descriptionEn == null ||
-          //     newModel.descriptionEn == "") {
-          //   newsEn = "$newsEn -- ${AppStrings.newsEn} --";
-          // } else {
-          //   newsEn = "$newsEn ${newModel.nameEn} ${newModel.descriptionEn}";
-          // }
           newsAr = "$newsAr ${newModel.nameAr} ${newModel.descriptionAr} ";
           newsEn = "$newsEn ${newModel.nameEn} ${newModel.descriptionEn}";
         }
         newsAr.prm(t);
         newsEn.prm(t);
+        if (!isClosed) {
+          emit(NewsSuccessState());
+        }
+      },
+    );
+  }
+
+  Future getNewsArray() async {
+    const t = "NewsCubit - getNewsArray";
+    emit(NewsLoadingState());
+    final response = await newsRepo.getNews();
+    response.fold(
+      (errorModel) {
+        if (!isClosed) {
+          emit(
+            NewsFailureState(
+                errorMessage: errorModel.errorMessageEn ?? "Error Occured When Looking For News In Database"),
+          );
+        }
+      },
+      (List<NewsModel> news) {
+        newsArrayAr = [AppStrings.newsAr];
+        newsArrayEn = [AppStrings.newsEn];
+
+        if (news.isEmpty) {
+          if (!isClosed) {
+            emit(NewsSuccessState());
+          }
+          return;
+        }
+        newsArrayAr = [];
+        newsArrayEn = [];
+        for (var newModel in news) {
+          newsArrayAr.add(newModel.descriptionAr ?? '');
+          newsArrayEn.add(newModel.descriptionEn ?? '');
+        }
+        newsArrayAr.prm(t);
+        newsArrayEn.prm(t);
         if (!isClosed) {
           emit(NewsSuccessState());
         }

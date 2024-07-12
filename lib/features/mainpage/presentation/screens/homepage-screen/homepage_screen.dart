@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeCont = context.watch<PickLanguageAndThemeCubit>();
-    final newsCubit = context.read<NewsCubit>()..getNews();
+    final newsCubit = context.read<NewsCubit>()..getNewsArray();
     Clr.init();
     return BlocProvider(
       create: (context) => MainpageCubit(
@@ -39,6 +39,7 @@ class HomeScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final controller = context.read<MainpageCubit>();
+          controller.refreshUserData();
           // controller.getUserData();
           // controller.getAdvertise();
           return Scaffold(
@@ -56,7 +57,8 @@ class HomeScreen extends StatelessWidget {
                     onRefresh: () async {
                       await controller.getUserData();
                       await controller.getAdvertise();
-                      await newsCubit.getNews();
+                      await newsCubit.getNewsArray();
+                      controller.refreshUserData();
                     },
                     child: ListView(
                       children: [

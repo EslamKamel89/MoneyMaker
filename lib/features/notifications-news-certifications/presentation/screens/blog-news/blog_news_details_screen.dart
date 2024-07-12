@@ -18,7 +18,7 @@ class BLogNewsDetailsSreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<PickLanguageAndThemeCubit>();
     return CustomScaffold(
-      title: "LICENSE".tr(context),
+      title: "NOTIFICATIONS_NEWS".tr(context),
       showBackArrow: true,
       child: ListView(
         children: [

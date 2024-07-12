@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/const-strings/app_images.dart';
+import 'package:trading/core/const-strings/app_strings.dart';
+import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_drawer.dart';
 import 'package:trading/features/chat/presentation/screens/chat-screen/chat_screen.dart';
@@ -68,10 +74,33 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         );
       }),
       body: [
-        SupportScreen(),
+        const SupportScreen(),
         HomeScreen(),
-        const ChatScreen(),
+        sl<SharedPreferences>().getString(AppStrings.CHAT_STATUS) == ApiKey.chatAllowed
+            ? const ChatScreen()
+            : const ChatBlockedWidget()
       ].elementAt(_page),
+    );
+  }
+}
+
+class ChatBlockedWidget extends StatelessWidget {
+  const ChatBlockedWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(AppImages.chatBlocked),
+          SizedBox(height: 10.h),
+          Txt.bodyMeduim(
+            "Sorry, Your Are \nNot Allowed To Use Chat",
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }

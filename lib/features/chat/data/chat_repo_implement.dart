@@ -119,6 +119,11 @@ class ChatRepo implements ChatRepoInterface {
   @override
   Future<Either<ErrorModel, bool>> postNewChatMessage({required int userId, required String message}) async {
     final t = 'ChatRepo - postNewChatMessage'.prt;
+
+    message = message
+        .replaceAll(RegExp(r'[0-9]'), '*')
+        .replaceAll(RegExp(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'), 'notAllowed@fake.com');
+
     try {
       final response = await api.post(
         EndPoint.postNewChatOrGetLastChatId,

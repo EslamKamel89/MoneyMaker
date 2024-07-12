@@ -18,4 +18,5 @@ class AppImages {
   static const String transformProfitBlanaceAr = "$imagePath/transform_ar.jpg";
   static const String moneyMaker = "$imagePath/moneymaker_launch_icon.jpg";
   static const String support = "$imagePath/support.png";
+  static const String chatBlocked = "$imagePath/boy.png";
 }
