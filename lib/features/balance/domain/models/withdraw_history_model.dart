@@ -2,7 +2,7 @@ import 'package:trading/core/api/end_points.dart';
 
 class WithdrawHistoryModel {
   final int? id;
-  final int? amount;
+  final double? amount;
   final int? userId;
   final String? imageOne;
   final String? accepted;
@@ -32,7 +32,7 @@ class WithdrawHistoryModel {
   factory WithdrawHistoryModel.fromJson(Map<String, dynamic> json) {
     return WithdrawHistoryModel(
       id: json[ApiKey.paymentId],
-      amount: json[ApiKey.paymentAmount],
+      amount: (json[ApiKey.paymentAmount]).toDouble(),
       userId: json[ApiKey.paymentUserId],
       imageOne: json[ApiKey.paymentImageOne],
       accepted: json[ApiKey.paymentAccepted],

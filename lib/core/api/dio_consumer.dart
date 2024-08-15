@@ -60,7 +60,7 @@ class DioConsumer extends ApiConsumer {
       if (!(await checkInternet())) {
         throw ServerException(errModel: ErrorModel.offlineError);
       }
-      final response = await dio.post(
+      final response = await dio.delete(
         path,
         data: isFormData ? FormData.fromMap(data) : data,
         queryParameters: queryParameter,

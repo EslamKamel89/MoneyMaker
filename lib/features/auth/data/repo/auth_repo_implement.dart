@@ -132,6 +132,7 @@ class AuthRepo implements AuthRepoInterface {
     // user.referral = 1000;
     // user.daily = 1500;
     // user.chat = 'block';
+    // user.id = 23;
     "$user".prm('Auth checking cahce');
     return user;
   }

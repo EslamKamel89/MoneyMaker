@@ -3,7 +3,7 @@ import 'package:trading/core/api/end_points.dart';
 
 class TransactionHistoryModel {
   final int? id;
-  final int? amount;
+  final double? amount;
   final int? userId;
   final String? imageOne;
   final String? accepted;
@@ -33,7 +33,7 @@ class TransactionHistoryModel {
   factory TransactionHistoryModel.fromJson(Map<String, dynamic> json) {
     return TransactionHistoryModel(
       id: json[ApiKey.paymentId],
-      amount: json[ApiKey.paymentAmount],
+      amount: (json[ApiKey.paymentAmount]).toDouble(),
       userId: json[ApiKey.paymentUserId],
       imageOne: json[ApiKey.paymentImageOne],
       accepted: json[ApiKey.paymentAccepted],
@@ -60,20 +60,20 @@ class TransactionHistoryModel {
 {
   "data": [
     {
-      "id": 23,
-      "amount": 1500,
-      "user_id": 5,
-      "image": "1715366838.png",  receite image 
-      "accepted": "0",
-      "payment_id": 1,
-      "process": "150147",
-      "refuse_reason": null,
-      "created_at": "2024-05-10 15:47:18",
-      "updated_at": "2024-05-10 15:47:18",
-      "first_name": "mohamed",
-      "profile": "1714492772.png",
-      "name": "Osama Mohamed Elmahdy",
-      "payments_image": "1715369290.jpg"
+      "id": 23,  x
+      "amount": 1500, x
+      "user_id": 5, x
+      "image": "1715366838.png",  receite image  x
+      "accepted": "0", x
+      "payment_id": 1, x
+      "process": "150147", x
+      "refuse_reason": null, x
+      "created_at": "2024-05-10 15:47:18", x
+      "updated_at": "2024-05-10 15:47:18", x
+      "first_name": "mohamed", x
+      "profile": "1714492772.png", x
+      "name": "Osama Mohamed Elmahdy", x
+      "payments_image": "1715369290.jpg" x
     },
     {
       "id": 24,
