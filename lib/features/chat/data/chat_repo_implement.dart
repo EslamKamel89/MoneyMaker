@@ -58,7 +58,7 @@ class ChatRepo implements ChatRepoInterface {
         errorModel.errorMessageEn.prm(t);
         return Left(errorModel);
       } else {
-        final int lastMessageId = jsonDecode(response)[ApiKey.data];
+        final int lastMessageId = jsonDecode(response)[ApiKey.data] ?? 0;
         'Last Message Id = $lastMessageId'.prm(t);
         return Right(lastMessageId);
       }

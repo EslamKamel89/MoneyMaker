@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/firebase_notification/firebase_notification.dart';
 import 'package:trading/core/functions/format_currency.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/presentation/app_drawer.dart';
@@ -20,9 +21,21 @@ import 'package:trading/features/notifications-news-certifications/presentation/
 import 'package:trading/features/notifications-news-certifications/presentation/widgets/news_widget.dart';
 import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
+  @override
+  void initState() {
+    FirebaseHelper.requestPermisson(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/firebase_notification/firebase_notification.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_router.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
@@ -22,10 +25,16 @@ import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cu
 import 'package:trading/features/support/data/support_repo_implement.dart';
 import 'package:trading/features/support/presentation/blocs/support-cubit/support_cubit.dart';
 
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(FirebaseHelper.firebaseMessagingBackgroundHandler);
   // runApp(DevicePreview(
   //     enabled: !kReleaseMode,
   //     builder: (context) {
@@ -39,6 +48,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseHelper.getToken();
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,

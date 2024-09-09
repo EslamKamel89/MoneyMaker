@@ -48,6 +48,8 @@ class UserModel {
     this.chat,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    // print('=============');
+    // print(json);
     return UserModel(
       id: json[ApiKey.data]["0"][ApiKey.id],
       userName: json[ApiKey.data]["0"][ApiKey.userName],

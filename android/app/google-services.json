@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "989283005150",
+    "project_id": "moneymaker-87312",
+    "storage_bucket": "moneymaker-87312.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989283005150:android:7b97f04a031dd270e1084f",
+        "android_client_info": {
+          "package_name": "com.example.trading"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2BGWlag67ZVe6XwqzpMt474_aKP5obfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
