@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
@@ -88,9 +87,9 @@ class SigninCubit extends Cubit<SigninState> {
                   : errorModel.errorMessageAr ?? 'خطأ غير معروف'),
         );
       },
-      (signinModel) {
+      (signinModel) async {
         userId = signinModel.userId;
-        getUserData();
+        await getUserData();
         emit(SigninSuccessState());
       },
     );

@@ -15,8 +15,6 @@ import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_but
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_drawer.dart';
 import 'package:trading/features/auth/presentation/screens/auth-widgets/auth_text_field.dart';
 import 'package:trading/features/auth/presentation/screens/singin/widgets/dont_have_an_account.dart';
-import 'package:trading/features/auth/presentation/screens/singin/widgets/forget_password_button.dart';
-import 'package:trading/features/onboarding-pick-language/peresentation/blocs/cubit/pick_language_cubit.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -115,13 +113,13 @@ class _SigninScreenState extends State<SigninScreen> {
                           },
                         ),
                         // SizedBox(height: 5.h),
-                        Align(
-                          alignment: context.read<PickLanguageAndThemeCubit>().isEnglishLanguage()
-                              ? Alignment.topRight
-                              : Alignment.topLeft,
-                          child: const ForgetPasswordButton(),
-                        ),
-                        SizedBox(height: 30.h),
+                        // Align(
+                        //   alignment: context.read<PickLanguageAndThemeCubit>().isEnglishLanguage()
+                        //       ? Alignment.topRight
+                        //       : Alignment.topLeft,
+                        //   child: const ForgetPasswordButton(),
+                        // ),
+                        SizedBox(height: 40.h),
                         const DontHaveAnAccountWidget(),
                         SizedBox(height: 20.h),
                         BlocBuilder<SigninCubit, SigninState>(

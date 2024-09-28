@@ -12,9 +12,9 @@ part 'mainpage_state.dart';
 
 class MainpageCubit extends Cubit<MainpageState> {
   AdvertiseRepoInterface advertiseRepo;
-  AuthRepo authRepo;
+  // AuthRepo authRepo;
   UserModel? userModel;
-  MainpageCubit({required this.advertiseRepo, required this.authRepo}) : super(MainpageInitial());
+  MainpageCubit({required this.advertiseRepo}) : super(MainpageInitial());
 
   Future<List<BannerModel>?> getAdvertise() async {
     if (isClosed) {

@@ -9,7 +9,6 @@ import 'package:trading/core/presentation/app_drawer.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
 import 'package:trading/core/themes/clr.dart';
-import 'package:trading/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:trading/features/mainpage/data/advertise_repo_implement.dart';
 import 'package:trading/features/mainpage/presentation/blocs/mainpage_cubit/mainpage_cubit.dart';
 import 'package:trading/features/mainpage/presentation/screens/homepage-screen/functions/show_graph_ratio.dart';
@@ -33,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    FirebaseHelper.requestPermisson(context);
+    FirebaseHelper.requestPermisson(context).then((value) => FirebaseHelper.getToken());
+
     super.initState();
   }
 
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider(
       create: (context) => MainpageCubit(
         advertiseRepo: sl<AdvertiseRepo>(),
-        authRepo: sl<AuthRepo>(),
+        // authRepo: sl<AuthRepo>(),
       )
         ..getAdvertise()
         ..getUserData(),

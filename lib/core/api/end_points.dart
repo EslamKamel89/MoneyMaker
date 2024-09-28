@@ -28,21 +28,8 @@ class EndPoint {
   static const String uploadBlogNews = "${_uploadFolder}blogs/";
   static const String supportMessages = "${baseUrl}apisupport";
   static const String referralWebLink = "${uploadUrl}ref/";
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
-  // static const String f = '';
+  static const String addFcmToken = "${baseUrl}apiuser";
+  static const String deleteFcmToken = "${baseUrl}apiuser/";
 }
 
 class ApiKey {
@@ -78,7 +65,6 @@ class ApiKey {
   static const String chatBlocked = "blocked";
   static const String chatAllowed = "chat";
   static const String chat = "block";
-  // static const String = "";
   //! signin
   static const String user = "user";
   //! get payment data
@@ -86,12 +72,9 @@ class ApiKey {
   static const String code = 'code';
   static const String image = 'image';
   //! add to balance
-  // static const paymentId = 'payment_id';
   static const userId = 'user_id';
   static const transactionNumber = 'process';
   static const amount = 'amount';
-  // static const createdAt = 'created_at';
-  // static const image = 'image';
   //! withdraw main and weelkly balance
   static const type = " type";
   static const accountNumber = 'process';
@@ -136,23 +119,9 @@ class ApiKey {
   static const String refferalLastName = "user_last_name";
   static const String refferalUserProfile = "user_profile";
   //! support chat
-  //  static const String senderId = "sender_id" ;
   static const String messageId = "message_id";
-  //  static const String  senderMessage = "sender_message" ;
   static const String supportId = "support_id";
   static const String supportMessage = "support_message";
-  //  static const String createdAt = "created_at" ;
-  //  static const String senderName = "sender_name" ;
+
   static const String supportName = "support_name";
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
-  //  static const String = "" ;
 }

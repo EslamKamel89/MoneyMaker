@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trading/core/dependency-injection-container/injection_container.dart';
+import 'package:trading/core/firebase_notification/firebase_notification.dart';
 import 'package:trading/core/localization/localization.dart';
 import 'package:trading/core/routing/app_routes_names.dart';
 import 'package:trading/core/text_styles/text_style.dart';
@@ -41,8 +42,12 @@ class LogoutUserProfile extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await sl<SharedPreferences>().clear();
-                          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.signin, (route) => true);
+                          FirebaseHelper.deleteFcmToken()
+                              .then(
+                                (value) => sl<SharedPreferences>().clear(),
+                              )
+                              .then((_) => Navigator.of(context)
+                                  .pushNamedAndRemoveUntil(AppRoutesNames.signin, (route) => true));
                         },
                         child: Txt.bodyMeduim("CONFIRM".tr(context)),
                       )

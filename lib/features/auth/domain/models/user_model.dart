@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:trading/core/api/end_points.dart';
+import 'package:trading/core/extensions/extensions.dart';
 
 class UserModel {
   int? id;
@@ -50,6 +51,8 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     // print('=============');
     // print(json);
+    const t = "UserModel.fromJson";
+    json.toString().prm(t);
     return UserModel(
       id: json[ApiKey.data]["0"][ApiKey.id],
       userName: json[ApiKey.data]["0"][ApiKey.userName],

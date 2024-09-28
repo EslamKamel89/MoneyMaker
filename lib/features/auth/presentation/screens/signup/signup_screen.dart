@@ -61,7 +61,7 @@ class _SingnupScreenState extends State<SingnupScreen> {
               customSnackBar(context: context, title: state.errorMessage, isSuccess: false);
             } else if (state is SignupSuccessState) {
               customSnackBar(context: context, title: 'Sign up completed successfuly');
-              Navigator.of(context).pushNamed(AppRoutesNames.otpSignup);
+              Navigator.of(context).pushNamed(AppRoutesNames.signin);
             }
           },
           child: HandlingDataView(

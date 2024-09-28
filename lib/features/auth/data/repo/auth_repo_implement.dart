@@ -22,6 +22,7 @@ class AuthRepo implements AuthRepoInterface {
   @override
   Future<Either<ErrorModel, UserModel>> getUserData({required int userId}) async {
     final t = 'AuthRepo - getUserData'.prt;
+    'get User Data is called : userId = $userId'.prm(t);
     try {
       final response = await api.get('${EndPoint.getUserData}$userId');
       final ErrorModel? errorModel;
