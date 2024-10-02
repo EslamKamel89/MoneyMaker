@@ -41,10 +41,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           labelColor: Clr.f,
           unselectedLabelColor: Clr.b,
           indicatorWeight: 5,
-          onTap: (value) {
-            controller.getDepositHistory();
-            controller.getWithdrawHistory();
-          },
+          onTap: (value) {},
           tabs: [
             Tab(
               text: "WITHDRAW_HISTORY".tr(context),
@@ -73,50 +70,58 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             },
             child: TabBarView(
               children: [
-                BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
-                  buildWhen: (previous, current) {
-                    if (current is WithdrawHistoryLoadingState || current is WithdrawHistorySuccessState) {
-                      return true;
-                    }
-                    return false;
-                  },
-                  builder: (context, state) {
-                    if (state is WithdrawHistoryLoadingState) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (state is WithdrawHistorySuccessState) {
-                      if (state.allWithdrawHistory.isEmpty) {
-                        return Center(child: Txt.bodyMeduim("NO_DATA_WITHDRAW_HISTORY".tr(context)));
-                      } else {
-                        return WithdrawHistoryWidget(withdrawHistoryList: state.allWithdrawHistory);
+                Builder(builder: (context) {
+                  //  controller.getDepositHistory();
+                  controller.getWithdrawHistory();
+                  return BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
+                    buildWhen: (previous, current) {
+                      if (current is WithdrawHistoryLoadingState || current is WithdrawHistorySuccessState) {
+                        return true;
                       }
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-                BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
-                  buildWhen: (previous, current) {
-                    if (current is TransactionHistoryLoadingState || current is TransactionHistorySuccessState) {
-                      return true;
-                    }
-                    return false;
-                  },
-                  builder: (context, state) {
-                    if (state is TransactionHistoryLoadingState) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (state is TransactionHistorySuccessState) {
-                      if (state.allDepositHistory.isEmpty) {
-                        return Center(child: Txt.bodyMeduim("NO_DATA_DEPOSIT_HISTORY".tr(context)));
-                      } else {
-                        return DepositHistoryWidget(depositHistoryList: state.allDepositHistory);
+                      return false;
+                    },
+                    builder: (context, state) {
+                      if (state is WithdrawHistoryLoadingState) {
+                        return const Center(child: CircularProgressIndicator());
                       }
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
+                      if (state is WithdrawHistorySuccessState) {
+                        if (state.allWithdrawHistory.isEmpty) {
+                          return Center(child: Txt.bodyMeduim("NO_DATA_WITHDRAW_HISTORY".tr(context)));
+                        } else {
+                          return WithdrawHistoryWidget(withdrawHistoryList: state.allWithdrawHistory);
+                        }
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  );
+                }),
+                Builder(builder: (context) {
+                  controller.getDepositHistory();
+                  // controller.getWithdrawHistory();
+                  return BlocBuilder<TransactionHistoryCubit, TransactionHistoryState>(
+                    buildWhen: (previous, current) {
+                      if (current is TransactionHistoryLoadingState || current is TransactionHistorySuccessState) {
+                        return true;
+                      }
+                      return false;
+                    },
+                    builder: (context, state) {
+                      if (state is TransactionHistoryLoadingState) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is TransactionHistorySuccessState) {
+                        if (state.allDepositHistory.isEmpty) {
+                          return Center(child: Txt.bodyMeduim("NO_DATA_DEPOSIT_HISTORY".tr(context)));
+                        } else {
+                          return DepositHistoryWidget(depositHistoryList: state.allDepositHistory);
+                        }
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  );
+                }),
               ],
             )),
       ),
